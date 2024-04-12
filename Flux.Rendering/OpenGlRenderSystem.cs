@@ -23,7 +23,7 @@ public class OpenGlRenderSystem : ISystem<float>
         Gl.Enable(EnableCap.DepthTest);
 
         Gl.Enable(EnableCap.CullFace);
-        Gl.CullFace(CullFaceMode.Back);
+        Gl.CullFace(TriangleFace.Back);
         Gl.FrontFace(FrontFaceDirection.CW);
 
         Gl.Enable(EnableCap.Multisample);
