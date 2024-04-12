@@ -16,8 +16,4 @@
     <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Drawer\" />
-  </ItemGroup>
-
 </Project>

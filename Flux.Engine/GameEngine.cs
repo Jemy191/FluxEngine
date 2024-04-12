@@ -51,9 +51,9 @@ public class GameEngine : IGameEngine
         window.Run();
     }
 
-    void OnUpdate(double deltatime) => sequentialUpdateSystem.Update((float)deltatime);
+    void OnUpdate(double deltaTime) => sequentialUpdateSystem.Update((float)deltaTime);
 
-    void OnRender(double deltatime) => sequentialRenderSystem.Update((float)deltatime);
+    void OnRender(double deltaTime) => sequentialRenderSystem.Update((float)deltaTime);
 
     void OnClose()
     {
