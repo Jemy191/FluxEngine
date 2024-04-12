@@ -1,7 +1,7 @@
-﻿using SixLabors.ImageSharp.PixelFormats;
-using SixLabors.ImageSharp;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Resources;
 
 public class ResourcesService : IDisposable
 {

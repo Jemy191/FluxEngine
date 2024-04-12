@@ -2,6 +2,7 @@
 using DefaultEcs;
 using Flux.Ecs;
 using Flux.MathAddon;
+using Flux.Rendering.Resources;
 
 namespace Flux.Rendering;
 

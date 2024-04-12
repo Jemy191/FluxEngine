@@ -1,4 +1,5 @@
 ﻿using Flux.Abstraction;
+using Flux.Rendering.Resources;
 using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Core.Contexts;
 using Silk.NET.OpenGL;
