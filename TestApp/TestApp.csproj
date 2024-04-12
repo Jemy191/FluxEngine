@@ -4,7 +4,6 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Configurations>Debug;Release;Deploy</Configurations>
 	</PropertyGroup>
 
 	<ItemGroup>
