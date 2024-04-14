@@ -4,6 +4,7 @@
 		<OutputType>WinExe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>TestApp</RootNamespace>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,6 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
 	  <ProjectReference Include="..\Flux.Engine\Flux.Engine.csproj" />
 	  <ProjectReference Include="..\Flux.EntityBehavior\Flux.EntityBehavior.csproj" />
 	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
