@@ -5,12 +5,10 @@ namespace Flux.Asset;
 
 public class AssetsService
 {
-    readonly AssetCatalogue catalogue;
-    readonly IAssetSource assetSource;
+    readonly Interface.AssetSource assetSource;
     readonly Dictionary<Type, IAssetImporter> assetImporters = [];
-    public AssetsService(AssetCatalogue catalogue, IAssetSource assetSource)
+    public AssetsService(Interface.AssetSource assetSource)
     {
-        this.catalogue = catalogue;
         this.assetSource = assetSource;
     }
     
@@ -23,8 +21,7 @@ public class AssetsService
     {
         var importer = (IAssetImporter<T>)assetImporters[typeof(T)];
         
-        var entry = catalogue.Get(guid);
-        await using var stream = assetSource.Open(entry);
+        await using var stream = assetSource.Open(guid);
 
         return await importer.Import(stream);
     }
