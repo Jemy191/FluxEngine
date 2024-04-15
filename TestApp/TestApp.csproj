@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Update="Assets\**">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="AssetRegistry.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
+      <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
+    </ItemGroup>
+
+</Project>
