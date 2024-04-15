@@ -12,10 +12,6 @@ var builder = new GameEngineBuilder("Test engine");
 
 // Add services here
 
-var assetCatalogue = AssetCatalogueBuilder.BuildFromDirectory("Assets");
-
-File.WriteAllText(@"C:\Users\Emilie\Documents\FluxEngine\TestGame\AssetCatalogue.json", assetCatalogue.Serialize());
-
 builder.Services
     .AddSilkInput()
     .AddOpenGL<IWindow>()

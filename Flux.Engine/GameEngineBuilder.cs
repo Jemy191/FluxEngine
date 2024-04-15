@@ -2,6 +2,7 @@
 using Flux.Abstraction;
 using Flux.Ecs;
 using Flux.Engine.Services;
+using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Windowing;
 
@@ -28,6 +29,7 @@ public class GameEngineBuilder
             .AddSingleton<IEcsWorldService, EcsWorldService>();
     }
 
+    [MustDisposeResource]
     public IGameEngine Build()
     {
         var providerOptions = new ServiceProviderOptions

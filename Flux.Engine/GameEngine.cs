@@ -1,6 +1,7 @@
 ﻿using DefaultEcs.System;
 using Flux.Abstraction;
 using Flux.Ecs;
+using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Windowing;
 
 namespace Flux.Engine;
@@ -26,7 +27,7 @@ public class GameEngine : IGameEngine
 
     }
 
-    public IGameEngine Instanciate<T>()
+    public IGameEngine Instantiate<T>()
     {
         injectionService.Instantiate<T>();
         return this;
@@ -67,7 +68,7 @@ public class GameEngine : IGameEngine
 
     public void RunWith<T>()
     {
-        Instanciate<T>();
+        Instantiate<T>();
         Run();
     }
 }
