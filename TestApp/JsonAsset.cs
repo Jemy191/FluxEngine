@@ -3,7 +3,7 @@ using Flux.Asset;
 
 namespace TestApp;
 
-class JsonAsset : SourceAsset
+class JsonAsset : Asset
 {
     readonly JsonDocument document;
     public readonly JsonElement Root;

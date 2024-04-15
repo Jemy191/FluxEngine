@@ -1,25 +1,33 @@
 using Flux.Asset.Interface;
-using Path = Flux.Core.Path;
 
 namespace Flux.Asset;
 
 public class AssetsService
 {
-    readonly Interface.AssetSource assetSource;
+    readonly List<AssetSource> assetSources;
     readonly Dictionary<Type, IAssetImporter> assetImporters = [];
-    public AssetsService(Interface.AssetSource assetSource)
+    public AssetsService(List<AssetSource> assetSources)
     {
-        this.assetSource = assetSource;
+        this.assetSources = assetSources;
     }
     
     public void RegisterImporter<T>(IAssetImporter importer) where T : Asset
     {
         assetImporters.Add(typeof(T), importer);
     }
+
+    public void AddSource(AssetSource source) => assetSources.Add(source);
     
     public async Task<T?> Load<T>(Guid guid) where T : Asset
     {
         var importer = (IAssetImporter<T>)assetImporters[typeof(T)];
+
+        var assetSource = assetSources
+            .Where(s => s.ContainAsset(guid))
+            .MaxBy(s => s.CatalogueBuildVersion);
+
+        if (assetSource is null)
+            return null;
         
         await using var stream = assetSource.Open(guid);
 

@@ -5,7 +5,8 @@ namespace Flux.Asset;
 
 public class AssetCatalogue
 {
-    readonly IReadOnlyDictionary<Guid, AssetCatalogueEntry> entries;
+    public readonly DateTimeOffset CatalogueBuildVersion;
+    readonly Dictionary<Guid, AssetCatalogueEntry> entries;
     readonly Dictionary<string, Type> availableMetadatas;
 
     static readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default)
@@ -16,7 +17,9 @@ public class AssetCatalogue
     public AssetCatalogue(Stream stream, Dictionary<string, Type> availableMetadatas)
     {
         this.availableMetadatas = availableMetadatas;
-        var values = JsonSerializer.Deserialize<Dictionary<Guid, Dictionary<string, JsonElement>>>(stream);
+        using var jsonDocument = JsonDocument.Parse(stream);
+        CatalogueBuildVersion = jsonDocument.RootElement.GetProperty("BuildVersion").GetDateTimeOffset();
+        var values = jsonDocument.RootElement.GetProperty("Entries").Deserialize<Dictionary<Guid, Dictionary<string, JsonElement>>>();
         if (values is null)
         {
             entries = new Dictionary<Guid, AssetCatalogueEntry>();
@@ -27,6 +30,7 @@ public class AssetCatalogue
     }
 
     public AssetCatalogueEntry Get(Guid guid) => entries[guid];
+    public bool Contain(Guid guid) => entries.ContainsKey(guid);
 
     public void AddMetadataType<T>(string name) => availableMetadatas.Add(name, typeof(T));
     public bool HasMetadata<T>(string name) => availableMetadatas.TryGetValue(name, out var type) && type == typeof(T);

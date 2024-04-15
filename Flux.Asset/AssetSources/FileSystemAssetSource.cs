@@ -2,9 +2,9 @@ using Flux.Asset.Interface;
 using JetBrains.Annotations;
 using Path = Flux.Core.Path;
 
-namespace Flux.Asset.AssetSource;
+namespace Flux.Asset.AssetSources;
 
-public class FileSystemAssetSource : Interface.AssetSource
+public class FileSystemAssetSource : AssetSource
 {
     readonly Path folder;
     public FileSystemAssetSource(AssetCatalogue catalogue, Path folder) : base(catalogue)
