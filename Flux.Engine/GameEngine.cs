@@ -28,7 +28,7 @@ public class GameEngine : IGameEngine
 
     public IGameEngine Instanciate<T>()
     {
-        injectionService.Instanciate<T>();
+        injectionService.Instantiate<T>();
         return this;
     }
 

@@ -9,5 +9,5 @@ public class InjectionService : IInjectionService
 
     public InjectionService(IServiceProvider serviceProvider) => this.serviceProvider = serviceProvider;
 
-    public T Instanciate<T>() => ActivatorUtilities.CreateInstance<T>(serviceProvider);
+    public T Instantiate<T>() => ActivatorUtilities.CreateInstance<T>(serviceProvider);
 }
