@@ -1,0 +1,59 @@
+{
+  "BuilderVersion": "2024-04-15T06:09:58.7081254+00:00",
+  "Entries": {
+    "ef9c965f-52f2-468b-b96a-73e5df97f54a": {
+      "Path": "Assets\\Axis.fbx"
+    },
+    "9af0dce9-b68e-48b0-a24a-94a22dc7cfc5": {
+      "Path": "Assets\\Axis.frag"
+    },
+    "b7f8ac15-d1d2-45c8-ad3e-495ebcc10ded": {
+      "Path": "Assets\\Axis.vert"
+    },
+    "a279fb7a-3fca-4b81-a7a2-0d49446d3d03": {
+      "Path": "Assets\\Cube.fbx"
+    },
+    "9ebc867b-76fb-42f2-b400-9a36aa96c6c6": {
+      "Path": "Assets\\lighting.frag"
+    },
+    "cdcabbfb-f7b1-43a2-adb4-9283a6df7782": {
+      "Path": "Assets\\normal.frag"
+    },
+    "63f3cd15-17ba-406b-8227-3cfe842fe3c3": {
+      "Path": "Assets\\shader.frag"
+    },
+    "330c53b9-efe4-4f01-ab1f-80a22f213753": {
+      "Path": "Assets\\shader.vert"
+    },
+    "abd77901-b1ec-4534-adbc-3995a7ddfe94": {
+      "Path": "Assets\\Suzane.fbx"
+    },
+    "5bbc02a3-daa4-4c7a-b374-b1b36c772999": {
+      "Path": "Assets\\suzane.frag"
+    },
+    "304957d9-8e4e-40af-a474-48bc4ce76474": {
+      "Path": "Assets\\Terrain.fbx"
+    },
+    "b18dc239-1b42-456e-94cb-d5eeb72962cf": {
+      "Path": "Assets\\Terrain.png"
+    },
+    "8c1c5c4c-aee6-4119-baf2-3e7041e6947d": {
+      "Path": "Assets\\BrickPBR\\Brick_albedo.png"
+    },
+    "f7d6e4eb-6a87-428a-a3e3-4df5a4a029af": {
+      "Path": "Assets\\BrickPBR\\Brick_ao.png"
+    },
+    "9cba1ab5-c6d1-4050-b6ee-648366cf63c9": {
+      "Path": "Assets\\BrickPBR\\Brick_height.png"
+    },
+    "d020607e-45f2-4aaa-aa69-846c4b981bb3": {
+      "Path": "Assets\\BrickPBR\\Brick_metallic.png"
+    },
+    "e282343c-1584-4df3-a260-dbf0fcb21163": {
+      "Path": "Assets\\BrickPBR\\Brick_normal.png"
+    },
+    "731d1f17-958a-4107-a688-62b8ec0dc6df": {
+      "Path": "Assets\\BrickPBR\\Brick_roughness.png"
+    }
+  }
+}

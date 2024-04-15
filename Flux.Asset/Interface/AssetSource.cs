@@ -5,7 +5,7 @@ namespace Flux.Asset.Interface;
 public abstract class AssetSource
 {
     readonly AssetCatalogue catalogue;
-    public DateTimeOffset CatalogueBuildVersion => catalogue.CatalogueBuildVersion; 
+    public DateTimeOffset BuildVersion => catalogue.BuildVersion; 
     protected AssetSource(AssetCatalogue catalogue)
     {
         this.catalogue = catalogue;

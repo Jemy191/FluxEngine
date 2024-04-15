@@ -24,7 +24,7 @@ public class AssetsService
 
         var assetSource = assetSources
             .Where(s => s.ContainAsset(guid))
-            .MaxBy(s => s.CatalogueBuildVersion);
+            .MaxBy(s => s.BuildVersion);
 
         if (assetSource is null)
             return null;
