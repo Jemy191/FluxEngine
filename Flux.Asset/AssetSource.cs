@@ -4,7 +4,7 @@ namespace Flux.Asset;
 
 public abstract class AssetSource
 {
-    public readonly AssetCatalogue catalogue;
+    readonly AssetCatalogue catalogue;
     public DateTimeOffset BuildVersion => catalogue.BuildVersion; 
     protected AssetSource(AssetCatalogue catalogue)
     {
@@ -16,5 +16,5 @@ public abstract class AssetSource
     [MustDisposeResource]
     public Stream Open(Guid guid) => Open(catalogue.Get(guid));
     [MustDisposeResource]
-    protected abstract Stream Open(AssetCatalogueEntry entry);
+    protected abstract Stream Open(CatalogueAsset entry);
 }

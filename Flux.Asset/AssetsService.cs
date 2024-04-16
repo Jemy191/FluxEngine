@@ -5,6 +5,7 @@ namespace Flux.Asset;
 public class AssetsService
 {
     readonly List<AssetSource> assetSources;
+    public IReadOnlyList<AssetSource> AssetSources => assetSources;
     readonly Dictionary<Type, IAssetImporter> assetImporters = [];
     public AssetsService(List<AssetSource> assetSources)
     {

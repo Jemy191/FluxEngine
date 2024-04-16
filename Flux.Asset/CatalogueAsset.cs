@@ -2,11 +2,11 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Flux.Asset;
 
-public class AssetCatalogueEntry
+public class CatalogueAsset
 {
     public readonly IReadOnlyDictionary<string, object> Metadatas;
     
-    internal AssetCatalogueEntry(IReadOnlyDictionary<string, object> metadatas)
+    internal CatalogueAsset(IReadOnlyDictionary<string, object> metadatas)
     {
         this.Metadatas = metadatas;
     }

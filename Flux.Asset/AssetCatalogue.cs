@@ -5,7 +5,8 @@ namespace Flux.Asset;
 public class AssetCatalogue
 {
     public readonly DateTimeOffset BuildVersion;
-    readonly Dictionary<Guid, AssetCatalogueEntry> entries;
+    readonly Dictionary<Guid, CatalogueAsset> catalogueAssets;
+    public IReadOnlyDictionary<Guid, CatalogueAsset> CatalogueAssets => catalogueAssets;
     readonly Dictionary<string, Type> availableMetadatas;
 
     static readonly JsonSerializerOptions jsonSerializerOptions = new JsonSerializerOptions(JsonSerializerOptions.Default)
@@ -13,9 +14,9 @@ public class AssetCatalogue
         WriteIndented = true
     };
 
-    public AssetCatalogue(Dictionary<Guid, AssetCatalogueEntry> entries, Dictionary<string, Type> availableMetadatas, DateTimeOffset buildVersion)
+    public AssetCatalogue(Dictionary<Guid, CatalogueAsset> catalogueAssets, Dictionary<string, Type> availableMetadatas, DateTimeOffset buildVersion)
     {
-        this.entries = entries;
+        this.catalogueAssets = catalogueAssets;
         this.availableMetadatas = availableMetadatas;
         BuildVersion = buildVersion;
     }
@@ -28,21 +29,21 @@ public class AssetCatalogue
         var values = jsonDocument.RootElement.GetProperty("Entries").Deserialize<Dictionary<Guid, Dictionary<string, JsonElement>>>();
         if (values is null)
         {
-            entries = new Dictionary<Guid, AssetCatalogueEntry>();
+            catalogueAssets = new Dictionary<Guid, CatalogueAsset>();
             return;
         }
 
-        entries = values.ToDictionary(v => v.Key, v => ResolveMetadata(v.Value));
+        catalogueAssets = values.ToDictionary(v => v.Key, v => ResolveMetadata(v.Value));
     }
 
-    public AssetCatalogueEntry Get(Guid guid) => entries[guid];
-    public bool TryAdd(Guid guid, AssetCatalogueEntry entry) => entries.TryAdd(guid, entry);
-    public bool Contain(Guid guid) => entries.ContainsKey(guid);
+    public CatalogueAsset Get(Guid guid) => catalogueAssets[guid];
+    public bool TryAdd(Guid guid, CatalogueAsset entry) => catalogueAssets.TryAdd(guid, entry);
+    public bool Contain(Guid guid) => catalogueAssets.ContainsKey(guid);
 
     public bool TryAddMetadataType<T>(string name) => availableMetadatas.TryAdd(name, typeof(T));
     public bool HasMetadata<T>(string name) => availableMetadatas.TryGetValue(name, out var type) && type == typeof(T);
 
-    AssetCatalogueEntry ResolveMetadata(Dictionary<string, JsonElement> metadatas)
+    CatalogueAsset ResolveMetadata(Dictionary<string, JsonElement> metadatas)
     {
         var deserializedMetadatas = new Dictionary<string, object>();
         foreach (var (name, jsonValue) in metadatas)
@@ -58,14 +59,14 @@ public class AssetCatalogue
             deserializedMetadatas.Add(name, value);
         }
 
-        return new AssetCatalogueEntry(deserializedMetadatas);
+        return new CatalogueAsset(deserializedMetadatas);
     }
 
     public string Serialize()
     {
         var catalogue = new {
             BuildVersion = BuildVersion,
-            Entries = entries.ToDictionary(e => e.Key, e => e.Value.Metadatas)
+            Entries = catalogueAssets.ToDictionary(e => e.Key, e => e.Value.Metadatas)
         };
         return JsonSerializer.Serialize(catalogue, jsonSerializerOptions);
     }

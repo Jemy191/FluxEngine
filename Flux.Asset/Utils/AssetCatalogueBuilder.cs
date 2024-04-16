@@ -18,7 +18,7 @@ public static class AssetCatalogueBuilder
         }, DateTimeOffset.UtcNow);
     }
 
-    static IEnumerable<AssetCatalogueEntry> ScanDirectory(Path rootDirectory)
+    static IEnumerable<CatalogueAsset> ScanDirectory(Path rootDirectory)
     {
         var entries = ScanFiles(Directory.EnumerateFiles(rootDirectory)).ToList();
         
@@ -29,8 +29,8 @@ public static class AssetCatalogueBuilder
         return entries;
     }
 
-    static IEnumerable<AssetCatalogueEntry> ScanFiles(IEnumerable<string> files) => files
-        .Select(f => new AssetCatalogueEntry(new Dictionary<string, object>
+    static IEnumerable<CatalogueAsset> ScanFiles(IEnumerable<string> files) => files
+        .Select(f => new CatalogueAsset(new Dictionary<string, object>
         {
             { "Path", System.IO.Path.GetRelativePath(System.IO.Path.GetPathRoot(f)!, f) }
         }));
