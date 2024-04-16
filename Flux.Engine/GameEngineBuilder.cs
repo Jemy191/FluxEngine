@@ -29,7 +29,6 @@ public class GameEngineBuilder
             .AddSingleton<IEcsWorldService, EcsWorldService>();
     }
 
-    [MustDisposeResource]
     public IGameEngine Build()
     {
         var providerOptions = new ServiceProviderOptions

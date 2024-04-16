@@ -1,5 +1,6 @@
 ﻿using Flux.Asset;
-using Flux.Asset.Utils;
+using Flux.Asset.AssetSources;
+using Flux.Asset.Interface;
 using Flux.Engine;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
@@ -12,13 +13,23 @@ var builder = new GameEngineBuilder("Test engine");
 
 // Add services here
 
+AssetsService assetsService;
+
+using (var assetsCatalogueFile = File.OpenRead("AssetCatalogue.json"))
+{
+    var assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
+    List<AssetSource> assetSources = [new FileSystemAssetSource(assetsCatalogue, "Assets")];
+    assetsService = new AssetsService(assetSources);
+}
+
 builder.Services
     .AddSilkInput()
     .AddOpenGL<IWindow>()
     .AddImGui()
     .AddResourceServices()
     .AddBehaviorServices()
-    .AddModelEntityBuilder();
+    .AddModelEntityBuilder()
+    .AddSingleton(assetsService);
 
 var engine = builder.Build();
 

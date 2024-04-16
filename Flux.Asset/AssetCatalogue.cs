@@ -64,7 +64,7 @@ public class AssetCatalogue
     public string Serialize()
     {
         var catalogue = new {
-            BuilderVersion = BuildVersion,
+            BuildVersion = BuildVersion,
             Entries = entries.ToDictionary(e => e.Key, e => e.Value.Metadatas)
         };
         return JsonSerializer.Serialize(catalogue, jsonSerializerOptions);

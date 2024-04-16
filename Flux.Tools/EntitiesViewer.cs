@@ -21,7 +21,7 @@ public class EntitiesViewer : Behavior, IUIDrawable
 
     public void DrawUI(float deltatime)
     {
-        if (ImGui­.Begin("Entities viewer"))
+        if (ImGui.Begin("Entities viewer"))
         {
             ImGuiTableFlags tableFlags =
                 ImGuiTableFlags.Hideable
