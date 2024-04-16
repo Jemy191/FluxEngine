@@ -9,13 +9,15 @@ var availableMetadatas = new Dictionary<string, Type>
 {
     { "Path", typeof(string) }
 };
-var catalogue = new AssetCatalogue(catalogueFile, availableMetadatas);
-var catalogueNewer = new AssetCatalogue(catalogueFileNewer, availableMetadatas);
+
+List<AssetCatalogue> catalogues = [
+    new AssetCatalogue(catalogueFile, availableMetadatas),
+    new AssetCatalogue(catalogueFileNewer, availableMetadatas)
+];
 
 List<AssetSource> assetSources =
 [
-    new FileSystemAssetSource(catalogue, "Assets"),
-    new FileSystemAssetSource(catalogueNewer, "Assets")
+    new FileSystemAssetSource(catalogues.MaxBy(c => c.BuildVersion)!, "Assets")
 ];
 var assetService = new AssetsService(assetSources);
 assetService.RegisterImporter<JsonAsset>(new JsonImporter());

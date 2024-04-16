@@ -5,7 +5,7 @@ namespace Flux.Asset;
 public class AssetsService
 {
     readonly List<AssetSource> assetSources;
-    public IReadOnlyList<AssetSource> AssetSources => assetSources;
+    public IEnumerable<AssetSource> AssetSources => assetSources;
     readonly Dictionary<Type, IAssetImporter> assetImporters = [];
     public AssetsService(List<AssetSource> assetSources)
     {
@@ -23,9 +23,7 @@ public class AssetsService
     {
         var importer = (IAssetImporter<T>)assetImporters[typeof(T)];
 
-        var assetSource = assetSources
-            .Where(s => s.ContainAsset(guid))
-            .MaxBy(s => s.BuildVersion);
+        var assetSource = assetSources.SingleOrDefault(s => s.ContainAsset(guid));
 
         if (assetSource is null)
             return null;
