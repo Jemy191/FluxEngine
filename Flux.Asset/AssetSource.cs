@@ -1,6 +1,6 @@
 using JetBrains.Annotations;
 
-namespace Flux.Asset.Interface;
+namespace Flux.Asset;
 
 public abstract class AssetSource
 {
