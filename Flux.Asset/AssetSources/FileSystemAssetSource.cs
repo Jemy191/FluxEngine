@@ -5,8 +5,9 @@ namespace Flux.Asset.AssetSources;
 
 public class FileSystemAssetSource : AssetSource
 {
+    public override string Name => rootDirectory;
     [PublicAPI]
-    public readonly AssetTree assetTree;
+    public readonly AssetTree AssetTree;
     readonly Path rootDirectory;
     
     public FileSystemAssetSource(AssetCatalogue catalogue, Path rootDirectory) : base(catalogue)
@@ -14,7 +15,7 @@ public class FileSystemAssetSource : AssetSource
         catalogue.HasMetadata<string>("Path");
         this.rootDirectory = rootDirectory;
 
-        assetTree = new AssetTree
+        AssetTree = new AssetTree
         {
             Name = rootDirectory,
             CatalogueAsset = null,
@@ -41,7 +42,7 @@ public class FileSystemAssetSource : AssetSource
                 if (!ca.Value.TryGetMetadata<string>("Path", out var path))
                     throw new KeyNotFoundException($"Unable to find Path metadata for asset: {ca.Key}");
 
-                var pathParts = path.Split('/');
+                var pathParts = path.Split('\\');
                 return new
                 {
                     Guid = ca.Key,
@@ -54,7 +55,7 @@ public class FileSystemAssetSource : AssetSource
 
         foreach (var catalogueAsset in sortedCatalogueAssets)
         {
-            var currentAssetTree = assetTree;
+            var currentAssetTree = AssetTree;
             foreach (var directory in catalogueAsset.ParentDirectories)
             {
                 if (!currentAssetTree.Children.TryGetValue(directory, out var child))
@@ -64,7 +65,7 @@ public class FileSystemAssetSource : AssetSource
                         Name = directory,
                         CatalogueAsset = null
                     };
-                    assetTree.Children.Add(directory, child);
+                    AssetTree.Children.Add(directory, child);
                 }
                 currentAssetTree = child;
             }

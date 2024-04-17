@@ -4,6 +4,7 @@ namespace Flux.Asset;
 
 public abstract class AssetSource
 {
+    public abstract string Name { get; }
     readonly AssetCatalogue catalogue;
     public DateTimeOffset BuildVersion => catalogue.BuildVersion; 
     protected AssetSource(AssetCatalogue catalogue)

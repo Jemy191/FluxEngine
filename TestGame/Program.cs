@@ -13,14 +13,20 @@ var builder = new GameEngineBuilder("Test engine");
 
 // Add services here
 
-AssetsService assetsService;
-
-using (var assetsCatalogueFile = File.OpenRead("AssetCatalogue.json"))
+AssetCatalogue assetsCatalogue;
+List<AssetSource> assetSources = [];
+using (var assetsCatalogueFile = File.OpenRead("AssetsCatalogue.json"))
 {
-    var assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
-    List<AssetSource> assetSources = [new FileSystemAssetSource(assetsCatalogue, "Assets")];
-    assetsService = new AssetsService(assetSources);
+    assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
+    assetSources.Add(new FileSystemAssetSource(assetsCatalogue, "Assets"));
 }
+using (var assetsCatalogueFile = File.OpenRead("ModsCatalogue.json"))
+{
+    assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
+    assetSources.Add(new FileSystemAssetSource(assetsCatalogue, "Mods"));
+}
+
+var assetsService = new AssetsService(assetSources);
 
 builder.Services
     .AddSilkInput()

@@ -31,7 +31,7 @@ var fileSources = assetServices.AssetSources.OfType<FileSystemAssetSource>();
 foreach (var fileSource in fileSources)
 {
     Console.WriteLine($"File source:");
-    PrintAllFile(fileSource.assetTree);
+    PrintAllFile(fileSource.AssetTree);
 }
 
 return;

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Flux.Asset.AssetSources;
 using Flux.Ecs;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
@@ -63,8 +64,13 @@ class Game
             .Create();*/
 
         var (entity, behavior) = behaviorService.CreateBehaviorEntity();
-        behavior.AddBehavior<EntitiesViewer>();
-        behavior.AddBehavior<EntitiesInspector>();
+        // Crash the app
+        //behavior.AddBehavior<EntitiesViewer>();
+        // Not needed
+        //behavior.AddBehavior<EntitiesInspector>();
+        behavior.AddBehavior<AssetsBrowser>();
+        var assetBrowser = behavior.GetBehavior<AssetsBrowser>();
+        assetBrowser.RegisterAssetSourceBrowser<FileSystemAssetSourceBrowser, FileSystemAssetSource>();
     }
 
     void CreateCamera(IWindow window, BehaviorService behaviorService)
