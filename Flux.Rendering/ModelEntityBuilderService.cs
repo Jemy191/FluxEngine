@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using DefaultEcs;
+using Flux.Asset.Assets;
 using Flux.Ecs;
 using Flux.MathAddon;
 using Flux.Rendering.Resources;
@@ -15,6 +16,7 @@ public class ModelEntityBuilderService
     Path vertex;
     Path fragment;
     Path mesh;
+    MeshAsset? meshAsset;
     readonly Dictionary<string, Path> textures = new();
     readonly List<Uniform> uniforms = new();
 
@@ -45,6 +47,11 @@ public class ModelEntityBuilderService
     public ModelEntityBuilderService Mesh(Path path)
     {
         mesh = path;
+        return this;
+    }
+    public ModelEntityBuilderService Mesh(MeshAsset asset)
+    {
+        meshAsset = asset;
         return this;
     }
     public ModelEntityBuilderService Transform(Transform transform)
@@ -99,8 +106,8 @@ public class ModelEntityBuilderService
     }
     public ModelEntityBuilderService RemoveUniform(string name)
     {
-        var toRemvoe = uniforms.Single(u => u.name == name);
-        uniforms.Remove(toRemvoe);
+        var toRemove = uniforms.Single(u => u.name == name);
+        uniforms.Remove(toRemove);
 
         return this;
     }
@@ -109,15 +116,17 @@ public class ModelEntityBuilderService
     {
         var shader = resourcesService.LoadShader(vertex, fragment);
 
-        var textures = new List<(string uniformName, Texture texture)>();
+        var material = new Material(shader,
+            textures
+                .Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value)))
+                .ToArray(),
+            uniforms.ToArray());
 
-        foreach (var texture in this.textures)
-        {
-            textures.Add((texture.Key, resourcesService.LoadTexture(texture.Value)));
-        }
-
-        var material = new Material(shader, textures.ToArray(), uniforms.ToArray());
-        var model = resourcesService.LoadModel(mesh, material);
+        Model model;
+        if (meshAsset is not null)
+            model = resourcesService.LoadModel(meshAsset, material);
+        else
+            model = resourcesService.LoadModel(mesh, material);
 
         var entity = world.CreateEntity();
         entity.Set(name);

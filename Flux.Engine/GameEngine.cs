@@ -27,10 +27,9 @@ public class GameEngine : IGameEngine
 
     }
 
-    public IGameEngine Instantiate<T>()
+    public T Instantiate<T>()
     {
-        injectionService.Instantiate<T>();
-        return this;
+        return injectionService.Instantiate<T>();
     }
 
     public IGameEngine AddRenderSystem<T>() where T : ISystem<float>
@@ -66,9 +65,10 @@ public class GameEngine : IGameEngine
         sequentialRenderSystem.Dispose();
     }
 
-    public void RunWith<T>()
+    public async Task RunWith<T>() where T : IGame
     {
-        Instantiate<T>();
+        var game = Instantiate<T>();
+        await game.Initialize();
         Run();
     }
 }

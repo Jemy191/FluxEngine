@@ -54,6 +54,18 @@
     },
     "69416728-4e1b-4d2c-96a6-a0958d72f7e6": {
       "Path": "BrickPBR\\Brick_roughness.png"
+    },
+    "02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10": {
+      "Path": "Cube.glb"
+    },
+    "6f116dea-6c4c-4842-a6ba-ed7451707e50": {
+      "Path": "Suzane.glb"
+    },
+    "9b23f7ca-3b53-44c9-917d-1edb061b3edf": {
+      "Path": "Terrain.glb"
+    },
+    "d7355025-3f08-4d52-86a4-31080fd07461": {
+      "Path": "Test.glb"
     }
   }
 }

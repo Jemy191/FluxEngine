@@ -1,6 +1,8 @@
 ﻿using System.Numerics;
+using Flux.Abstraction;
+using Flux.Asset;
+using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
-using Flux.Ecs;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;
@@ -10,13 +12,25 @@ using Silk.NET.Windowing;
 
 namespace TestApp;
 
-class Game
+class Game : IGame
 {
+    readonly IInputContext input;
     readonly IWindow window;
+    readonly BehaviorService behaviorService;
+    readonly ModelEntityBuilderService modelBuilder;
+    readonly AssetsService assetsService;
 
-    public Game(IInputContext input, IWindow window, BehaviorService behaviorService, ModelEntityBuilderService modelBuilder)
+    public Game(IInputContext input, IWindow window, BehaviorService behaviorService, ModelEntityBuilderService modelBuilder, AssetsService assetsService)
     {
+        this.input = input;
         this.window = window;
+        this.behaviorService = behaviorService;
+        this.modelBuilder = modelBuilder;
+        this.assetsService = assetsService;
+    }
+    
+    public async Task Initialize()
+    {
         for (int i = 0; i < input.Keyboards.Count; i++)
         {
             input.Keyboards[i].KeyDown += KeyDown;
@@ -24,28 +38,37 @@ class Game
 
         CreateCamera(window, behaviorService);
 
-        modelBuilder
+        var cubeMesh = await assetsService.Load<MeshAsset>(Guid.Parse("02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10"));
+        var suzaneMesh = await assetsService.Load<MeshAsset>(Guid.Parse("6f116dea-6c4c-4842-a6ba-ed7451707e50"));
+        var terrainMesh = await assetsService.Load<MeshAsset>(Guid.Parse("9b23f7ca-3b53-44c9-917d-1edb061b3edf"));
+        var testMesh = await assetsService.Load<MeshAsset>(Guid.Parse("d7355025-3f08-4d52-86a4-31080fd07461"));
+        
+       modelBuilder
             .Name("Suzane")
             .Vertex("shader.vert")
             .Fragment("suzane.frag")
-            .Mesh("Suzane.fbx")
+            .Mesh(suzaneMesh!)
+            //.Mesh("Suzane.fbx")
             .Position(new Vector3(0, 5, 0))
             .Create();
-
+       
         modelBuilder
             .Name("Cube")
             .Vertex("shader.vert")
             .Fragment("normal.frag")
-            .Mesh("Cube.fbx")
+            .Mesh(cubeMesh!)
+            //.Mesh("Cube.fbx")
             .Texture("albedo", "BrickPBR/Brick_albedo.png")
             .Texture("normal", "BrickPBR/Brick_normal.png")
             .Position(new Vector3(0, 0.5f, 0))
+            .Scale(Vector3.One)
             .Create();
-
+        
         modelBuilder
             .Name("Terrain")
             .Fragment("lighting.frag")
-            .Mesh("Terrain.fbx")
+            .Mesh(terrainMesh!)
+            //.Mesh("Terrain.fbx")
             .Texture("albedo", "Terrain.png")
             .RemoveTexture("normal")
             .Position(Vector3.Zero)

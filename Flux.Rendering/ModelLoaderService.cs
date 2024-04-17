@@ -80,7 +80,7 @@ public class ModelLoaderService : IDisposable
 
             if (loadColor)
             {
-                vertices[t + 4] = mesh->MColors[0][i].X;
+                vertices[t + 14] = mesh->MColors[0][i].X;
                 vertices[t + 15] = mesh->MColors[0][i].Y;
                 vertices[t + 16] = mesh->MColors[0][i].Z;
             }

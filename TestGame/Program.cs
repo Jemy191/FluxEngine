@@ -1,4 +1,6 @@
 ﻿using Flux.Asset;
+using Flux.Asset.AssetImporters;
+using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
 using Flux.Asset.Interface;
 using Flux.Engine;
@@ -27,6 +29,7 @@ using (var assetsCatalogueFile = File.OpenRead("ModsCatalogue.json"))
 }
 
 var assetsService = new AssetsService(assetSources);
+assetsService.RegisterImporter<MeshAsset, GltfImporter>();
 
 builder.Services
     .AddSilkInput()
@@ -48,4 +51,4 @@ engine.AddOpenGlRendering()
 
 // Add game logic here
 
-engine.RunWith<Game>();
+await engine.RunWith<Game>();

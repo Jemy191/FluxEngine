@@ -12,9 +12,9 @@ public class AssetsService
         this.assetSources = assetSources;
     }
     
-    public void RegisterImporter<T>(IAssetImporter importer) where T : Asset
+    public void RegisterImporter<TAsset, TImporter>() where TAsset : Asset where TImporter : IAssetImporter<TAsset>, new()
     {
-        assetImporters.Add(typeof(T), importer);
+        assetImporters.Add(typeof(TAsset), new TImporter());
     }
 
     public void AddSource(AssetSource source) => assetSources.Add(source);

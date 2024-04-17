@@ -1,6 +1,7 @@
 ﻿using Flux.Asset;
+using Flux.Asset.AssetImporters;
+using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
-using TestApp;
 
 await using var catalogueFile = File.OpenRead("AssetsCatalogue.json");
 await using var catalogueFileNewer = File.OpenRead("AssetsCatalogueNewer.json");
@@ -20,7 +21,7 @@ List<AssetSource> assetSources =
     new FileSystemAssetSource(catalogues.MaxBy(c => c.BuildVersion)!, "Assets")
 ];
 var assetServices = new AssetsService(assetSources);
-assetServices.RegisterImporter<JsonAsset>(new JsonImporter());
+assetServices.RegisterImporter<JsonAsset, JsonImporter>();
 
 var cities = await assetServices.Load<JsonAsset>(new Guid("f053d056-8ec2-42c2-a4ed-350934ad9f2e"));
 

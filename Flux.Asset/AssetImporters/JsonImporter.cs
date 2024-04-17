@@ -1,10 +1,10 @@
 using System.Text.Json;
-using Flux.Asset;
+using Flux.Asset.Assets;
 using Flux.Asset.Interface;
 
-namespace TestApp;
+namespace Flux.Asset.AssetImporters;
 
-class JsonImporter : IAssetImporter<JsonAsset>
+public class JsonImporter : IAssetImporter<JsonAsset>
 {
     public async Task<JsonAsset?> Import(Stream stream)
     {

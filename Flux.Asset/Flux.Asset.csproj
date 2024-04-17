@@ -5,10 +5,12 @@
 
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+      <PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0031" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
+      <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
     </ItemGroup>
 
 </Project>

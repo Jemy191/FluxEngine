@@ -1,4 +1,5 @@
-﻿using SixLabors.ImageSharp;
+﻿using Flux.Asset.Assets;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Flux.Rendering.Resources;
@@ -7,7 +8,7 @@ public class ResourcesService : IDisposable
 {
     readonly GL gl;
     readonly ModelLoaderService modelLoaderService;
-    readonly List<IDisposable> resources = new();
+    readonly List<IDisposable> resources = new List<IDisposable>();
 
 
     public ResourcesService(GL gl, ModelLoaderService modelLoaderService)
@@ -35,7 +36,26 @@ public class ResourcesService : IDisposable
     {
         var meshes = modelLoaderService.LoadMeshes(ToAssetPath(path));
         resources.AddRange(meshes.Cast<IDisposable>());
-        return new(meshes, material);
+        return new Model(meshes, material);
+    }
+    public Model LoadModel(MeshAsset meshAsset, Material material)
+    {
+        var vertices = meshAsset.vertices
+            .SelectMany(v =>
+                new[]
+                {
+                    v.Position.X, v.Position.Y, v.Position.Z,
+                    v.Normal.X, v.Normal.Y, v.Normal.Z,
+                    v.Tangent.X, v.Tangent.Y, v.Tangent.Z,
+                    v.Bitangent.X, v.Bitangent.Y, v.Bitangent.Z,
+                    v.TexCoords.X, v.TexCoords.Y,
+                    //v.Colors.X, v.Colors.Y, v.Colors.Z
+                })
+            .ToArray();
+        
+        var mesh = new Mesh(gl, vertices, meshAsset.indices.ToArray());
+        resources.Add(mesh);
+        return new Model([mesh], material);
     }
 
     static string ToAssetPath(Path path) => System.IO.Path.Combine("Assets", path);

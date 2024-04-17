@@ -1,9 +1,8 @@
 using System.Text.Json;
-using Flux.Asset;
 
-namespace TestApp;
+namespace Flux.Asset.Assets;
 
-class JsonAsset : Asset
+public class JsonAsset : Asset
 {
     readonly JsonDocument document;
     public readonly JsonElement Root;
