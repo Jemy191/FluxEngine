@@ -24,6 +24,7 @@ public readonly struct BufferObject<TDataType> : IDisposable
     }
 
     public void Bind() => gl.BindBuffer(bufferType, handle);
+    public void Unbind() => gl.BindBuffer(bufferType, 0);
 
     public void Dispose() => gl.DeleteBuffer(handle);
 }
