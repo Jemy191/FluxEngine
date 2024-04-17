@@ -25,15 +25,18 @@ public class AssetCatalogue
     {
         this.availableMetadatas = availableMetadatas;
         using var jsonDocument = JsonDocument.Parse(stream);
-        BuildVersion = jsonDocument.RootElement.GetProperty("BuildVersion").GetDateTimeOffset();
-        var values = jsonDocument.RootElement.GetProperty("Entries").Deserialize<Dictionary<Guid, Dictionary<string, JsonElement>>>();
-        if (values is null)
+        var root = jsonDocument.RootElement;
+        
+        BuildVersion = root.GetProperty("BuildVersion").GetDateTimeOffset();
+        var entries = root.GetProperty("Entries").Deserialize<Dictionary<Guid, JsonElement>>();
+
+        if (entries is null)
         {
             catalogueAssets = new Dictionary<Guid, CatalogueAsset>();
             return;
         }
 
-        catalogueAssets = values.ToDictionary(v => v.Key, v => ResolveMetadata(v.Value));
+        catalogueAssets = entries.ToDictionary(v => v.Key, v => ResolveMetadata(v.Value));
     }
 
     public CatalogueAsset Get(Guid guid) => catalogueAssets[guid];
@@ -43,8 +46,10 @@ public class AssetCatalogue
     public bool TryAddMetadataType<T>(string name) => availableMetadatas.TryAdd(name, typeof(T));
     public bool HasMetadata<T>(string name) => availableMetadatas.TryGetValue(name, out var type) && type == typeof(T);
 
-    CatalogueAsset ResolveMetadata(Dictionary<string, JsonElement> metadatas)
+    CatalogueAsset ResolveMetadata(JsonElement entry)
     {
+        var metadatas =  entry.GetProperty("Metadata").Deserialize<Dictionary<string, JsonElement>>() ?? [];
+            
         var deserializedMetadatas = new Dictionary<string, object>();
         foreach (var (name, jsonValue) in metadatas)
         {
@@ -59,7 +64,7 @@ public class AssetCatalogue
             deserializedMetadatas.Add(name, value);
         }
 
-        return new CatalogueAsset(deserializedMetadatas);
+        return new CatalogueAsset(entry.GetProperty("Format").GetString(), deserializedMetadatas);
     }
 
     public string Serialize()

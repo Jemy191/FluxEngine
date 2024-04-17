@@ -4,11 +4,13 @@ namespace Flux.Asset;
 
 public class CatalogueAsset
 {
+    public readonly string Format;
     public readonly IReadOnlyDictionary<string, object> Metadatas;
     
-    internal CatalogueAsset(IReadOnlyDictionary<string, object> metadatas)
+    internal CatalogueAsset(string format, IReadOnlyDictionary<string, object> metadatas)
     {
-        this.Metadatas = metadatas;
+        Format = format;
+        Metadatas = metadatas;
     }
 
     public bool TryGetMetadata<T>(string name, [NotNullWhen(true)]out T? metadata)

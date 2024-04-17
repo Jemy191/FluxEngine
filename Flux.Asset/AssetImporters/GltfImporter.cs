@@ -2,14 +2,14 @@ using System.Numerics;
 using Flux.Asset.Assets;
 using Flux.Asset.Interface;
 using Flux.MathAddon;
-using JetBrains.Annotations;
 using SharpGLTF.Schema2;
 
 namespace Flux.Asset.AssetImporters;
 
 public class GltfImporter : IAssetImporter<MeshAsset>
 {
-    [MustDisposeResource]
+    public List<string> SupportedFileFormats => ["glb"];
+
     public Task<MeshAsset?> Import(Stream stream)
     {
         var gltf = ModelRoot.ReadGLB(stream);

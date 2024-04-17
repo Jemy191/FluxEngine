@@ -30,7 +30,7 @@ public static class AssetCatalogueBuilder
     }
 
     static IEnumerable<CatalogueAsset> ScanFiles(IEnumerable<string> files) => files
-        .Select(f => new CatalogueAsset(new Dictionary<string, object>
+        .Select(f => new CatalogueAsset(System.IO.Path.GetExtension(f), new Dictionary<string, object>
         {
             { "Path", System.IO.Path.GetRelativePath(System.IO.Path.GetPathRoot(f)!, f) }
         }));

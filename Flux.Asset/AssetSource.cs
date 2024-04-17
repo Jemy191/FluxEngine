@@ -12,10 +12,12 @@ public abstract class AssetSource
         this.catalogue = catalogue;
     }
 
+    public CatalogueAsset Get(Guid guid) => catalogue.Get(guid);
+    
     public bool ContainAsset(Guid guid) => catalogue.Contain(guid);
     
     [MustDisposeResource]
-    public Stream Open(Guid guid) => Open(catalogue.Get(guid));
+    public Stream Open(Guid guid) => Open(Get(guid));
     [MustDisposeResource]
     protected abstract Stream Open(CatalogueAsset entry);
 }

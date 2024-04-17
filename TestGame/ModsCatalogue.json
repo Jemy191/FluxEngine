@@ -2,10 +2,16 @@
   "BuildVersion": "2024-04-15T06:38:43.6478096+00:00",
   "Entries": {
     "fb325377-0341-4486-858d-9045e3a783d7": {
-      "Path": "ExempleMod.pack"
+      "Format": "pack",
+      "Metadata": {
+        "Path": "ExempleMod.pack"
+      }
     },
     "1c6fe63f-155b-4474-a62a-951daf670886": {
-      "Path": "TestMod.pack"
+      "Format": "pack",
+      "Metadata": {
+        "Path": "TestMod.pack"
+      }
     }
   }
 }
