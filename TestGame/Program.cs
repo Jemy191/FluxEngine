@@ -32,7 +32,6 @@ builder.Services
     .AddSilkInput()
     .AddOpenGL<IWindow>()
     .AddImGui()
-    .AddResourceServices()
     .AddBehaviorServices()
     .AddModelEntityBuilder()
     .AddSingleton(assetsService);

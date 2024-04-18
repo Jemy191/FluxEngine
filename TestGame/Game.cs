@@ -56,10 +56,7 @@ class Game : IGame
             .Name("Suzane")
             .Shader(simpleVertexShader)
             .Shader(suzaneFragmentShader)
-            //.Vertex("shader.vert")
-            //.Fragment("suzane.frag")
             .Mesh(suzaneMesh!)
-            //.Mesh("Suzane.fbx")
             .Position(new Vector3(0, 5, 0))
             .Create();
 
@@ -67,14 +64,9 @@ class Game : IGame
         modelBuilder
             .Name("Cube")
             .Shader(normalMapFragmentShader)
-            //.Vertex("shader.vert")
-            //.Fragment("normal.frag")
             .Mesh(cubeMesh!)
-            //.Mesh("Cube.fbx")
             .Texture("albedo", brickAlbedo)
             .Texture("normal", brickNormal)
-            .Texture("albedo", "BrickPBR/Brick_albedo.png")
-            .Texture("normal", "BrickPBR/Brick_normal.png")
             .Position(new Vector3(0, 0.5f, 0))
             .Scale(Vector3.One)
             .Create();
@@ -82,11 +74,8 @@ class Game : IGame
         modelBuilder
             .Name("Terrain")
             .Shader(lightingFragmentShader)
-            //.Fragment("lighting.frag")
             .Mesh(terrainMesh!)
-            //.Mesh("Terrain.fbx")
             .Texture("albedo", terrainTexture)
-            //.Texture("albedo", "Terrain.png")
             .RemoveTexture("normal")
             .Position(Vector3.Zero)
             .Scale(Vector3.One * 5f)

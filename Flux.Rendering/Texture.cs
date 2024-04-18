@@ -1,7 +1,4 @@
-﻿using Flux.Rendering.Resources;
-using Silk.NET.OpenGL;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+﻿using Silk.NET.OpenGL;
 
 namespace Flux.Rendering;
 
@@ -9,33 +6,6 @@ public readonly struct Texture : IDisposable
 {
     readonly uint handle;
     readonly GL gl;
-
-    public unsafe Texture(GL gl, Image<Rgba32> image)
-    {
-        this.gl = gl;
-
-        handle = this.gl.GenTexture();
-        Bind();
-        LoadImage(gl, image);
-
-        SetParameters();
-    }
-
-    static unsafe void LoadImage(GL gl, Image<Rgba32> image)
-    {
-        gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, null);
-
-        image.ProcessPixelRows(accessor =>
-        {
-            for (var i = 0; i < accessor.Height; i++)
-            {
-                fixed (void* data = accessor.GetRowSpan(i))
-                {
-                    gl.TexSubImage2D(TextureTarget.Texture2D, 0, 0, i, (uint)accessor.Width, 1, PixelFormat.Rgba, PixelType.UnsignedByte, data);
-                }
-            }
-        });
-    }
 
     public unsafe Texture(GL gl, Span<byte> data, uint width, uint height)
     {
