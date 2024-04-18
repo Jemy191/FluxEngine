@@ -30,12 +30,17 @@
 		<PackageReference Include="Silk.NET.Input.Extensions" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.Input.Glfw" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.Windowing" Version="2.20.0" />
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.6.0"/>
+		<PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0031"/>
+		<PackageReference Include="Silk.NET.Maths" Version="2.20.0"/>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
+	  <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
 	  <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
 	  <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
+	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

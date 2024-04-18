@@ -1,8 +1,8 @@
 using System.Text.Json;
-using Flux.Asset.Assets;
 using Flux.Asset.Interface;
+using Flux.Engine.Assets;
 
-namespace Flux.Asset.AssetImporters;
+namespace Flux.Engine.AssetImporters;
 
 public class JsonImporter : IAssetImporter<JsonAsset>
 {

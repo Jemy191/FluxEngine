@@ -1,10 +1,10 @@
 using System.Numerics;
-using Flux.Asset.Assets;
 using Flux.Asset.Interface;
+using Flux.Engine.Assets;
 using Flux.MathAddon;
 using SharpGLTF.Schema2;
 
-namespace Flux.Asset.AssetImporters;
+namespace Flux.Engine.AssetImporters;
 
 public class GltfImporter : IAssetImporter<MeshAsset>
 {

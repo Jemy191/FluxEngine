@@ -1,8 +1,8 @@
 using System.Text.Json;
 
-namespace Flux.Asset.Assets;
+namespace Flux.Engine.Assets;
 
-public class JsonAsset : Asset, IDisposable
+public class JsonAsset : Asset.Asset, IDisposable
 {
     readonly JsonDocument document;
     public readonly JsonElement Root;

@@ -1,11 +1,9 @@
-using System.Numerics;
-using Flux.Asset.Assets;
 using Flux.Asset.Interface;
+using Flux.Engine.Assets;
 using ImageMagick;
-using Microsoft.VisualBasic;
 using Silk.NET.Maths;
 
-namespace Flux.Asset.AssetImporters;
+namespace Flux.Engine.AssetImporters;
 
 public class TextureImporter : IAssetImporter<TextureAsset>
 {

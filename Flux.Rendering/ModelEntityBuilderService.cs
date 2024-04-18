@@ -1,10 +1,9 @@
 ﻿using System.Numerics;
 using DefaultEcs;
-using Flux.Asset.Assets;
 using Flux.Ecs;
+using Flux.Engine.Assets;
 using Flux.MathAddon;
 using Flux.Rendering.Resources;
-using JetBrains.Annotations;
 
 namespace Flux.Rendering;
 

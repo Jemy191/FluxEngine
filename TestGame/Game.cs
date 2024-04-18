@@ -1,8 +1,8 @@
 ﻿using System.Numerics;
 using Flux.Abstraction;
 using Flux.Asset;
-using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
+using Flux.Engine.Assets;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;

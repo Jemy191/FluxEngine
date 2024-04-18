@@ -1,9 +1,9 @@
 ﻿using Flux.Asset;
-using Flux.Asset.AssetImporters;
-using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
 using Flux.Asset.Interface;
 using Flux.Engine;
+using Flux.Engine.AssetImporters;
+using Flux.Engine.Assets;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
 using Flux.Rendering;

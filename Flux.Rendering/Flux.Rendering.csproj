@@ -33,9 +33,9 @@
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
-	  <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
 	  <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
 	  <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
+	  <ProjectReference Include="..\Flux.Engine\Flux.Engine.csproj" />
 	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
 	</ItemGroup>
 

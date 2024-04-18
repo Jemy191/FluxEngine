@@ -1,8 +1,8 @@
 using Flux.MathAddon;
 
-namespace Flux.Asset.Assets;
+namespace Flux.Engine.Assets;
 
-public class MeshAsset : Asset
+public class MeshAsset : Asset.Asset
 {
     public readonly IReadOnlyList<uint> indices;
     public readonly IReadOnlyList<Vertex> vertices;

@@ -1,8 +1,8 @@
 using Silk.NET.Maths;
 
-namespace Flux.Asset.Assets;
+namespace Flux.Engine.Assets;
 
-public class TextureAsset : Asset
+public class TextureAsset : Asset.Asset
 {
     public readonly Vector2D<ushort> size;
     public readonly byte[]? pixels;
