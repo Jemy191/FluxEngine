@@ -1,4 +1,5 @@
-﻿using Flux.Engine.Assets;
+﻿using Flux.Engine;
+using Flux.Engine.Assets;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -23,6 +24,12 @@ public class ResourcesService : IDisposable
         resources.Add(shader);
         return shader;
     }
+    public Shader LoadShader(IReadOnlyDictionary<ShaderType, ShaderAsset> shaderAssets)
+    {
+        var shader = new Shader(gl, shaderAssets[ShaderType.Vertex].Code, shaderAssets[ShaderType.Fragment].Code);
+        resources.Add(shader);
+        return shader;
+    }
     public Texture LoadTexture(Path path)
     {
         using var image = Image.Load<Rgba32>(ToAssetPath(path));
@@ -34,8 +41,8 @@ public class ResourcesService : IDisposable
 
     public Texture LoadTexture(TextureAsset textureAsset)
     {
-        var size = textureAsset.size;
-        var texture = new Texture(gl, textureAsset.pixels.AsSpan(), size.X, size.Y);
+        var size = textureAsset.Size;
+        var texture = new Texture(gl, textureAsset.Pixels.AsSpan(), size.X, size.Y);
         resources.Add(texture);
         return texture;
     }
@@ -48,7 +55,7 @@ public class ResourcesService : IDisposable
     }
     public Model LoadModel(MeshAsset meshAsset, Material material)
     {
-        var vertices = meshAsset.vertices
+        var vertices = meshAsset.Vertices
             .SelectMany(v =>
                 new[]
                 {
@@ -61,7 +68,7 @@ public class ResourcesService : IDisposable
                 })
             .ToArray();
         
-        var mesh = new Mesh(gl, vertices, meshAsset.indices.ToArray());
+        var mesh = new Mesh(gl, vertices, meshAsset.Indices.ToArray());
         resources.Add(mesh);
         return new Model([mesh], material);
     }

@@ -4,11 +4,11 @@ namespace Flux.Engine.Assets;
 
 public class TextureAsset : Asset.Asset
 {
-    public readonly Vector2D<ushort> size;
-    public readonly byte[]? pixels;
+    public readonly Vector2D<ushort> Size;
+    public readonly byte[]? Pixels;
     public TextureAsset(Vector2D<ushort> size, byte[]? pixels)
     {
-        this.size = size;
-        this.pixels = pixels;
+        this.Size = size;
+        this.Pixels = pixels;
     }
 }

@@ -43,23 +43,32 @@ class Game : IGame
         var terrainMesh = await assetsService.Load<MeshAsset>(Guid.Parse("9b23f7ca-3b53-44c9-917d-1edb061b3edf"));
         var testMesh = await assetsService.Load<MeshAsset>(Guid.Parse("d7355025-3f08-4d52-86a4-31080fd07461"));
         
+       var brickAlbedo = await assetsService.Load<TextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
+       var brickNormal = await assetsService.Load<TextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
+       var terrainTexture = await assetsService.Load<TextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
+       
+       var simpleVertexShader = await assetsService.Load<ShaderAsset>(Guid.Parse("9615bc02-7461-45c2-9226-86c2d14337a4"));
+       var suzaneFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("278fcd7d-bac0-4e2d-b475-9f980a67e239"));
+       var normalMapFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("ece0ca35-9c07-4186-824f-e157e0449be7"));
+       var lightingFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("270e25a4-36b9-4348-af14-534381740eb0"));
+        
        modelBuilder
             .Name("Suzane")
-            .Vertex("shader.vert")
-            .Fragment("suzane.frag")
+            .Shader(simpleVertexShader)
+            .Shader(suzaneFragmentShader)
+            //.Vertex("shader.vert")
+            //.Fragment("suzane.frag")
             .Mesh(suzaneMesh!)
             //.Mesh("Suzane.fbx")
             .Position(new Vector3(0, 5, 0))
             .Create();
 
-       var brickAlbedo = await assetsService.Load<TextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
-       var brickNormal = await assetsService.Load<TextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
-       var terrainTexture = await assetsService.Load<TextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
        
         modelBuilder
             .Name("Cube")
-            .Vertex("shader.vert")
-            .Fragment("normal.frag")
+            .Shader(normalMapFragmentShader)
+            //.Vertex("shader.vert")
+            //.Fragment("normal.frag")
             .Mesh(cubeMesh!)
             //.Mesh("Cube.fbx")
             .Texture("albedo", brickAlbedo)
@@ -72,7 +81,8 @@ class Game : IGame
         
         modelBuilder
             .Name("Terrain")
-            .Fragment("lighting.frag")
+            .Shader(lightingFragmentShader)
+            //.Fragment("lighting.frag")
             .Mesh(terrainMesh!)
             //.Mesh("Terrain.fbx")
             .Texture("albedo", terrainTexture)

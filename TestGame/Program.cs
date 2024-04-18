@@ -22,15 +22,11 @@ using (var assetsCatalogueFile = File.OpenRead("AssetsCatalogue.json"))
     assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
     assetSources.Add(new FileSystemAssetSource(assetsCatalogue, "Assets"));
 }
-using (var assetsCatalogueFile = File.OpenRead("ModsCatalogue.json"))
-{
-    assetsCatalogue = new AssetCatalogue(assetsCatalogueFile, new Dictionary<string, Type>(StringComparer.Ordinal) { { "Path", typeof(string) } });
-    assetSources.Add(new FileSystemAssetSource(assetsCatalogue, "Mods"));
-}
 
 var assetsService = new AssetsService(assetSources);
 assetsService.RegisterImporter<MeshAsset, GltfImporter>();
 assetsService.RegisterImporter<TextureAsset, TextureImporter>();
+assetsService.RegisterImporter<ShaderAsset, ShaderImporter>();
 
 builder.Services
     .AddSilkInput()

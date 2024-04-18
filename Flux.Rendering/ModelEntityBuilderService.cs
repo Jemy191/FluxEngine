@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using DefaultEcs;
 using Flux.Ecs;
+using Flux.Engine;
 using Flux.Engine.Assets;
 using Flux.MathAddon;
 using Flux.Rendering.Resources;
@@ -17,7 +18,8 @@ public class ModelEntityBuilderService
     Path fragment;
     Path mesh;
     MeshAsset? meshAsset;
-    Dictionary<string, TextureAsset> textureAssets = [];
+    readonly Dictionary<string, TextureAsset> textureAssets = [];
+    readonly Dictionary<ShaderType, ShaderAsset> shaderAssets = [];
     readonly Dictionary<string, Path> textures = [];
     readonly List<Uniform> uniforms = [];
 
@@ -35,6 +37,11 @@ public class ModelEntityBuilderService
         return this;
     }
 
+    public ModelEntityBuilderService Shader(ShaderAsset asset)
+    {
+        shaderAssets[asset.Type] = asset;
+        return this;
+    }
     public ModelEntityBuilderService Vertex(Path path)
     {
         vertex = path;
@@ -121,7 +128,11 @@ public class ModelEntityBuilderService
 
     public Entity Create()
     {
-        var shader = resourcesService.LoadShader(vertex, fragment);
+        Shader shader;
+        if(shaderAssets.Count > 0)
+            shader = resourcesService.LoadShader(shaderAssets);
+        else
+            shader = resourcesService.LoadShader(vertex, fragment);
 
         (string name, Texture texture)[] textureArray;
         if(textureAssets.Count > 0)

@@ -4,12 +4,12 @@ namespace Flux.Engine.Assets;
 
 public class MeshAsset : Asset.Asset
 {
-    public readonly IReadOnlyList<uint> indices;
-    public readonly IReadOnlyList<Vertex> vertices;
+    public readonly IReadOnlyList<uint> Indices;
+    public readonly IReadOnlyList<Vertex> Vertices;
     
     public MeshAsset(IReadOnlyList<uint> indices, IReadOnlyList<Vertex> vertices)
     {
-        this.indices = indices;
-        this.vertices = vertices;
+        Indices = indices;
+        Vertices = vertices;
     }
 }
