@@ -7,21 +7,13 @@ namespace Flux.Engine.AssetImporters;
 
 public class TextureImporter : IAssetImporter<TextureAsset>
 {
-    readonly List<string> extraSupportedFormat = [];
-
-    public IEnumerable<string> SupportedFileFormats => new List<string>
-    {
+    public IEnumerable<string> SupportedFileFormats =>
+    [
         "jpg",
         "png",
         "tga"
-    }.Union(extraSupportedFormat);
-    
-    public TextureImporter() { }
-    public TextureImporter(List<string> extraSupportedFormat)
-    {
-        this.extraSupportedFormat = extraSupportedFormat;
-    }
-    
+    ];
+
     public async Task<TextureAsset?> Import(Stream stream)
     {
         using var image = new MagickImage();
@@ -29,7 +21,7 @@ public class TextureImporter : IAssetImporter<TextureAsset>
 
         var size = new Vector2D<ushort>((ushort)image.Width, (ushort)image.Height);
         var data = image.GetPixels().ToArray();
-        
+
         return new TextureAsset(size, data);
     }
 }
