@@ -51,6 +51,10 @@ class Game : IGame
             //.Mesh("Suzane.fbx")
             .Position(new Vector3(0, 5, 0))
             .Create();
+
+       var brickAlbedo = await assetsService.Load<TextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
+       var brickNormal = await assetsService.Load<TextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
+       var terrainTexture = await assetsService.Load<TextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
        
         modelBuilder
             .Name("Cube")
@@ -58,6 +62,8 @@ class Game : IGame
             .Fragment("normal.frag")
             .Mesh(cubeMesh!)
             //.Mesh("Cube.fbx")
+            .Texture("albedo", brickAlbedo)
+            .Texture("normal", brickNormal)
             .Texture("albedo", "BrickPBR/Brick_albedo.png")
             .Texture("normal", "BrickPBR/Brick_normal.png")
             .Position(new Vector3(0, 0.5f, 0))
@@ -69,7 +75,8 @@ class Game : IGame
             .Fragment("lighting.frag")
             .Mesh(terrainMesh!)
             //.Mesh("Terrain.fbx")
-            .Texture("albedo", "Terrain.png")
+            .Texture("albedo", terrainTexture)
+            //.Texture("albedo", "Terrain.png")
             .RemoveTexture("normal")
             .Position(Vector3.Zero)
             .Scale(Vector3.One * 5f)

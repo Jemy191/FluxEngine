@@ -1,7 +1,9 @@
-﻿using Flux.Asset;
+﻿using System.Text.Json;
+using Flux.Asset;
 using Flux.Asset.AssetImporters;
 using Flux.Asset.Assets;
 using Flux.Asset.AssetSources;
+using ImageMagick;
 
 await using var catalogueFile = File.OpenRead("AssetsCatalogue.json");
 await using var catalogueFileNewer = File.OpenRead("AssetsCatalogueNewer.json");

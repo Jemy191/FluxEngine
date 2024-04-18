@@ -30,6 +30,7 @@ using (var assetsCatalogueFile = File.OpenRead("ModsCatalogue.json"))
 
 var assetsService = new AssetsService(assetSources);
 assetsService.RegisterImporter<MeshAsset, GltfImporter>();
+assetsService.RegisterImporter<TextureAsset, TextureImporter>();
 
 builder.Services
     .AddSilkInput()
@@ -51,4 +52,4 @@ engine.AddOpenGlRendering()
 
 // Add game logic here
 
-await engine.RunWith<Game>();
+engine.RunWith<Game>();

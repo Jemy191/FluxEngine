@@ -8,5 +8,5 @@ public interface IGameEngine
     IGameEngine AddUpdateSystem<T>() where T : ISystem<float>;
     T Instantiate<T>();
     void Run();
-    Task RunWith<T>() where T: IGame;
+    void RunWith<T>() where T: IGame;
 }

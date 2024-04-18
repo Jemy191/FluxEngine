@@ -1,6 +1,5 @@
 namespace Flux.Asset;
 
-public abstract class Asset : IDisposable
+public abstract class Asset
 {
-    public abstract void Dispose();
 }

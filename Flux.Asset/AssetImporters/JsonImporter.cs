@@ -6,7 +6,7 @@ namespace Flux.Asset.AssetImporters;
 
 public class JsonImporter : IAssetImporter<JsonAsset>
 {
-    public List<string> SupportedFileFormats => ["json"];
+    public IEnumerable<string> SupportedFileFormats => ["json"];
     
     public async Task<JsonAsset?> Import(Stream stream)
     {

@@ -32,6 +32,14 @@ public class ResourcesService : IDisposable
         return texture;
     }
 
+    public Texture LoadTexture(TextureAsset textureAsset)
+    {
+        var size = textureAsset.size;
+        var texture = new Texture(gl, textureAsset.pixels.AsSpan(), size.X, size.Y);
+        resources.Add(texture);
+        return texture;
+    }
+
     public Model LoadModel(Path path, Material material)
     {
         var meshes = modelLoaderService.LoadMeshes(ToAssetPath(path));

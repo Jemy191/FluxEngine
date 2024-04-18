@@ -5,7 +5,9 @@
 
     <ItemGroup>
       <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+      <PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.6.0" />
       <PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0031" />
+      <PackageReference Include="Silk.NET.Maths" Version="2.20.0" />
     </ItemGroup>
 
     <ItemGroup>

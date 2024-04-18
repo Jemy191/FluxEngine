@@ -46,7 +46,8 @@ public readonly struct Texture : IDisposable
 
         fixed (void* d = &data[0])
         {
-            this.gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
+            // Format rgb8 for now until I upgrade the texture system
+            this.gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgb8, width, height, 0, PixelFormat.Rgb, PixelType.UnsignedByte, d);
             SetParameters();
         }
     }

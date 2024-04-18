@@ -12,9 +12,4 @@ public class MeshAsset : Asset
         this.indices = indices;
         this.vertices = vertices;
     }
-    
-    public override void Dispose()
-    {
-        
-    }
 }

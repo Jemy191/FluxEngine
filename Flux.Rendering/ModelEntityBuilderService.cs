@@ -18,10 +18,11 @@ public class ModelEntityBuilderService
     Path fragment;
     Path mesh;
     MeshAsset? meshAsset;
-    readonly Dictionary<string, Path> textures = new();
-    readonly List<Uniform> uniforms = new();
+    Dictionary<string, TextureAsset> textureAssets = [];
+    readonly Dictionary<string, Path> textures = [];
+    readonly List<Uniform> uniforms = [];
 
-    Transform transform = new();
+    Transform transform = new Transform();
 
     public ModelEntityBuilderService(IEcsWorldService ecsService, ResourcesService resourcesService)
     {
@@ -80,6 +81,11 @@ public class ModelEntityBuilderService
         textures[name] = path;
         return this;
     }
+    public ModelEntityBuilderService Texture(string name, TextureAsset asset)
+    {
+        textureAssets[name] = asset;
+        return this;
+    }
     public ModelEntityBuilderService ClearTextures()
     {
         textures.Clear();
@@ -88,6 +94,7 @@ public class ModelEntityBuilderService
     public ModelEntityBuilderService RemoveTexture(string name)
     {
         textures.Remove(name);
+        textureAssets.Remove(name);
         return this;
     }
     public ModelEntityBuilderService AddUniform(Uniform uniform)
@@ -117,11 +124,13 @@ public class ModelEntityBuilderService
     {
         var shader = resourcesService.LoadShader(vertex, fragment);
 
-        var material = new Material(shader,
-            textures
-                .Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value)))
-                .ToArray(),
-            uniforms.ToArray());
+        (string name, Texture texture)[] textureArray;
+        if(textureAssets.Count > 0)
+            textureArray = textureAssets.Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value))).ToArray();
+        else
+            textureArray = textures.Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value))).ToArray();
+        
+        var material = new Material(shader, textureArray, uniforms.ToArray());
 
         Model model;
         if (meshAsset is not null)

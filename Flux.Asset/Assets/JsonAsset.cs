@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Flux.Asset.Assets;
 
-public class JsonAsset : Asset
+public class JsonAsset : Asset, IDisposable
 {
     readonly JsonDocument document;
     public readonly JsonElement Root;
@@ -13,7 +13,7 @@ public class JsonAsset : Asset
         Root = document.RootElement;
     }
     
-    public override void Dispose()
+    public void Dispose()
     {
         document.Dispose();
     }

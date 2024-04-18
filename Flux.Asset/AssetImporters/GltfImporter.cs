@@ -8,7 +8,7 @@ namespace Flux.Asset.AssetImporters;
 
 public class GltfImporter : IAssetImporter<MeshAsset>
 {
-    public List<string> SupportedFileFormats => ["glb"];
+    public IEnumerable<string> SupportedFileFormats => ["glb"];
 
     public Task<MeshAsset?> Import(Stream stream)
     {
