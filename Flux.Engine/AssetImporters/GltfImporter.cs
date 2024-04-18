@@ -10,7 +10,7 @@ public class GltfImporter : IAssetImporter<MeshAsset>
 {
     public IEnumerable<string> SupportedFileFormats => ["glb"];
 
-    public Task<MeshAsset?> Import(Stream stream)
+    public Task<MeshAsset?> Import(Stream stream, string name, string format)
     {
         var gltf = ModelRoot.ReadGLB(stream);
 

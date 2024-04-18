@@ -1,133 +1,128 @@
 {
   "BuildVersion": "2024-04-15T06:38:43.6478096+00:00",
   "Entries": {
-    "05f26b10-042d-43f4-a9f1-7bc4522761b8": {
-      "Format": "fbx",
-      "Metadata": {
-        "Path": "Axis.fbx"
-      }
-    },
+
     "1b32fdfe-fc5d-4564-ab4f-62cac4747f88": {
+      "Name": "Axis.frag",
       "Format": "shader",
       "Metadata": {
         "Path": "Axis.frag"
       }
     },
     "9fe0cea7-8788-4507-81c4-ad68f76eb9ab": {
+      "Name": "Axis.vert",
       "Format": "shader",
       "Metadata": {
         "Path": "Axis.vert"
       }
     },
-    "292b4303-dadf-4bed-af9c-2e21940dc9eb": {
-      "Format": "fbx",
-      "Metadata": {
-        "Path": "Cube.fbx"
-      }
-    },
     "270e25a4-36b9-4348-af14-534381740eb0": {
+      "Name": "lighting.frag",
       "Format": "shader",
       "Metadata": {
         "Path": "lighting.frag"
       }
     },
     "ece0ca35-9c07-4186-824f-e157e0449be7": {
+      "Name": "normal.frag",
       "Format": "shader",
       "Metadata": {
         "Path": "normal.frag"
       }
     },
     "5b173006-ab2b-421c-a5f8-9df095e762a6": {
+      "Name": "shader.frag",
       "Format": "shader",
       "Metadata": {
         "Path": "shader.frag"
       }
     },
     "9615bc02-7461-45c2-9226-86c2d14337a4": {
+      "Name": "shader.vert",
       "Format": "shader",
       "Metadata": {
         "Path": "shader.vert"
       }
     },
-    "b4f39c33-fa72-49d1-9083-b381944f10c4": {
-      "Format": "fbx",
-      "Metadata": {
-        "Path": "Suzane.fbx"
-      }
-    },
     "278fcd7d-bac0-4e2d-b475-9f980a67e239": {
+      "Name": "suzane.frag",
       "Format": "shader",
       "Metadata": {
         "Path": "suzane.frag"
       }
     },
-    "c93d9d8e-c811-4d81-92cf-c36cf46d24ed": {
-      "Format": "fbx",
-      "Metadata": {
-        "Path": "Terrain.fbx"
-      }
-    },
     "14c5bf87-6d37-40b2-91aa-c84d73ed2a35": {
+      "Name": "Terrain.png",
       "Format": "png",
       "Metadata": {
         "Path": "Terrain.png"
       }
     },
     "c8e2e906-734b-4125-9d45-9d57e782e6ce": {
+      "Name": "Brick_albedo.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_albedo.png"
       }
     },
     "202dcd57-971d-4303-818a-8bf9be56b7d0": {
+      "Name": "Brick_ao.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_ao.png"
       }
     },
     "9eb33f7d-b81f-4603-b26f-5e30197e9bb8": {
+      "Name": "Brick_height.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_height.png"
       }
     },
     "382b7d4a-7aab-4ab0-bd93-f95ab39ff8d0": {
+      "Name": "Brick_metallic.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_metallic.png"
       }
     },
     "5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2": {
+      "Name": "Brick_normal.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_normal.png"
       }
     },
     "69416728-4e1b-4d2c-96a6-a0958d72f7e6": {
+      "Name": "Brick_roughness.png",
       "Format": "png",
       "Metadata": {
         "Path": "BrickPBR\\Brick_roughness.png"
       }
     },
     "02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10": {
+      "Name": "Cube.glb",
       "Format": "glb",
       "Metadata": {
         "Path": "Cube.glb"
       }
     },
     "6f116dea-6c4c-4842-a6ba-ed7451707e50": {
+      "Name": "Suzane.glb",
       "Format": "glb",
       "Metadata": {
         "Path": "Suzane.glb"
       }
     },
     "9b23f7ca-3b53-44c9-917d-1edb061b3edf": {
+      "Name": "Terrain.glb",
       "Format": "glb",
       "Metadata": {
         "Path": "Terrain.glb"
       }
     },
     "d7355025-3f08-4d52-86a4-31080fd07461": {
+      "Name": "Test.glb",
       "Format": "glb",
       "Metadata": {
         "Path": "Test.glb"

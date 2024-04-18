@@ -14,7 +14,7 @@ public class TextureImporter : IAssetImporter<TextureAsset>
         "tga"
     ];
 
-    public async Task<TextureAsset?> Import(Stream stream)
+    public async Task<TextureAsset?> Import(Stream stream, string name, string format)
     {
         using var image = new MagickImage();
         await image.ReadAsync(stream);

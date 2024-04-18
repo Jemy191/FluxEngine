@@ -64,7 +64,9 @@ public class AssetCatalogue
             deserializedMetadatas.Add(name, value);
         }
 
-        return new CatalogueAsset(entry.GetProperty("Format").GetString(), deserializedMetadatas);
+        var fileName = entry.GetProperty("Name").GetString();
+        var fileFormat = entry.GetProperty("Format").GetString();
+        return new CatalogueAsset(fileName, fileFormat, deserializedMetadatas);
     }
 
     public string Serialize()

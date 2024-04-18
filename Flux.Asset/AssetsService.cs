@@ -38,13 +38,11 @@ public class AssetsService
 
         var catalogueAsset = assetSource.Get(guid);
 
-        var importer = assetImportersByFileFormat[catalogueAsset.Format] as IAssetImporter<T>;
-
-        if (importer is null)
+        if (assetImportersByFileFormat[catalogueAsset.Format] is not IAssetImporter<T> importer)
             return null;
 
         await using var stream = assetSource.Open(guid);
 
-        return await importer.Import(stream);
+        return await importer.Import(stream, catalogueAsset.Name, catalogueAsset.Format);
     }
 }

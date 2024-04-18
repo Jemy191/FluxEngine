@@ -5,10 +5,12 @@ namespace Flux.Asset;
 public class CatalogueAsset
 {
     public readonly string Format;
+    public readonly string Name;
     public readonly IReadOnlyDictionary<string, object> Metadatas;
     
-    internal CatalogueAsset(string format, IReadOnlyDictionary<string, object> metadatas)
+    internal CatalogueAsset(string name, string format, IReadOnlyDictionary<string, object> metadatas)
     {
+        Name = name;
         Format = format;
         Metadatas = metadatas;
     }
