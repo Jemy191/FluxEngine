@@ -1,54 +1,25 @@
 {
   "BuildVersion": "2024-04-15T06:38:43.6478096+00:00",
   "Entries": {
-
-    "1b32fdfe-fc5d-4564-ab4f-62cac4747f88": {
-      "Name": "Axis",
-      "Format": "frag",
-      "Metadata": {
-        "Path": "Axis.frag"
-      }
-    },
-    "9fe0cea7-8788-4507-81c4-ad68f76eb9ab": {
-      "Name": "Axis",
-      "Format": "vert",
-      "Metadata": {
-        "Path": "Axis.vert"
-      }
-    },
     "270e25a4-36b9-4348-af14-534381740eb0": {
-      "Name": "lighting",
-      "Format": "frag",
+      "Name": "TextureLighting",
+      "Format": "fluxshader",
       "Metadata": {
-        "Path": "lighting.frag"
+        "Path": "TextureLighting.fluxshader"
       }
     },
     "ece0ca35-9c07-4186-824f-e157e0449be7": {
-      "Name": "normal",
-      "Format": "frag",
+      "Name": "Normal",
+      "Format": "fluxshader",
       "Metadata": {
-        "Path": "normal.frag"
+        "Path": "Normal.fluxshader"
       }
     },
     "5b173006-ab2b-421c-a5f8-9df095e762a6": {
-      "Name": "shader",
-      "Format": "frag",
+      "Name": "Suzane",
+      "Format": "fluxshader",
       "Metadata": {
-        "Path": "shader.frag"
-      }
-    },
-    "9615bc02-7461-45c2-9226-86c2d14337a4": {
-      "Name": "shader",
-      "Format": "vert",
-      "Metadata": {
-        "Path": "shader.vert"
-      }
-    },
-    "278fcd7d-bac0-4e2d-b475-9f980a67e239": {
-      "Name": "suzane",
-      "Format": "frag",
-      "Metadata": {
-        "Path": "suzane.frag"
+        "Path": "Suzane.fluxshader"
       }
     },
     "14c5bf87-6d37-40b2-91aa-c84d73ed2a35": {

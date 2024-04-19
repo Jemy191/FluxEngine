@@ -2,12 +2,10 @@ namespace Flux.Engine.Assets;
 
 public class ShaderAsset : Asset.Asset
 {
-    public readonly ShaderType Type;
-    public readonly string Code;
+    public readonly IReadOnlyDictionary<ShaderStage, string> StageCodes;
     
-    public ShaderAsset(ShaderType type, string code)
+    public ShaderAsset(IReadOnlyDictionary<ShaderStage, string> stageCodes)
     {
-        Type = type;
-        Code = code;
+        StageCodes = stageCodes;
     }
 }

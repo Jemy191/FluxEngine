@@ -1,4 +1,4 @@
-using System.Xml;
+using System.Text;
 using Flux.Asset.Interface;
 using Flux.Engine.Assets;
 
@@ -6,33 +6,43 @@ namespace Flux.Engine.AssetImporters;
 
 public class ShaderImporter : IAssetImporter<ShaderAsset>
 {
-    static readonly IReadOnlyDictionary<string, ShaderType> formatToShaderType = new Dictionary<string, ShaderType>
-    {
-        {"vert", ShaderType.Vertex},
-        {"tesc", ShaderType.TessellationControl},
-        {"tese", ShaderType.TessellationEvaluation},
-        {"geo", ShaderType.Geometry},
-        {"frag", ShaderType.Fragment},
-        {"comp", ShaderType.Compute},
-        {"glsl", ShaderType.Include},
-    };
-    
-    public IEnumerable<string> SupportedFileFormats =>
-    [
-        "vert",
-        "tesc",
-        "tese",
-        "geo",
-        "frag",
-        "comp",
-        "glsl"
-    ];
+    const string StageToken = "#stage";
+    public IEnumerable<string> SupportedFileFormats => ["fluxshader"];
     public async Task<ShaderAsset?> Import(Stream stream, string name, string format)
     {
-        var type = formatToShaderType[format];
         using var reader = new StreamReader(stream);
-        var code = await reader.ReadToEndAsync();
 
-        return new ShaderAsset(type, code);
+        var stringBuilder = new StringBuilder();
+        Dictionary<ShaderStage, string> shaderStages = [];
+        ShaderStage? currentShaderStage = null;
+        
+        for (var line = ""; line is not null; line = await reader.ReadLineAsync())
+        {
+            if (!line.StartsWith(StageToken))
+            {
+                stringBuilder.AppendLine(line);
+                continue;
+            }
+            
+            if (currentShaderStage is not null)
+                AddStage(shaderStages, currentShaderStage.Value, stringBuilder);
+            
+            if (!Enum.TryParse<ShaderStage>(line.Split()[1], out var shaderStage))
+                throw new Exception($"Error: Unknown shader stage: {line.Split()[1]}");
+            
+            currentShaderStage = shaderStage;
+        }
+
+        if (currentShaderStage is not null)
+            AddStage(shaderStages, currentShaderStage.Value, stringBuilder);
+
+        return new ShaderAsset(shaderStages);
+    }
+    
+    static void AddStage(Dictionary<ShaderStage, string> shaderStages, ShaderStage currentShaderStage, StringBuilder builder)
+    {
+        if (!shaderStages.TryAdd(currentShaderStage, builder.ToString()))
+            throw new Exception("Shader contain two of the same stage");
+        builder.Clear();
     }
 }

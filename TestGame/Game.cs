@@ -41,21 +41,18 @@ class Game : IGame
         var cubeMesh = await assetsService.Load<MeshAsset>(Guid.Parse("02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10"));
         var suzaneMesh = await assetsService.Load<MeshAsset>(Guid.Parse("6f116dea-6c4c-4842-a6ba-ed7451707e50"));
         var terrainMesh = await assetsService.Load<MeshAsset>(Guid.Parse("9b23f7ca-3b53-44c9-917d-1edb061b3edf"));
-        var testMesh = await assetsService.Load<MeshAsset>(Guid.Parse("d7355025-3f08-4d52-86a4-31080fd07461"));
-        
+
        var brickAlbedo = await assetsService.Load<TextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
        var brickNormal = await assetsService.Load<TextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
        var terrainTexture = await assetsService.Load<TextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
        
-       var simpleVertexShader = await assetsService.Load<ShaderAsset>(Guid.Parse("9615bc02-7461-45c2-9226-86c2d14337a4"));
-       var suzaneFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("278fcd7d-bac0-4e2d-b475-9f980a67e239"));
-       var normalMapFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("ece0ca35-9c07-4186-824f-e157e0449be7"));
-       var lightingFragmentShader = await assetsService.Load<ShaderAsset>(Guid.Parse("270e25a4-36b9-4348-af14-534381740eb0"));
-        
+       var textureLightingShader = await assetsService.Load<ShaderAsset>(Guid.Parse("270e25a4-36b9-4348-af14-534381740eb0"));
+       var suzaneShader = await assetsService.Load<ShaderAsset>(Guid.Parse("5b173006-ab2b-421c-a5f8-9df095e762a6"));
+       var normalMapShader = await assetsService.Load<ShaderAsset>(Guid.Parse("ece0ca35-9c07-4186-824f-e157e0449be7"));
+
        modelBuilder
             .Name("Suzane")
-            .Shader(simpleVertexShader)
-            .Shader(suzaneFragmentShader)
+            .Shader(suzaneShader)
             .Mesh(suzaneMesh!)
             .Position(new Vector3(0, 5, 0))
             .Create();
@@ -63,7 +60,7 @@ class Game : IGame
        
         modelBuilder
             .Name("Cube")
-            .Shader(normalMapFragmentShader)
+            .Shader(normalMapShader)
             .Mesh(cubeMesh!)
             .Texture("albedo", brickAlbedo)
             .Texture("normal", brickNormal)
@@ -73,24 +70,13 @@ class Game : IGame
         
         modelBuilder
             .Name("Terrain")
-            .Shader(lightingFragmentShader)
+            .Shader(textureLightingShader)
             .Mesh(terrainMesh!)
             .Texture("albedo", terrainTexture)
             .RemoveTexture("normal")
             .Position(Vector3.Zero)
             .Scale(Vector3.One * 5f)
             .Create();
-
-        /*modelBuilder
-            .SetName("Axis")
-            .SetVertex("Axis.vert")
-            .SetFragment("Axis.frag")
-            .SetMesh("Axis.fbx")
-            .RemoveTexture("albedo")
-            .RemoveTexture("normal")
-            .SetPosition(Vector3.Zero)
-            .SetScale(Vector3.One)
-            .Create();*/
 
         var (entity, behavior) = behaviorService.CreateBehaviorEntity();
         // Crash the app

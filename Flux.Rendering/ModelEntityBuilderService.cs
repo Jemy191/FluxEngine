@@ -14,8 +14,8 @@ public class ModelEntityBuilderService
 
     string name = "Object";
     MeshAsset? meshAsset;
-    readonly Dictionary<string, TextureAsset> textureAssets = [];
-    readonly Dictionary<ShaderType, ShaderAsset> shaderAssets = [];
+    readonly Dictionary<string, TextureAsset> textureAssets = []; 
+    ShaderAsset? shaderAsset;
     readonly List<Uniform> uniforms = [];
 
     Transform transform = new Transform();
@@ -34,7 +34,7 @@ public class ModelEntityBuilderService
 
     public ModelEntityBuilderService Shader(ShaderAsset asset)
     {
-        shaderAssets[asset.Type] = asset;
+        shaderAsset = asset;
         return this;
     }
     public ModelEntityBuilderService Mesh(MeshAsset asset)
@@ -97,7 +97,10 @@ public class ModelEntityBuilderService
 
     public Entity Create()
     {
-        var shader = new Shader(gl, shaderAssets[ShaderType.Vertex].Code, shaderAssets[ShaderType.Fragment].Code);
+        if (meshAsset is null || shaderAsset is null)
+            throw new Exception("Unable to create model entity");
+        
+        var shader = new Shader(gl, shaderAsset.StageCodes);
         var textureArray = textureAssets.Select(texture => (texture.Key, CreateTexture(texture.Value))).ToArray();
         var material = new Material(shader, textureArray, uniforms.ToArray());
         var model = CreateModel(meshAsset, material);
