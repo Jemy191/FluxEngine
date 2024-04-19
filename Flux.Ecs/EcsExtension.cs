@@ -1,6 +1,5 @@
 ﻿using DefaultEcs.System;
 using Flux.Abstraction;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace Flux.Ecs;
 

@@ -1,7 +1,6 @@
 ﻿using DefaultEcs.System;
 using Flux.Abstraction;
 using Flux.Ecs;
-using Microsoft.Extensions.DependencyInjection;
 using Nito.AsyncEx;
 using Silk.NET.Windowing;
 

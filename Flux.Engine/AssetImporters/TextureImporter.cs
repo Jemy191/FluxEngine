@@ -1,3 +1,4 @@
+using Flux.Asset;
 using Flux.Asset.Interface;
 using Flux.Engine.Assets;
 using ImageMagick;
@@ -5,7 +6,7 @@ using Silk.NET.Maths;
 
 namespace Flux.Engine.AssetImporters;
 
-public class TextureImporter : IAssetImporter<TextureAsset>
+public class TextureImporter : IAssetImporter
 {
     public IEnumerable<string> SupportedFileFormats =>
     [
@@ -14,7 +15,7 @@ public class TextureImporter : IAssetImporter<TextureAsset>
         "tga"
     ];
 
-    public async Task<TextureAsset?> Import(Stream stream, string name, string format)
+    public async Task<IAsset?> Import(Stream stream, string name, string format)
     {
         using var image = new MagickImage();
         await image.ReadAsync(stream);

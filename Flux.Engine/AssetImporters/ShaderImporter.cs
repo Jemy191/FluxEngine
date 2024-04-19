@@ -1,14 +1,15 @@
 using System.Text;
+using Flux.Asset;
 using Flux.Asset.Interface;
 using Flux.Engine.Assets;
 
 namespace Flux.Engine.AssetImporters;
 
-public class ShaderImporter : IAssetImporter<ShaderAsset>
+public class ShaderImporter : IAssetImporter
 {
     const string StageToken = "#stage";
     public IEnumerable<string> SupportedFileFormats => ["fluxshader"];
-    public async Task<ShaderAsset?> Import(Stream stream, string name, string format)
+    public async Task<IAsset?> Import(Stream stream, string name, string format)
     {
         using var reader = new StreamReader(stream);
 

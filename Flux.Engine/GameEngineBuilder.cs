@@ -1,8 +1,6 @@
-﻿using System;
-using Flux.Abstraction;
+﻿using Flux.Abstraction;
 using Flux.Ecs;
 using Flux.Engine.Services;
-using JetBrains.Annotations;
 using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Windowing;
 

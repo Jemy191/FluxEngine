@@ -1,8 +1,7 @@
 ﻿using System.Numerics;
 using DefaultEcs;
 using Flux.Ecs;
-using Flux.Engine;
-using Flux.Engine.Assets;
+using Flux.Engine.AssetInterfaces;
 using Flux.MathAddon;
 
 namespace Flux.Rendering;
@@ -13,9 +12,9 @@ public class ModelEntityBuilderService
     readonly GL gl;
 
     string name = "Object";
-    MeshAsset? meshAsset;
-    readonly Dictionary<string, TextureAsset> textureAssets = []; 
-    ShaderAsset? shaderAsset;
+    IMeshAsset? meshAsset;
+    readonly Dictionary<string, ITextureAsset> textureAssets = []; 
+    IShaderAsset? shaderAsset;
     readonly List<Uniform> uniforms = [];
 
     Transform transform = new Transform();
@@ -32,12 +31,12 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Shader(ShaderAsset asset)
+    public ModelEntityBuilderService Shader(IShaderAsset asset)
     {
         shaderAsset = asset;
         return this;
     }
-    public ModelEntityBuilderService Mesh(MeshAsset asset)
+    public ModelEntityBuilderService Mesh(IMeshAsset asset)
     {
         meshAsset = asset;
         return this;
@@ -62,7 +61,7 @@ public class ModelEntityBuilderService
         transform.Scale = scale;
         return this;
     }
-    public ModelEntityBuilderService Texture(string name, TextureAsset asset)
+    public ModelEntityBuilderService Texture(string name, ITextureAsset asset)
     {
         textureAssets[name] = asset;
         return this;
@@ -113,14 +112,14 @@ public class ModelEntityBuilderService
         return entity;
     }
 
-    Texture CreateTexture(TextureAsset textureAsset)
+    Texture CreateTexture(ITextureAsset textureAsset)
     {
         var size = textureAsset.Size;
         var texture = new Texture(gl, textureAsset.Pixels.AsSpan(), size.X, size.Y);
         return texture;
     }
     
-    Model CreateModel(MeshAsset meshAsset, Material material)
+    Model CreateModel(IMeshAsset meshAsset, Material material)
     {
         var vertices = meshAsset.Vertices
             .SelectMany(v =>

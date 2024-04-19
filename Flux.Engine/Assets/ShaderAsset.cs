@@ -1,9 +1,11 @@
+using Flux.Engine.AssetInterfaces;
+
 namespace Flux.Engine.Assets;
 
-public class ShaderAsset : Asset.Asset
+public class ShaderAsset : IShaderAsset
 {
-    public readonly IReadOnlyDictionary<ShaderStage, string> StageCodes;
-    
+    public IReadOnlyDictionary<ShaderStage, string> StageCodes { get; }
+
     public ShaderAsset(IReadOnlyDictionary<ShaderStage, string> stageCodes)
     {
         StageCodes = stageCodes;

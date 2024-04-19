@@ -1,9 +1,8 @@
 ﻿using Flux.Asset;
 using Flux.Asset.AssetSources;
-using Flux.Asset.Interface;
 using Flux.Engine;
 using Flux.Engine.AssetImporters;
-using Flux.Engine.Assets;
+using Flux.Engine.AssetInterfaces;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
 using Flux.Rendering;
@@ -24,9 +23,10 @@ using (var assetsCatalogueFile = File.OpenRead("AssetsCatalogue.json"))
 }
 
 var assetsService = new AssetsService(assetSources);
-assetsService.RegisterImporter<MeshAsset, GltfImporter>();
-assetsService.RegisterImporter<TextureAsset, TextureImporter>();
-assetsService.RegisterImporter<ShaderAsset, ShaderImporter>();
+assetsService.RegisterImporter<IMeshAsset, GltfImporter>();
+assetsService.RegisterImporter<ITextureAsset, TextureImporter>();
+assetsService.RegisterImporter<IShaderAsset, ShaderImporter>();
+assetsService.RegisterImporter<IJsonAsset, JsonImporter>();
 
 builder.Services
     .AddSilkInput()

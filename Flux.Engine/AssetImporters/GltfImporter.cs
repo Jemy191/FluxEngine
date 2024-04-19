@@ -1,4 +1,5 @@
 using System.Numerics;
+using Flux.Asset;
 using Flux.Asset.Interface;
 using Flux.Engine.Assets;
 using Flux.MathAddon;
@@ -6,11 +7,11 @@ using SharpGLTF.Schema2;
 
 namespace Flux.Engine.AssetImporters;
 
-public class GltfImporter : IAssetImporter<MeshAsset>
+public class GltfImporter : IAssetImporter
 {
     public IEnumerable<string> SupportedFileFormats => ["glb"];
 
-    public Task<MeshAsset?> Import(Stream stream, string name, string format)
+    public Task<IAsset?> Import(Stream stream, string name, string format)
     {
         var gltf = ModelRoot.ReadGLB(stream);
 
@@ -39,6 +40,6 @@ public class GltfImporter : IAssetImporter<MeshAsset>
             }));
         }
         
-        return Task.FromResult(new MeshAsset(indices, vertices))!;
+        return Task.FromResult((IAsset)new MeshAsset(indices, vertices))!;
     }
 }

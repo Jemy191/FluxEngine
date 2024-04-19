@@ -16,7 +16,7 @@ public class AssetsService
     /// Importer with support for the same file format will override any previous one  
     /// </summary>
     public void RegisterImporter<TAsset, TImporter>(IReadOnlyCollection<string>? extraSupportedFileFormat = null)
-        where TAsset : Asset where TImporter : IAssetImporter<TAsset>, new()
+        where TAsset : IAsset where TImporter : IAssetImporter, new()
     {
         extraSupportedFileFormat ??= [];
         
@@ -29,20 +29,23 @@ public class AssetsService
 
     public void AddSource(AssetSource source) => assetSources.Add(source);
 
-    public async Task<T?> Load<T>(Guid guid) where T : Asset
+    public async Task<T?> Load<T>(Guid guid) where T : IAsset
     {
         var assetSource = assetSources.SingleOrDefault(s => s.ContainAsset(guid));
 
         if (assetSource is null)
-            return null;
+            return default;
 
         var catalogueAsset = assetSource.Get(guid);
 
-        if (assetImportersByFileFormat[catalogueAsset.Format] is not IAssetImporter<T> importer)
-            return null;
+        if (!assetImportersByFileFormat.TryGetValue(catalogueAsset.Format, out var importer))
+            return default;
 
         await using var stream = assetSource.Open(guid);
-
-        return await importer.Import(stream, catalogueAsset.Name, catalogueAsset.Format);
+        
+        if (await importer.Import(stream, catalogueAsset.Name, catalogueAsset.Format) is not T asset)
+            return default;
+        
+        return asset;
     }
 }

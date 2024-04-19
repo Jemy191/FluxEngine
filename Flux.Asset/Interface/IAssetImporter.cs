@@ -2,15 +2,10 @@ using JetBrains.Annotations;
 
 namespace Flux.Asset.Interface;
 
-public interface IAssetImporter<T> : IAssetImporter where T : Asset
+public interface IAssetImporter
 {
     IEnumerable<string> SupportedFileFormats { get; }
     
     [MustDisposeResource]
-    Task<T?> Import(Stream stream, string name, string format);
-}
-
-public interface IAssetImporter
-{
-    
+    Task<IAsset?> Import(Stream stream, string name, string format);
 }
