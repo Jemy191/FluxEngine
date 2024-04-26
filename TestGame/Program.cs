@@ -2,7 +2,6 @@
 using Flux.Asset.AssetSources;
 using Flux.Engine;
 using Flux.Engine.AssetImporters;
-using Flux.Engine.AssetInterfaces;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
 using Flux.Rendering;
@@ -23,10 +22,6 @@ using (var assetsCatalogueFile = File.OpenRead("AssetsCatalogue.json"))
 }
 
 var assetsService = new AssetsService(assetSources);
-assetsService.RegisterImporter<IMeshAsset, GltfImporter>();
-assetsService.RegisterImporter<ITextureAsset, TextureImporter>();
-assetsService.RegisterImporter<IShaderAsset, ShaderImporter>();
-assetsService.RegisterImporter<IJsonAsset, JsonImporter>();
 
 builder.Services
     .AddSilkInput()
@@ -44,6 +39,13 @@ engine.AddOpenGlRendering()
     .AddModelRendering()
     .AddImGuiRendering()
     .AddBehaviorSystem();
+
+assetsService.RegisterImporter<GltfImporter>();
+assetsService.RegisterImporter<TextureImporter>();
+assetsService.RegisterImporter<ShaderImporter>();
+assetsService.RegisterImporter<JsonImporter>();
+var resourceImporter = engine.Instantiate<ResourceImporter<Game>>();
+assetsService.RegisterImporter(resourceImporter);
 
 // Add game logic here
 

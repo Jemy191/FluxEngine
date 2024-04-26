@@ -1,16 +1,10 @@
-using Flux.Engine.AssetInterfaces;
+using Flux.Asset;
 using Flux.MathAddon;
 
 namespace Flux.Engine.Assets;
 
-public class MeshAsset : IMeshAsset
+public class MeshAsset : SourceAsset
 {
-    public IReadOnlyList<uint> Indices { get; }
-    public IReadOnlyList<Vertex> Vertices { get; }
-
-    public MeshAsset(IReadOnlyList<uint> indices, IReadOnlyList<Vertex> vertices)
-    {
-        Indices = indices;
-        Vertices = vertices;
-    }
+    public required IReadOnlyList<uint> Indices { get; init; }
+    public required IReadOnlyList<Vertex> Vertices { get; init; }
 }

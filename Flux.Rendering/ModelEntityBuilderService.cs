@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using DefaultEcs;
 using Flux.Ecs;
-using Flux.Engine.AssetInterfaces;
+using Flux.Engine.Assets;
 using Flux.MathAddon;
 
 namespace Flux.Rendering;
@@ -12,9 +12,9 @@ public class ModelEntityBuilderService
     readonly GL gl;
 
     string name = "Object";
-    IMeshAsset? meshAsset;
-    readonly Dictionary<string, ITextureAsset> textureAssets = []; 
-    IShaderAsset? shaderAsset;
+    MeshAsset? meshAsset;
+    readonly Dictionary<string, TextureAsset> textureAssets = []; 
+    ShaderAsset? shaderAsset;
     readonly List<Uniform> uniforms = [];
 
     Transform transform = new Transform();
@@ -31,12 +31,12 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Shader(IShaderAsset asset)
+    public ModelEntityBuilderService Shader(ShaderAsset asset)
     {
         shaderAsset = asset;
         return this;
     }
-    public ModelEntityBuilderService Mesh(IMeshAsset asset)
+    public ModelEntityBuilderService Mesh(MeshAsset asset)
     {
         meshAsset = asset;
         return this;
@@ -61,7 +61,7 @@ public class ModelEntityBuilderService
         transform.Scale = scale;
         return this;
     }
-    public ModelEntityBuilderService Texture(string name, ITextureAsset asset)
+    public ModelEntityBuilderService Texture(string name, TextureAsset asset)
     {
         textureAssets[name] = asset;
         return this;
@@ -112,14 +112,14 @@ public class ModelEntityBuilderService
         return entity;
     }
 
-    Texture CreateTexture(ITextureAsset textureAsset)
+    Texture CreateTexture(TextureAsset textureAsset)
     {
         var size = textureAsset.Size;
         var texture = new Texture(gl, textureAsset.Pixels.AsSpan(), size.X, size.Y);
         return texture;
     }
     
-    Model CreateModel(IMeshAsset meshAsset, Material material)
+    Model CreateModel(MeshAsset meshAsset, Material material)
     {
         var vertices = meshAsset.Vertices
             .SelectMany(v =>

@@ -7,5 +7,5 @@ public interface IAssetImporter
     IEnumerable<string> SupportedFileFormats { get; }
     
     [MustDisposeResource]
-    Task<IAsset?> Import(Stream stream, string name, string format);
+    Task<SourceAsset?> Import(Stream stream, Guid guid, string name, string format);
 }

@@ -98,6 +98,13 @@
       "Metadata": {
         "Path": "Test.glb"
       }
+    },
+    "8883f274-d72c-4013-bf86-c99bf5151b91": {
+      "Name": "TerrainMaterial",
+      "Format": "fluxasset",
+      "Metadata": {
+        "Path": "TerrainMaterial.fluxasset"
+      }
     }
   }
 }

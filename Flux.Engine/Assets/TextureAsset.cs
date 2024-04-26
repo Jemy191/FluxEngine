@@ -1,16 +1,10 @@
-using Flux.Engine.AssetInterfaces;
+using Flux.Asset;
 using Silk.NET.Maths;
 
 namespace Flux.Engine.Assets;
 
-public class TextureAsset : ITextureAsset
+public class TextureAsset : SourceAsset
 {
-    public Vector2D<ushort> Size { get; }
-    public byte[]? Pixels { get; }
-
-    public TextureAsset(Vector2D<ushort> size, byte[]? pixels)
-    {
-        this.Size = size;
-        this.Pixels = pixels;
-    }
+    public required Vector2D<ushort> Size { get; init; }
+    public required byte[]? Pixels { get; init; }
 }

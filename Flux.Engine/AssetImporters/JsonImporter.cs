@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Flux.Asset;
 using Flux.Asset.Interface;
 using Flux.Engine.Assets;
 
@@ -9,7 +8,7 @@ public class JsonImporter : IAssetImporter
 {
     public IEnumerable<string> SupportedFileFormats => ["json"];
     
-    public async Task<IAsset?> Import(Stream stream, string name, string format)
+    public async Task<Asset.SourceAsset?> Import(Stream stream, Guid guid, string name, string format)
     {
         var document = await JsonDocument.ParseAsync(stream);
         return new JsonAsset(document);

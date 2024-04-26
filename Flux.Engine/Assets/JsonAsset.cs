@@ -1,11 +1,11 @@
 using System.Text.Json;
-using Flux.Engine.AssetInterfaces;
+using Flux.Asset;
 
 namespace Flux.Engine.Assets;
 
-public class JsonAsset : IJsonAsset, IDisposable
+public class JsonAsset : SourceAsset, IDisposable
 {
-    public JsonElement Root { get; }
+    public readonly JsonElement Root;
     
     readonly JsonDocument document;
 

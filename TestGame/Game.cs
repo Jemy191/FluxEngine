@@ -2,7 +2,7 @@
 using Flux.Abstraction;
 using Flux.Asset;
 using Flux.Asset.AssetSources;
-using Flux.Engine.AssetInterfaces;
+using Flux.Engine.Assets;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;
@@ -38,17 +38,19 @@ class Game : IGame
 
         CreateCamera(window, behaviorService);
 
-        var cubeMesh = await assetsService.Load<IMeshAsset>(Guid.Parse("02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10"));
-        var suzaneMesh = await assetsService.Load<IMeshAsset>(Guid.Parse("6f116dea-6c4c-4842-a6ba-ed7451707e50"));
-        var terrainMesh = await assetsService.Load<IMeshAsset>(Guid.Parse("9b23f7ca-3b53-44c9-917d-1edb061b3edf"));
+        var cubeMesh = await assetsService.Load<MeshAsset>(Guid.Parse("02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10"));
+        var suzaneMesh = await assetsService.Load<MeshAsset>(Guid.Parse("6f116dea-6c4c-4842-a6ba-ed7451707e50"));
+        var terrainMesh = await assetsService.Load<MeshAsset>(Guid.Parse("9b23f7ca-3b53-44c9-917d-1edb061b3edf"));
         
-        var brickAlbedo = await assetsService.Load<ITextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
-        var brickNormal = await assetsService.Load<ITextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
-        var terrainTexture = await assetsService.Load<ITextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
+        var brickAlbedo = await assetsService.Load<TextureAsset>(Guid.Parse("c8e2e906-734b-4125-9d45-9d57e782e6ce"));
+        var brickNormal = await assetsService.Load<TextureAsset>(Guid.Parse("5cfa7987-12f5-4e71-8a19-cb1fb41ddcc2"));
+        var terrainTexture = await assetsService.Load<TextureAsset>(Guid.Parse("14c5bf87-6d37-40b2-91aa-c84d73ed2a35"));
         
-        var textureLightingShader = await assetsService.Load<IShaderAsset>(Guid.Parse("270e25a4-36b9-4348-af14-534381740eb0"));
-        var suzaneShader = await assetsService.Load<IShaderAsset>(Guid.Parse("5b173006-ab2b-421c-a5f8-9df095e762a6"));
-        var normalMapShader = await assetsService.Load<IShaderAsset>(Guid.Parse("ece0ca35-9c07-4186-824f-e157e0449be7"));
+        var textureLightingShader = await assetsService.Load<ShaderAsset>(Guid.Parse("270e25a4-36b9-4348-af14-534381740eb0"));
+        var suzaneShader = await assetsService.Load<ShaderAsset>(Guid.Parse("5b173006-ab2b-421c-a5f8-9df095e762a6"));
+        var normalMapShader = await assetsService.Load<ShaderAsset>(Guid.Parse("ece0ca35-9c07-4186-824f-e157e0449be7"));
+
+        var terrainMaterial = await assetsService.Load<MaterialAsset>(Guid.Parse("8883f274-d72c-4013-bf86-c99bf5151b91"));
 
         modelBuilder
             .Name("Suzane")

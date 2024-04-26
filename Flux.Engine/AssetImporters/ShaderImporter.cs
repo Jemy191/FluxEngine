@@ -9,7 +9,7 @@ public class ShaderImporter : IAssetImporter
 {
     const string StageToken = "#stage";
     public IEnumerable<string> SupportedFileFormats => ["fluxshader"];
-    public async Task<IAsset?> Import(Stream stream, string name, string format)
+    public async Task<SourceAsset?> Import(Stream stream, Guid guid, string name, string format)
     {
         using var reader = new StreamReader(stream);
 
@@ -37,7 +37,10 @@ public class ShaderImporter : IAssetImporter
         if (currentShaderStage is not null)
             AddStage(shaderStages, currentShaderStage.Value, stringBuilder);
 
-        return new ShaderAsset(shaderStages);
+        return new ShaderAsset
+        {
+            StageCodes = shaderStages
+        };
     }
     
     static void AddStage(Dictionary<ShaderStage, string> shaderStages, ShaderStage currentShaderStage, StringBuilder builder)

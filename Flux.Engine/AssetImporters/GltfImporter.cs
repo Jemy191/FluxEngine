@@ -11,7 +11,7 @@ public class GltfImporter : IAssetImporter
 {
     public IEnumerable<string> SupportedFileFormats => ["glb"];
 
-    public Task<IAsset?> Import(Stream stream, string name, string format)
+    public Task<SourceAsset?> Import(Stream stream, Guid guid, string name, string format)
     {
         var gltf = ModelRoot.ReadGLB(stream);
 
@@ -40,6 +40,10 @@ public class GltfImporter : IAssetImporter
             }));
         }
         
-        return Task.FromResult((IAsset)new MeshAsset(indices, vertices))!;
+        return Task.FromResult((SourceAsset)new MeshAsset
+        {
+            Indices = indices,
+            Vertices = vertices
+        })!;
     }
 }
