@@ -1,5 +1,4 @@
-﻿using System;
-using Flux.Abstraction;
+﻿using Flux.Abstraction;
 using Flux.Ecs;
 using Flux.Engine.Services;
 using Microsoft.Extensions.DependencyInjection;

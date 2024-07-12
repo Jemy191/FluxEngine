@@ -1,29 +1,28 @@
 ﻿using System.Numerics;
 using DefaultEcs;
 using Flux.Ecs;
+using Flux.Engine.Assets;
 using Flux.MathAddon;
-using Flux.Rendering.Resources;
 
 namespace Flux.Rendering;
 
 public class ModelEntityBuilderService
 {
     readonly World world;
-    readonly ResourcesService resourcesService;
+    readonly GL gl;
 
     string name = "Object";
-    Path vertex;
-    Path fragment;
-    Path mesh;
-    readonly Dictionary<string, Path> textures = new();
-    readonly List<Uniform> uniforms = new();
+    MeshAsset? meshAsset;
+    readonly Dictionary<string, TextureAsset> textureAssets = []; 
+    ShaderAsset? shaderAsset;
+    readonly List<Uniform> uniforms = [];
 
-    Transform transform = new();
+    Transform transform = new Transform();
 
-    public ModelEntityBuilderService(IEcsWorldService ecsService, ResourcesService resourcesService)
+    public ModelEntityBuilderService(IEcsWorldService ecsService, GL gl)
     {
         world = ecsService.World;
-        this.resourcesService = resourcesService;
+        this.gl = gl;
     }
 
     public ModelEntityBuilderService Name(string name)
@@ -32,19 +31,14 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Vertex(Path path)
+    public ModelEntityBuilderService Shader(ShaderAsset asset)
     {
-        vertex = path;
+        shaderAsset = asset;
         return this;
     }
-    public ModelEntityBuilderService Fragment(Path path)
+    public ModelEntityBuilderService Mesh(MeshAsset asset)
     {
-        fragment = path;
-        return this;
-    }
-    public ModelEntityBuilderService Mesh(Path path)
-    {
-        mesh = path;
+        meshAsset = asset;
         return this;
     }
     public ModelEntityBuilderService Transform(Transform transform)
@@ -67,19 +61,14 @@ public class ModelEntityBuilderService
         transform.Scale = scale;
         return this;
     }
-    public ModelEntityBuilderService Texture(string name, string path)
+    public ModelEntityBuilderService Texture(string name, TextureAsset asset)
     {
-        textures[name] = path;
-        return this;
-    }
-    public ModelEntityBuilderService ClearTextures()
-    {
-        textures.Clear();
+        textureAssets[name] = asset;
         return this;
     }
     public ModelEntityBuilderService RemoveTexture(string name)
     {
-        textures.Remove(name);
+        textureAssets.Remove(name);
         return this;
     }
     public ModelEntityBuilderService AddUniform(Uniform uniform)
@@ -99,25 +88,21 @@ public class ModelEntityBuilderService
     }
     public ModelEntityBuilderService RemoveUniform(string name)
     {
-        var toRemvoe = uniforms.Single(u => u.name == name);
-        uniforms.Remove(toRemvoe);
+        var toRemove = uniforms.Single(u => u.name == name);
+        uniforms.Remove(toRemove);
 
         return this;
     }
 
     public Entity Create()
     {
-        var shader = resourcesService.LoadShader(vertex, fragment);
-
-        var textures = new List<(string uniformName, Texture texture)>();
-
-        foreach (var texture in this.textures)
-        {
-            textures.Add((texture.Key, resourcesService.LoadTexture(texture.Value)));
-        }
-
-        var material = new Material(shader, textures.ToArray(), uniforms.ToArray());
-        var model = resourcesService.LoadModel(mesh, material);
+        if (meshAsset is null || shaderAsset is null)
+            throw new Exception("Unable to create model entity");
+        
+        var shader = new Shader(gl, shaderAsset.StageCodes);
+        var textureArray = textureAssets.Select(texture => (texture.Key, CreateTexture(texture.Value))).ToArray();
+        var material = new Material(shader, textureArray, uniforms.ToArray());
+        var model = CreateModel(meshAsset, material);
 
         var entity = world.CreateEntity();
         entity.Set(name);
@@ -125,5 +110,31 @@ public class ModelEntityBuilderService
         entity.Set(model);
 
         return entity;
+    }
+
+    Texture CreateTexture(TextureAsset textureAsset)
+    {
+        var size = textureAsset.Size;
+        var texture = new Texture(gl, textureAsset.Pixels.AsSpan(), size.X, size.Y);
+        return texture;
+    }
+    
+    Model CreateModel(MeshAsset meshAsset, Material material)
+    {
+        var vertices = meshAsset.Vertices
+            .SelectMany(v =>
+                new[]
+                {
+                    v.Position.X, v.Position.Y, v.Position.Z,
+                    v.Normal.X, v.Normal.Y, v.Normal.Z,
+                    v.Tangent.X, v.Tangent.Y, v.Tangent.Z,
+                    v.Bitangent.X, v.Bitangent.Y, v.Bitangent.Z,
+                    v.TexCoords.X, v.TexCoords.Y,
+                    //v.Colors.X, v.Colors.Y, v.Colors.Z
+                })
+            .ToArray();
+
+        var mesh = new Mesh(gl, vertices, meshAsset.Indices.ToArray());
+        return new Model([mesh], material);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System.Numerics;
+using Flux.Engine;
 using Silk.NET.OpenGL;
 
 namespace Flux.Rendering;
@@ -8,40 +9,65 @@ public readonly struct Shader : IDisposable
     readonly uint handle;
     readonly GL gl;
 
-    public Shader(GL gl, string vertexSource, string fragmentSource)
+    public Shader(GL gl, IReadOnlyDictionary<ShaderStage, string> stageCodes)
     {
         this.gl = gl;
 
-        var vertex = SendToGPU(ShaderType.VertexShader, vertexSource);
-        var fragment = SendToGPU(ShaderType.FragmentShader, fragmentSource);
+        if (!stageCodes.ContainsKey(ShaderStage.Vertex))
+            throw new Exception("Can't create a shader without a vertex shader");
+        if (!stageCodes.ContainsKey(ShaderStage.Fragment))
+            throw new Exception("Can't create a shader without a fragment shader");
+
+        if (stageCodes.ContainsKey(ShaderStage.TessellationControl) && !stageCodes.ContainsKey(ShaderStage.TessellationEvaluation))
+            Console.WriteLine("Warning: tessellation control shader need an evaluation shader to work.");
+
+        var shaderHandles = new List<uint>();
+
+        foreach (var (stage, code) in stageCodes)
+        {
+            var shaderType = stage switch
+            {
+
+                ShaderStage.Vertex => ShaderType.VertexShader,
+                ShaderStage.TessellationControl => ShaderType.TessControlShader,
+                ShaderStage.TessellationEvaluation => ShaderType.TessEvaluationShader,
+                ShaderStage.Geometry => ShaderType.GeometryShader,
+                ShaderStage.Fragment => ShaderType.FragmentShader,
+            };
+
+            shaderHandles.Add(SendToGPU(shaderType, code));
+        }
 
         handle = this.gl.CreateProgram();
 
-        this.gl.AttachShader(handle, vertex);
-        this.gl.AttachShader(handle, fragment);
+        foreach (var shaderHandle in shaderHandles)
+        {
+            this.gl.AttachShader(handle, shaderHandle);
+        }
         this.gl.LinkProgram(handle);
 
         this.gl.GetProgram(handle, GLEnum.LinkStatus, out var status);
         if (status == 0)
             throw new GlException($"Program failed to link with error: {this.gl.GetProgramInfoLog(handle)}");
 
-        this.gl.DetachShader(handle, vertex);
-        this.gl.DetachShader(handle, fragment);
-        this.gl.DeleteShader(vertex);
-        this.gl.DeleteShader(fragment);
+        foreach (var shaderHandle in shaderHandles)
+        {
+            this.gl.DetachShader(handle, shaderHandle);
+            this.gl.DeleteShader(shaderHandle);
+        }
     }
 
     uint SendToGPU(ShaderType type, string src)
     {
-        var handle = gl.CreateShader(type);
-        gl.ShaderSource(handle, src);
-        gl.CompileShader(handle);
+        var shaderHandle = gl.CreateShader(type);
+        gl.ShaderSource(shaderHandle, src);
+        gl.CompileShader(shaderHandle);
 
-        var infoLog = gl.GetShaderInfoLog(handle);
+        var infoLog = gl.GetShaderInfoLog(shaderHandle);
         if (!string.IsNullOrWhiteSpace(infoLog))
             throw new GlException($"Error compiling shader of type {type}, failed with error {infoLog}");
 
-        return handle;
+        return shaderHandle;
     }
 
     public void Use() => gl.UseProgram(handle);
@@ -96,9 +122,9 @@ public readonly struct Shader : IDisposable
         }
     }
 
-    public unsafe void SetUniform(Uniform uniform)
+    public void SetUniform(Uniform uniform)
     {
-        if (!TryGetUniformLocation(uniform.name, out var location))
+        if (!TryGetUniformLocation(uniform.name, out _))
             return;
 
         if (uniform is Uniform<int> intUni)

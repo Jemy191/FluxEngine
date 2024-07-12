@@ -1,6 +1,7 @@
 ﻿using DefaultEcs.System;
 using Flux.Abstraction;
 using Flux.Ecs;
+using Nito.AsyncEx;
 using Silk.NET.Windowing;
 
 namespace Flux.Engine;
@@ -26,10 +27,9 @@ public class GameEngine : IGameEngine
 
     }
 
-    public IGameEngine Instanciate<T>()
+    public T Instantiate<T>()
     {
-        injectionService.Instanciate<T>();
-        return this;
+        return injectionService.Instantiate<T>();
     }
 
     public IGameEngine AddRenderSystem<T>() where T : ISystem<float>
@@ -44,7 +44,9 @@ public class GameEngine : IGameEngine
         return this;
     }
 
-    public void Run()
+    public void Run() => AsyncContext.Run(RunInternal);
+
+    void RunInternal()
     {
         sequentialUpdateSystem = new SequentialSystem<float>(updater);
         sequentialRenderSystem = new SequentialSystem<float>(renderer);
@@ -65,9 +67,14 @@ public class GameEngine : IGameEngine
         sequentialRenderSystem.Dispose();
     }
 
-    public void RunWith<T>()
+    public void RunWith<T>() where T : IGame
     {
-        Instanciate<T>();
-        Run();
+        AsyncContext.Run(async () =>
+            {
+                var game = Instantiate<T>();
+                await game.Initialize();
+                RunInternal();
+            }
+        );
     }
 }

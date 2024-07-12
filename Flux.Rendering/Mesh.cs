@@ -34,11 +34,15 @@ public readonly struct Mesh : IDisposable
         VAO.VertexAttributePointer(4, 2, VertexAttribPointerType.Float, vertexSize, 12);
         if (useColor)
             VAO.VertexAttributePointer(5, 3, VertexAttribPointerType.Float, vertexSize, 14);
+        
+        VAO.Unbind();
+        EBO.Unbind();
+        VBO.Unbind();
     }
 
     public void Bind() => VAO.Bind();
-    internal unsafe void Draw() => //Gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
-    Gl.DrawArrays(PrimitiveType.Triangles, 0, verticesCount);
+    internal unsafe void Draw() =>
+    Gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
 
     public void Dispose()
     {

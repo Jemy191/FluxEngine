@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<RootNamespace>TestApp</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <PackageReference Include="AsyncVoidAnalyzer" Version="0.2.0" />
+	  <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
+	  <PackageReference Include="Meziantou.Analyzer" Version="2.0.147">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	  <PackageReference Include="Roslynator.Analyzers" Version="4.12.0">
+	    <PrivateAssets>all</PrivateAssets>
+	    <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+	  </PackageReference>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
+	  <ProjectReference Include="..\Flux.Engine\Flux.Engine.csproj" />
+	  <ProjectReference Include="..\Flux.EntityBehavior\Flux.EntityBehavior.csproj" />
+	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
+	  <ProjectReference Include="..\Flux.Rendering\Flux.Rendering.csproj" />
+	  <ProjectReference Include="..\Flux.Tools\Flux.Tools.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="Assets\**">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="AssetsCatalogue.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+	
+</Project>

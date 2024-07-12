@@ -11,15 +11,13 @@
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.147">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
+		<PackageReference Include="JetBrains.Annotations" Version="2023.3.0" />
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
 		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Nito.AsyncEx.Context" Version="5.1.2" />
 		<PackageReference Include="Roslynator.Analyzers" Version="4.12.0">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -28,12 +26,17 @@
 		<PackageReference Include="Silk.NET.Input.Extensions" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.Input.Glfw" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.Windowing" Version="2.20.0" />
+		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="13.6.0"/>
+		<PackageReference Include="SharpGLTF.Core" Version="1.0.0-alpha0031"/>
+		<PackageReference Include="Silk.NET.Maths" Version="2.20.0"/>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
+	  <ProjectReference Include="..\Flux.Asset\Flux.Asset.csproj" />
 	  <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
 	  <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
+	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

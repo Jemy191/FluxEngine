@@ -24,17 +24,16 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Silk.NET.Assimp" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.Maths" Version="2.20.0" />
 		<PackageReference Include="Silk.NET.OpenGL" Version="2.20.0" />
-		<PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.20.0" />
-		<PackageReference Include="SixLabors.ImageSharp" Version="3.1.4" />
+		<PackageReference Include="Silk.NET.Windowing.Common" Version="2.20.0" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
 	  <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
 	  <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
+	  <ProjectReference Include="..\Flux.Engine\Flux.Engine.csproj" />
 	  <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
 	</ItemGroup>
 

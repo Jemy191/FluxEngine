@@ -6,7 +6,7 @@ public interface IGameEngine
 {
     IGameEngine AddRenderSystem<T>() where T : ISystem<float>;
     IGameEngine AddUpdateSystem<T>() where T : ISystem<float>;
-    IGameEngine Instanciate<T>();
+    T Instantiate<T>();
     void Run();
-    void RunWith<T>();
+    void RunWith<T>() where T: IGame;
 }

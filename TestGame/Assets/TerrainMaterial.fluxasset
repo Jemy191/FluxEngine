@@ -1,0 +1,9 @@
+{
+    "Type": "Flux.Engine.Assets.MaterialAsset",
+    "AssetData": {
+        "Shader": "270e25a4-36b9-4348-af14-534381740eb0",
+        "Textures" : [
+            "14c5bf87-6d37-40b2-91aa-c84d73ed2a35"
+        ]
+    }
+}
