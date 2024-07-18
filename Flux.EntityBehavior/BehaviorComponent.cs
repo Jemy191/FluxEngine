@@ -7,11 +7,13 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
 {
     readonly Entity Entity;
     readonly IInjectionService injectionServices;
-    readonly Dictionary<Type, Behavior> behaviors = new();
+    readonly Dictionary<Type, Behavior> behaviors = new Dictionary<Type, Behavior>();
 
-    readonly HashSet<IUpdatable> updatables = new();
-    readonly HashSet<IUIDrawable> uIDrawables = new();
-    readonly HashSet<IDisposable> disposables = new();
+    readonly HashSet<IUpdatable> updatables = [];
+    readonly HashSet<IUIDrawable> uIDrawables = [];
+    readonly HashSet<IDisposable> disposables = [];
+    readonly HashSet<IInitializable> initializables = [];
+    readonly HashSet<IAsyncInitializable> asyncInitializables = [];
 
     public BehaviorComponent(Entity entity, IInjectionService injectionServices)
     {
@@ -36,6 +38,12 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
 
         if (behavior is IDisposable disposable)
             disposables.Add(disposable);
+        
+        if (behavior is IInitializable initializable)
+            initializables.Add(initializable);
+        
+        if (behavior is IAsyncInitializable asyncInitializable)
+            asyncInitializables.Add(asyncInitializable);
 
         return this;
     }
