@@ -1,4 +1,4 @@
-namespace Flux.EntityBehavior;
+namespace Flux.EntityBehavior.Interfaces;
 
 public interface IInitializable
 {

@@ -1,6 +1,7 @@
 using System.Numerics;
 using Flux.Asset;
 using Flux.EntityBehavior;
+using Flux.EntityBehavior.Interfaces;
 using ImGuiNET;
 
 namespace Flux.Tools;

@@ -1,5 +1,6 @@
 ﻿using DefaultEcs;
 using Flux.Abstraction;
+using Flux.EntityBehavior.Interfaces;
 
 namespace Flux.EntityBehavior;
 

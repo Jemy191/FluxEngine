@@ -1,5 +1,6 @@
 ﻿using System.Numerics;
 using Flux.EntityBehavior;
+using Flux.EntityBehavior.Interfaces;
 using Flux.MathAddon;
 using Flux.Rendering;
 using ImGuiNET;

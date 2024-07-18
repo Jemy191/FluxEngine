@@ -2,6 +2,7 @@
 using DefaultEcs.Serialization;
 using Flux.Ecs;
 using Flux.EntityBehavior;
+using Flux.EntityBehavior.Interfaces;
 using ImGuiNET;
 
 namespace Flux.Tools;
