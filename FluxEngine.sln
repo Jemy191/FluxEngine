@@ -31,6 +31,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flux.ImGuiFlux", "Flux.ImGu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Asset", "Flux.Asset\Flux.Asset.csproj", "{894F7C15-EB51-4091-BCEB-F8C280FA6A7E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlockGame", "BlockGame\BlockGame.csproj", "{F628FB13-3B4C-4ACA-BEB8-42D1257DB968}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{894F7C15-EB51-4091-BCEB-F8C280FA6A7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{894F7C15-EB51-4091-BCEB-F8C280FA6A7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{894F7C15-EB51-4091-BCEB-F8C280FA6A7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F628FB13-3B4C-4ACA-BEB8-42D1257DB968}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F628FB13-3B4C-4ACA-BEB8-42D1257DB968}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F628FB13-3B4C-4ACA-BEB8-42D1257DB968}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F628FB13-3B4C-4ACA-BEB8-42D1257DB968}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
