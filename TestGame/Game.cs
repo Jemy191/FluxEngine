@@ -31,12 +31,12 @@ class Game : IGame
 
     public async Task Initialize()
     {
-        for (int i = 0; i < input.Keyboards.Count; i++)
+        foreach (var keyboard in input.Keyboards)
         {
-            input.Keyboards[i].KeyDown += KeyDown;
+            keyboard.KeyDown += KeyDown;
         }
 
-        CreateCamera(window, behaviorService);
+        await CreateCamera(window, behaviorService);
 
         var cubeMesh = await assetsService.Load<MeshAsset>(Guid.Parse("02f6ba34-d7d9-4e3f-a0f1-0c5e160e4a10"));
         var suzaneMesh = await assetsService.Load<MeshAsset>(Guid.Parse("6f116dea-6c4c-4842-a6ba-ed7451707e50"));
@@ -85,12 +85,12 @@ class Game : IGame
         //behavior.AddBehavior<EntitiesViewer>();
         // Not needed
         //behavior.AddBehavior<EntitiesInspector>();
-        behavior.AddBehavior<AssetsBrowser>();
+        await behavior.AddBehavior<AssetsBrowser>();
         var assetBrowser = behavior.GetBehavior<AssetsBrowser>();
         assetBrowser.RegisterAssetSourceBrowser<FileSystemAssetSourceBrowser, FileSystemAssetSource>();
     }
 
-    void CreateCamera(IWindow window, BehaviorService behaviorService)
+    async Task CreateCamera(IWindow window, BehaviorService behaviorService)
     {
         // Camera
         var viewportSize = window.Size;
@@ -110,7 +110,7 @@ class Game : IGame
         camera.Set(transform);
         camera.Set(cam);
 
-        cameraBehavior.AddBehavior<CameraController>();
+        await cameraBehavior.AddBehavior<CameraController>();
     }
 
     void KeyDown(IKeyboard keyboard, Key key, int arg)

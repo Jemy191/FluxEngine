@@ -29,17 +29,17 @@ public class BehaviorService : IDisposable
         return (entity, behavior);
     }
 
-    public Entity CreateSingleBehaviorEntity<T>() where T : Behavior
+    public async Task<Entity> CreateSingleBehaviorEntity<T>() where T : Behavior
     {
         var (entity, behavior) = CreateBehaviorEntity();
-        behavior.AddBehavior<T>();
+        await behavior.AddBehavior<T>();
         return entity;
     }
 
-    public Entity CreateSingleBehaviorEntity<T>(T behavior) where T : Behavior
+    public async Task<Entity> CreateSingleBehaviorEntity<T>(T behavior) where T : Behavior
     {
         var (entity, behaviorComponent) = CreateBehaviorEntity();
-        behaviorComponent.AddBehavior(behavior);
+        await behaviorComponent.AddBehavior(behavior);
         return entity;
     }
 

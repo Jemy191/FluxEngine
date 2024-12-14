@@ -1,0 +1,12 @@
+{
+  "BuildVersion": "2024-04-15T06:38:43.6478096+00:00",
+  "Entries": {
+    "5b173006-ab2b-421c-a5f8-9df095e762a6": {
+      "Name": "Suzane",
+      "Format": "fluxshader",
+      "Metadata": {
+        "Path": "Suzane.fluxshader"
+      }
+    }
+  }
+}

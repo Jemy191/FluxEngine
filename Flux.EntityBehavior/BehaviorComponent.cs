@@ -13,21 +13,19 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
     readonly HashSet<IUpdatable> updatables = [];
     readonly HashSet<IUIDrawable> uIDrawables = [];
     readonly HashSet<IDisposable> disposables = [];
-    readonly HashSet<IInitializable> initializables = [];
-    readonly HashSet<IAsyncInitializable> asyncInitializables = [];
 
     public BehaviorComponent(Entity entity, IInjectionService injectionServices)
     {
         Entity = entity;
         this.injectionServices = injectionServices;
     }
-    public BehaviorComponent AddBehavior<T>() where T : Behavior
+    public async Task<BehaviorComponent> AddBehavior<T>() where T : Behavior
     {
         var behavior = injectionServices.Instantiate<T>();
         behavior.Attach(Entity);
-        return AddBehavior(behavior);
+        return await AddBehavior(behavior);
     }
-    public BehaviorComponent AddBehavior<T>(T behavior) where T : Behavior
+    public async Task<BehaviorComponent> AddBehavior<T>(T behavior) where T : Behavior
     {
         behaviors.Add(typeof(T), behavior);
 
@@ -41,10 +39,10 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
             disposables.Add(disposable);
         
         if (behavior is IInitializable initializable)
-            initializables.Add(initializable);
+            initializable.Initialize();
         
         if (behavior is IAsyncInitializable asyncInitializable)
-            asyncInitializables.Add(asyncInitializable);
+            await asyncInitializable.InitializeAsync();
 
         return this;
     }

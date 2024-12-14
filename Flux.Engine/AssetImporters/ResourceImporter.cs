@@ -69,7 +69,7 @@ public class ResourceImporter<TAssembly> : IAssetImporter
 
                 var canBeCreatedFromIEnumerable = property.PropertyType.GetConstructors()
                     .Any(c => c.GetParameters().Any(p => p.ParameterType.InheritFrom<IEnumerable>()));
-                
+
                 if (canBeCreatedFromIEnumerable)
                 {
                     var assetsValue = Activator.CreateInstance(property.PropertyType, [assets]);
