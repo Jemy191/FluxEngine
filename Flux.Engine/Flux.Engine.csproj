@@ -1,45 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	</PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+        <PackageReference Include="Silk.NET.Input.Common" Version="2.22.0" />
+        <PackageReference Include="Silk.NET.Input.Extensions" Version="2.22.0" />
+        <PackageReference Include="Silk.NET.Input.Glfw" Version="2.22.0" />
+        <PackageReference Include="Silk.NET.Windowing" Version="2.22.0" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="AsyncVoidAnalyzer" Version="0.2.0" />
-		<PackageReference Include="DefaultEcs" Version="0.17.2" />
-		<PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Meziantou.Analyzer" Version="2.0.147">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-		<PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.9.28">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Roslynator.Analyzers" Version="4.12.0">
-		  <PrivateAssets>all</PrivateAssets>
-		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Silk.NET.Input.Common" Version="2.20.0" />
-		<PackageReference Include="Silk.NET.Input.Extensions" Version="2.20.0" />
-		<PackageReference Include="Silk.NET.Input.Glfw" Version="2.20.0" />
-		<PackageReference Include="Silk.NET.Windowing" Version="2.20.0" />
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
+        <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
-	  <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
-	  <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Using Include="Flux.Core.Path">
-			<Alias>Path</Alias>
-		</Using>
-	</ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="..\Flux.Core\Flux.Core.csproj"/>
+        <Using Include="Flux.Core.Path">
+            <Alias>Path</Alias>
+        </Using>
+    </ItemGroup>
 </Project>

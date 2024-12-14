@@ -1,13 +1,2 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Meziantou.Analyzer" Version="2.0.147">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
-
 </Project>

@@ -1,20 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.22.0" />
+    </ItemGroup>
 
-  <PropertyGroup>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="DefaultEcs" Version="0.17.2" />
-    <PackageReference Include="DefaultEcs.Analyzer" Version="0.17.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.20.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
-    <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
-  </ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
+        <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
+    </ItemGroup>
 </Project>

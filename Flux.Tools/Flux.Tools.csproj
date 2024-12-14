@@ -1,15 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    </PropertyGroup>
 
-  <PropertyGroup>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
-    <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
-    <ProjectReference Include="..\Flux.EntityBehavior\Flux.EntityBehavior.csproj" />
-    <ProjectReference Include="..\Flux.ImGuiFlux\Flux.ImGuiFlux.csproj" />
-    <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj" />
-  </ItemGroup>
-
+    <ItemGroup>
+        <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
+        <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
+        <ProjectReference Include="..\Flux.EntityBehavior\Flux.EntityBehavior.csproj"/>
+        <ProjectReference Include="..\Flux.ImGuiFlux\Flux.ImGuiFlux.csproj"/>
+        <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
+    </ItemGroup>
 </Project>
