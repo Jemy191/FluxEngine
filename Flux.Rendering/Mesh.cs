@@ -34,6 +34,10 @@ public readonly struct Mesh : IDisposable
         VAO.VertexAttributePointer(4, 2, VertexAttribPointerType.Float, vertexSize, 12);
         if (useColor)
             VAO.VertexAttributePointer(5, 3, VertexAttribPointerType.Float, vertexSize, 14);
+
+        EBO.UnBind();
+        VBO.UnBind();
+        VAO.UnBind();
     }
 
     public void Bind() => VAO.Bind();

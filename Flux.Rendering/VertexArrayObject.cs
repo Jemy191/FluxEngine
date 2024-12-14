@@ -29,4 +29,5 @@ public readonly struct VertexArrayObject<TVertexType, TIndexType> : IDisposable
 
     public void Bind() => gl.BindVertexArray(handle);
     public void Dispose() => gl.DeleteVertexArray(handle);
+    public void UnBind() => gl.BindVertexArray(0);
 }
