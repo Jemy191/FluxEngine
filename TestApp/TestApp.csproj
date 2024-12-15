@@ -17,6 +17,5 @@
         <None Update="Assets\**">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
-        <None Remove="imgui.ini" />
     </ItemGroup>
 </Project>
