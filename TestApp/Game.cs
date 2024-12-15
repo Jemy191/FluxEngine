@@ -27,7 +27,7 @@ class Game
             .Name("Suzane")
             .Vertex("shader.vert".ToAsset())
             .Fragment("suzane.frag".ToAsset())
-            .Mesh("Suzane.fbx".ToAsset())
+            .Model("Suzane.fbx".ToAsset())
             .Position(new Vector3(0, 5, 0))
             .Create();
 
@@ -35,7 +35,7 @@ class Game
             .Name("Cube")
             .Vertex("shader.vert".ToAsset())
             .Fragment("normal.frag".ToAsset())
-            .Mesh("Cube.fbx".ToAsset())
+            .Model("Cube.fbx".ToAsset())
             .Texture("albedo", "BrickPBR/Brick_albedo.png".ToAsset())
             .Texture("normal", "BrickPBR/Brick_normal.png".ToAsset())
             .Position(new Vector3(0, 0.5f, 0))
@@ -44,7 +44,7 @@ class Game
         modelBuilder
             .Name("Terrain")
             .Fragment("lighting.frag".ToAsset())
-            .Mesh("Terrain.fbx".ToAsset())
+            .Model("Terrain.fbx".ToAsset())
             .Texture("albedo", "Terrain.png".ToAsset())
             .RemoveTexture("normal")
             .Position(Vector3.Zero)

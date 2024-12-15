@@ -14,7 +14,8 @@ public class ModelEntityBuilderService
     string name = "Object";
     FileInfo vertex = null!;
     FileInfo fragment = null!;
-    FileInfo mesh = null!;
+    FileInfo? model = null;
+    Mesh? mesh = null;
     readonly Dictionary<string, FileInfo> textures = new Dictionary<string, FileInfo>();
     readonly List<Uniform> uniforms = new List<Uniform>();
 
@@ -42,9 +43,16 @@ public class ModelEntityBuilderService
         fragment = file;
         return this;
     }
-    public ModelEntityBuilderService Mesh(FileInfo file)
+    public ModelEntityBuilderService Model(FileInfo file)
     {
-        mesh = file;
+        mesh = null;
+        model = file;
+        return this;
+    }
+    public ModelEntityBuilderService Mesh(Mesh mesh)
+    {
+        model = null;
+        this.mesh = mesh;
         return this;
     }
     public ModelEntityBuilderService Transform(Transform transform)
@@ -110,12 +118,17 @@ public class ModelEntityBuilderService
         var shader = resourcesService.LoadShader(vertex, fragment);
 
         var material = new Material(shader, textures.Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value))).ToArray(), uniforms.ToArray());
-        var model = resourcesService.LoadModel(mesh, material);
+        Model? entityModel = null;
+
+        if(model is not null)
+            entityModel = resourcesService.LoadModel(model, material);
+        if(mesh is not null)
+            entityModel = new Model([mesh.Value], material);
 
         var entity = world.CreateEntity();
         entity.Set(name);
         entity.Set(transform);
-        entity.Set(model);
+        entity.Set(entityModel.Value);
 
         return entity;
     }
