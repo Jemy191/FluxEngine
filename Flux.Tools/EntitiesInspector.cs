@@ -8,12 +8,10 @@ namespace Flux.Tools;
 
 public class EntitiesInspector : Behavior, IUIDrawable
 {
-    readonly IEcsWorldService ecsWorld;
     readonly EntitySet selectedEntitiesSet;
 
     public EntitiesInspector(IEcsWorldService ecsWorld)
     {
-        this.ecsWorld = ecsWorld;
         selectedEntitiesSet = ecsWorld.World.GetEntities()
             .With<Selected>()
             .AsSet();

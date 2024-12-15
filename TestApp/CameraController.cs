@@ -15,7 +15,7 @@ class CameraController : Behavior, IUpdatable, IUIDrawable
     public float moveSpeed = 7f;
 
     Vector2 LastMousePosition;
-    bool cameraLookActive = false;
+    bool cameraLookActive;
 
     readonly IInputContext input;
     readonly IKeyboard primaryKeyboard;
@@ -29,9 +29,9 @@ class CameraController : Behavior, IUpdatable, IUIDrawable
         primaryKeyboard = input.Keyboards[0];
         primaryMouse = input.Mice[0];
 
-        for (int i = 0; i < input.Keyboards.Count; i++)
+        foreach (var keyboard in input.Keyboards)
         {
-            input.Keyboards[i].KeyDown += KeyDown;
+            keyboard.KeyDown += KeyDown;
         }
 
         window.Resize += OnResize;
@@ -52,9 +52,9 @@ class CameraController : Behavior, IUpdatable, IUIDrawable
         LastMousePosition = primaryMouse.Position;
 
         cameraLookActive = !cameraLookActive;
-        for (int i = 0; i < input.Mice.Count; i++)
+        foreach (var mouse in input.Mice)
         {
-            input.Mice[i].Cursor.CursorMode = cameraLookActive ? CursorMode.Raw : CursorMode.Normal;
+            mouse.Cursor.CursorMode = cameraLookActive ? CursorMode.Raw : CursorMode.Normal;
         }
     }
 

@@ -1,5 +1,4 @@
-﻿using System;
-using Flux.Abstraction;
+﻿using Flux.Abstraction;
 using Flux.Ecs;
 using Flux.Engine.Services;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,8 +16,11 @@ public class GameEngineBuilder
         windowOptions.Title = name;
         windowOptions.Samples = 4;
         windowOptions.WindowState = WindowState.Maximized;
-
+        
+#pragma warning disable CA2000
         var window = Window.Create(windowOptions);
+#pragma warning restore CA2000
+        
         window.Initialize();
 
         Services = new ServiceCollection()

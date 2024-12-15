@@ -9,10 +9,10 @@ public readonly record struct Angle
 
     public Angle(double radians) => DoubleRadians = radians;
 
-    public static Angle FromDegrees(double degrees) => new(Math.PI / 180 * degrees);
-    public static Angle operator +(Angle a, Angle b) => new(a.DoubleRadians + b.DoubleRadians);
-    public static Angle operator -(Angle a, Angle b) => new(a.DoubleRadians - b.DoubleRadians);
-    public static Angle operator *(Angle a, double scalar) => new(a.DoubleRadians * scalar);
-    public static Angle operator /(Angle a, double scalar) => new(a.DoubleRadians / scalar);
+    public static Angle FromDegrees(double degrees) => new Angle(Math.PI / 180 * degrees);
+    public static Angle operator +(Angle a, Angle b) => new Angle(a.DoubleRadians + b.DoubleRadians);
+    public static Angle operator -(Angle a, Angle b) => new Angle(a.DoubleRadians - b.DoubleRadians);
+    public static Angle operator *(Angle a, double scalar) => new Angle(a.DoubleRadians * scalar);
+    public static Angle operator /(Angle a, double scalar) => new Angle(a.DoubleRadians / scalar);
     public override string ToString() => $"{DoubleDegrees:F2}°";
 }

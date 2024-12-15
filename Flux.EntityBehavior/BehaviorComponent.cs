@@ -7,11 +7,11 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
 {
     readonly Entity Entity;
     readonly IInjectionService injectionServices;
-    readonly Dictionary<Type, Behavior> behaviors = new();
+    readonly Dictionary<Type, Behavior> behaviors = new Dictionary<Type, Behavior>();
 
-    readonly HashSet<IUpdatable> updatables = new();
-    readonly HashSet<IUIDrawable> uIDrawables = new();
-    readonly HashSet<IDisposable> disposables = new();
+    readonly HashSet<IUpdatable> updatables = new HashSet<IUpdatable>();
+    readonly HashSet<IUIDrawable> uIDrawables = new HashSet<IUIDrawable>();
+    readonly HashSet<IDisposable> disposables = new HashSet<IDisposable>();
 
     public BehaviorComponent(Entity entity, IInjectionService injectionServices)
     {

@@ -12,13 +12,13 @@ public class ModelEntityBuilderService
     readonly ResourcesService resourcesService;
 
     string name = "Object";
-    FileInfo vertex;
-    FileInfo fragment;
-    FileInfo mesh;
-    readonly Dictionary<string, FileInfo> textures = new();
-    readonly List<Uniform> uniforms = new();
+    FileInfo vertex = null!;
+    FileInfo fragment = null!;
+    FileInfo mesh = null!;
+    readonly Dictionary<string, FileInfo> textures = new Dictionary<string, FileInfo>();
+    readonly List<Uniform> uniforms = new List<Uniform>();
 
-    Transform transform = new();
+    Transform transform = new Transform();
 
     public ModelEntityBuilderService(IEcsWorldService ecsService, ResourcesService resourcesService)
     {
@@ -99,8 +99,8 @@ public class ModelEntityBuilderService
     }
     public ModelEntityBuilderService RemoveUniform(string name)
     {
-        var toRemvoe = uniforms.Single(u => u.name == name);
-        uniforms.Remove(toRemvoe);
+        var toRemove = uniforms.Single(u => u.name == name);
+        uniforms.Remove(toRemove);
 
         return this;
     }
@@ -109,14 +109,7 @@ public class ModelEntityBuilderService
     {
         var shader = resourcesService.LoadShader(vertex, fragment);
 
-        var textures = new List<(string uniformName, Texture texture)>();
-
-        foreach (var texture in this.textures)
-        {
-            textures.Add((texture.Key, resourcesService.LoadTexture(texture.Value)));
-        }
-
-        var material = new Material(shader, textures.ToArray(), uniforms.ToArray());
+        var material = new Material(shader, textures.Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value))).ToArray(), uniforms.ToArray());
         var model = resourcesService.LoadModel(mesh, material);
 
         var entity = world.CreateEntity();

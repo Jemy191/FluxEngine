@@ -19,7 +19,7 @@ public class ModelRenderSystem : AEntitySetSystem<float>
     readonly IWindow window;
 
     public ModelRenderSystem(IEcsWorldService ecsService, IWindow window)
-        : base(ecsService.World.GetEntities().With<Transform>().With<Model>().AsSet(), false)
+        : base(ecsService.World.GetEntities().With<Transform>().With<Model>().AsSet())
     {
         this.window = window;
 
@@ -29,11 +29,11 @@ public class ModelRenderSystem : AEntitySetSystem<float>
             .With<Transform>()
         .AsSet();
 
-        viewUniform = new("uView");
-        projectionUniform = new("uProjection");
+        viewUniform = new Uniform<Matrix4x4>("uView");
+        projectionUniform = new Uniform<Matrix4x4>("uProjection");
         //viewPosUniform = new("viewPos");
-        lightDirectionUniform = new("lightDirection");
-        timeUniform = new("uTime");
+        lightDirectionUniform = new Uniform<Vector3>("lightDirection");
+        timeUniform = new Uniform<float>("uTime");
     }
 
     protected override void PreUpdate(float deltatime)
@@ -50,11 +50,11 @@ public class ModelRenderSystem : AEntitySetSystem<float>
 
         lightYaw += Angle.FromDegrees(20 * deltatime);
 
-        viewUniform.value = camera.ComputeViewMatrix(cameraTransform);
-        projectionUniform.value = camera.ComputeProjectionMatrix();
+        viewUniform.Value = camera.ComputeViewMatrix(cameraTransform);
+        projectionUniform.Value = camera.ComputeProjectionMatrix();
         //viewPosUniform.value = cameraTransform.Position;
-        lightDirectionUniform.value = Quaternion.CreateFromYawPitchRoll(lightYaw.Radians, Angle.FromDegrees(-45).Radians, 0).Forward();
-        timeUniform.value = (float)window.Time;
+        lightDirectionUniform.Value = Quaternion.CreateFromYawPitchRoll(lightYaw.Radians, Angle.FromDegrees(-45).Radians, 0).Forward();
+        timeUniform.Value = (float)window.Time;
     }
 
     protected override void Update(float deltatime, in Entity modelEntity)

@@ -1,5 +1,4 @@
 ﻿using Silk.NET.Assimp;
-using Mesh = Flux.Rendering.Mesh;
 
 namespace Flux.Rendering;
 

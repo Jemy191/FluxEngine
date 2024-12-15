@@ -5,49 +5,46 @@ namespace Flux.Rendering;
 public readonly struct Mesh : IDisposable
 {
     public const int VertexSize = 14;
-    readonly GL Gl;
+    readonly GL gl;
 
-    readonly VertexArrayObject<float, uint> VAO;
-    readonly BufferObject<float> VBO;
-    readonly BufferObject<uint> EBO;
+    readonly VertexArrayObject<float, uint> vao;
+    readonly BufferObject<float> vbo;
+    readonly BufferObject<uint> ebo;
 
-    readonly uint indicesCount;
     readonly uint verticesCount;
 
-    public unsafe Mesh(GL gl, float[] vertices, uint[] indices, bool useColor = false)
+    public Mesh(GL gl, float[] vertices, uint[] indices, bool useColor = false)
     {
-        Gl = gl;
+        this.gl = gl;
 
-        indicesCount = (uint)indices.Length;
         verticesCount = (uint)vertices.Length;
-        EBO = new BufferObject<uint>(Gl, indices, BufferTargetARB.ElementArrayBuffer);
-        VBO = new BufferObject<float>(Gl, vertices, BufferTargetARB.ArrayBuffer);
-        VAO = new VertexArrayObject<float, uint>(Gl, VBO, EBO);
+        ebo = new BufferObject<uint>(this.gl, indices, BufferTargetARB.ElementArrayBuffer);
+        vbo = new BufferObject<float>(this.gl, vertices, BufferTargetARB.ArrayBuffer);
+        vao = new VertexArrayObject<float, uint>(this.gl, vbo, ebo);
 
         uint vertexSize = VertexSize;
         if (useColor)
             vertexSize += 3;
-        VAO.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, vertexSize, 0);
-        VAO.VertexAttributePointer(1, 3, VertexAttribPointerType.Float, vertexSize, 3);
-        VAO.VertexAttributePointer(2, 3, VertexAttribPointerType.Float, vertexSize, 6);
-        VAO.VertexAttributePointer(3, 3, VertexAttribPointerType.Float, vertexSize, 9);
-        VAO.VertexAttributePointer(4, 2, VertexAttribPointerType.Float, vertexSize, 12);
+        vao.VertexAttributePointer(0, 3, VertexAttribPointerType.Float, vertexSize, 0);
+        vao.VertexAttributePointer(1, 3, VertexAttribPointerType.Float, vertexSize, 3);
+        vao.VertexAttributePointer(2, 3, VertexAttribPointerType.Float, vertexSize, 6);
+        vao.VertexAttributePointer(3, 3, VertexAttribPointerType.Float, vertexSize, 9);
+        vao.VertexAttributePointer(4, 2, VertexAttribPointerType.Float, vertexSize, 12);
         if (useColor)
-            VAO.VertexAttributePointer(5, 3, VertexAttribPointerType.Float, vertexSize, 14);
+            vao.VertexAttributePointer(5, 3, VertexAttribPointerType.Float, vertexSize, 14);
 
-        EBO.UnBind();
-        VBO.UnBind();
-        VAO.UnBind();
+        ebo.UnBind();
+        vbo.UnBind();
+        vao.UnBind();
     }
 
-    public void Bind() => VAO.Bind();
-    internal unsafe void Draw() => //Gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
-    Gl.DrawArrays(PrimitiveType.Triangles, 0, verticesCount);
+    public void Bind() => vao.Bind();
+    internal void Draw() => gl.DrawArrays(PrimitiveType.Triangles, 0, verticesCount);
 
     public void Dispose()
     {
-        VAO.Dispose();
-        VBO.Dispose();
-        EBO.Dispose();
+        vao.Dispose();
+        vbo.Dispose();
+        ebo.Dispose();
     }
 }

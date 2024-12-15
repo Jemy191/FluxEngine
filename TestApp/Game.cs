@@ -1,6 +1,4 @@
 ﻿using System.Numerics;
-using Flux.Core;
-using Flux.Ecs;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;
@@ -18,9 +16,9 @@ class Game
     public Game(IInputContext input, IWindow window, BehaviorService behaviorService, ModelEntityBuilderService modelBuilder)
     {
         this.window = window;
-        for (int i = 0; i < input.Keyboards.Count; i++)
+        foreach (var keyboard in input.Keyboards)
         {
-            input.Keyboards[i].KeyDown += KeyDown;
+            keyboard.KeyDown += KeyDown;
         }
 
         CreateCamera(window, behaviorService);
@@ -53,23 +51,12 @@ class Game
             .Scale(Vector3.One * 5f)
             .Create();
 
-        /*modelBuilder
-            .SetName("Axis")
-            .SetVertex("Axis.vert")
-            .SetFragment("Axis.frag")
-            .SetMesh("Axis.fbx")
-            .RemoveTexture("albedo")
-            .RemoveTexture("normal")
-            .SetPosition(Vector3.Zero)
-            .SetScale(Vector3.One)
-            .Create();*/
-
-        var (entity, behavior) = behaviorService.CreateBehaviorEntity();
+        var (_, behavior) = behaviorService.CreateBehaviorEntity();
         behavior.AddBehavior<EntitiesViewer>();
         behavior.AddBehavior<EntitiesInspector>();
     }
 
-    void CreateCamera(IWindow window, BehaviorService behaviorService)
+    static void CreateCamera(IWindow window, BehaviorService behaviorService)
     {
         // Camera
         var viewportSize = window.Size;

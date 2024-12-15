@@ -49,22 +49,3 @@ public class TexturesManager : ResourcesManager<NewTexture>
         gl.GenerateMipmap(TextureTarget.Texture2D);
     }
 }
-
-public readonly struct NewTexture
-{
-    readonly uint handle;
-    readonly GL gl;
-
-    public unsafe NewTexture(GL gl)
-    {
-        this.gl = gl;
-
-        handle = this.gl.GenTexture();
-    }
-
-    public void Bind(TextureUnit textureSlot = TextureUnit.Texture0)
-    {
-        gl.ActiveTexture(textureSlot);
-        gl.BindTexture(TextureTarget.Texture2D, handle);
-    }
-}

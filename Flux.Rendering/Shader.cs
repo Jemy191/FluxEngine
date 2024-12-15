@@ -33,26 +33,18 @@ public readonly struct Shader : IDisposable
 
     uint SendToGPU(ShaderType type, string src)
     {
-        var handle = gl.CreateShader(type);
-        gl.ShaderSource(handle, src);
-        gl.CompileShader(handle);
+        var shaderHandle = gl.CreateShader(type);
+        gl.ShaderSource(shaderHandle, src);
+        gl.CompileShader(shaderHandle);
 
-        var infoLog = gl.GetShaderInfoLog(handle);
+        var infoLog = gl.GetShaderInfoLog(shaderHandle);
         if (!string.IsNullOrWhiteSpace(infoLog))
             throw new GlException($"Error compiling shader of type {type}, failed with error {infoLog}");
 
-        return handle;
+        return shaderHandle;
     }
 
     public void Use() => gl.UseProgram(handle);
-
-    int GetUniformLocation(string name)
-    {
-        if (TryGetUniformLocation(name, out var location))
-            return location;
-
-        throw new GlException($"{name} uniform not found on shader.");
-    }
 
     bool TryGetUniformLocation(string name, out int location)
     {
@@ -73,53 +65,25 @@ public readonly struct Shader : IDisposable
         if (!TryGetUniformLocation(name, out var location))
             return;
 
-        if (uniform is int intUni)
+        switch (uniform)
         {
-            gl.Uniform1(location, intUni);
-        }
-        else if (uniform is float floatUni)
-        {
-            gl.Uniform1(location, floatUni);
-        }
-        else if (uniform is Vector2 vector2Uni)
-        {
-            gl.Uniform2(location, vector2Uni.X, vector2Uni.Y);
-        }
-        else if (uniform is Vector3 vector3Uni)
-        {
-            gl.Uniform3(location, vector3Uni.X, vector3Uni.Y, vector3Uni.Z);
-        }
-        else if (uniform is Matrix4x4 matrix4x4Uni)
-        {
-            var v = matrix4x4Uni;
-            gl.UniformMatrix4(location, 1, false, (float*)&v);
+            case int intUni: gl.Uniform1(location, intUni); break;
+            case float floatUni: gl.Uniform1(location, floatUni); break;
+            case Vector2 vector2Uni: gl.Uniform2(location, vector2Uni.X, vector2Uni.Y); break;
+            case Vector3 vector3Uni: gl.Uniform3(location, vector3Uni.X, vector3Uni.Y, vector3Uni.Z); break;
+            case Matrix4x4 matrix4X4Uni: gl.UniformMatrix4(location, 1, false, (float*)&matrix4X4Uni); break;
         }
     }
 
-    public unsafe void SetUniform(Uniform uniform)
+    public void SetUniform(Uniform uniform)
     {
-        if (!TryGetUniformLocation(uniform.name, out var location))
-            return;
-
-        if (uniform is Uniform<int> intUni)
+        switch (uniform)
         {
-            SetUniform(uniform.name, intUni.value);
-        }
-        else if (uniform is Uniform<float> floatUni)
-        {
-            SetUniform(uniform.name, floatUni.value);
-        }
-        else if (uniform is Uniform<Vector2> vector2Uni)
-        {
-            SetUniform(uniform.name, vector2Uni.value);
-        }
-        else if (uniform is Uniform<Vector3> vector3Uni)
-        {
-            SetUniform(uniform.name, vector3Uni.value);
-        }
-        else if (uniform is Uniform<Matrix4x4> matrix4x4Uni)
-        {
-            SetUniform(uniform.name, matrix4x4Uni.value);
+            case Uniform<int> intUni: SetUniform(uniform.name, intUni.Value); break;
+            case Uniform<float> floatUni: SetUniform(uniform.name, floatUni.Value); break;
+            case Uniform<Vector2> vector2Uni: SetUniform(uniform.name, vector2Uni.Value); break;
+            case Uniform<Vector3> vector3Uni: SetUniform(uniform.name, vector3Uni.Value); break;
+            case Uniform<Matrix4x4> matrix4X4Uni: SetUniform(uniform.name, matrix4X4Uni.Value); break;
         }
     }
 

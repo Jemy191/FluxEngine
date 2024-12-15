@@ -2,16 +2,16 @@
 
 public class Uniform<T> : Uniform
 {
-    public T value;
+    public T? Value { get; set; }
 
     public Uniform(string name, T value) : base(name)
     {
-        this.value = value;
+        Value = value;
     }
 
     public Uniform(string name) : base(name)
     {
-        value = default;
+        Value = default;
     }
 }
 

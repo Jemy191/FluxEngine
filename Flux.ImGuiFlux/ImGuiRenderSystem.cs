@@ -11,16 +11,16 @@ public class ImGuiRenderSystem : AComponentSystem<float, IUIRenderComponent>
 {
     readonly ImGuiController imGui;
 
-    bool showDemoSystem = false;
+    bool showDemoSystem;
 
     public ImGuiRenderSystem(IEcsWorldService ecsService, ImGuiController imGui, IInputContext input)
         : base(ecsService.World)
     {
         this.imGui = imGui;
 
-        for (var i = 0; i < input.Keyboards.Count; i++)
+        foreach (var keyboard in input.Keyboards)
         {
-            input.Keyboards[i].KeyDown += KeyDown;
+            keyboard.KeyDown += KeyDown;
         }
 
         ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable;

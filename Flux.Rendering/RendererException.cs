@@ -2,6 +2,8 @@
 
 class RendererException : Exception
 {
+    public RendererException() { }
+
     public RendererException(string message)
         : base(message)
     {

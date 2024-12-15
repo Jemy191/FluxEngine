@@ -2,7 +2,7 @@
 
 public abstract class ResourcesManager<T>
 {
-    readonly Dictionary<FileInfo, T> resources = new();
+    readonly Dictionary<FileInfo, T> resources = new Dictionary<FileInfo, T>();
 
     public T Get(FileInfo file)
     {
@@ -17,11 +17,11 @@ public abstract class ResourcesManager<T>
 
     public abstract T Load(FileInfo file);
 
-    internal void Decrement<T>(Resource<T> resource)
+    internal void Decrement(Resource<T> resource)
     {
     }
 
-    internal void Increment<T>(Resource<T> resource)
+    internal void Increment(Resource<T> resource)
     {
     }
 

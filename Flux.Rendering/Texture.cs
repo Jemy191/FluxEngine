@@ -1,5 +1,4 @@
-﻿using Flux.Rendering.Resources;
-using Silk.NET.OpenGL;
+﻿using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -10,7 +9,7 @@ public readonly struct Texture : IDisposable
     readonly uint handle;
     readonly GL gl;
 
-    public unsafe Texture(GL gl, Image<Rgba32> image)
+    public Texture(GL gl, Image<Rgba32> image)
     {
         this.gl = gl;
 

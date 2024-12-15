@@ -7,13 +7,13 @@ namespace Flux.Engine;
 
 public class GameEngine : IGameEngine
 {
-    readonly List<ISystem<float>> updater = new();
-    readonly List<ISystem<float>> renderer = new();
+    readonly List<ISystem<float>> updater = [];
+    readonly List<ISystem<float>> renderer = [];
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
-    SequentialSystem<float> sequentialUpdateSystem;
-    SequentialSystem<float> sequentialRenderSystem;
+    SequentialSystem<float> sequentialUpdateSystem = null!;
+    SequentialSystem<float> sequentialRenderSystem = null!;
 
     public GameEngine(IWindow window, IInjectionService injectionService)
     {

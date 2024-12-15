@@ -1,5 +1,4 @@
-﻿using Flux.Core;
-using SixLabors.ImageSharp;
+﻿using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Flux.Rendering.Resources;
@@ -35,7 +34,7 @@ public class ResourcesService : IDisposable
     {
         var meshes = modelLoaderService.LoadMeshes(file);
         resources.AddRange(meshes.Cast<IDisposable>());
-        return new(meshes, material);
+        return new Model(meshes, material);
     }
 
     public static string LoadAssetFile(FileInfo file) => File.ReadAllText(file.FullName);
