@@ -1,7 +1,6 @@
-﻿namespace Flux.Abstraction
+﻿namespace Flux.Abstraction;
+
+public interface IUIRenderComponent
 {
-    public interface IUIRenderComponent
-    {
-        void RenderUI(float deltatime);
-    }
+    void RenderUI(float deltatime);
 }

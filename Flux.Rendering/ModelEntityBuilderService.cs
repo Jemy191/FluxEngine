@@ -12,10 +12,10 @@ public class ModelEntityBuilderService
     readonly ResourcesService resourcesService;
 
     string name = "Object";
-    Path vertex;
-    Path fragment;
-    Path mesh;
-    readonly Dictionary<string, Path> textures = new();
+    FileInfo vertex;
+    FileInfo fragment;
+    FileInfo mesh;
+    readonly Dictionary<string, FileInfo> textures = new();
     readonly List<Uniform> uniforms = new();
 
     Transform transform = new();
@@ -32,19 +32,19 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Vertex(Path path)
+    public ModelEntityBuilderService Vertex(FileInfo file)
     {
-        vertex = path;
+        vertex = file;
         return this;
     }
-    public ModelEntityBuilderService Fragment(Path path)
+    public ModelEntityBuilderService Fragment(FileInfo file)
     {
-        fragment = path;
+        fragment = file;
         return this;
     }
-    public ModelEntityBuilderService Mesh(Path path)
+    public ModelEntityBuilderService Mesh(FileInfo file)
     {
-        mesh = path;
+        mesh = file;
         return this;
     }
     public ModelEntityBuilderService Transform(Transform transform)
@@ -67,9 +67,9 @@ public class ModelEntityBuilderService
         transform.Scale = scale;
         return this;
     }
-    public ModelEntityBuilderService Texture(string name, string path)
+    public ModelEntityBuilderService Texture(string name, FileInfo file)
     {
-        textures[name] = path;
+        textures[name] = file;
         return this;
     }
     public ModelEntityBuilderService ClearTextures()

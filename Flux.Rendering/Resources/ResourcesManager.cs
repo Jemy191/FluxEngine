@@ -2,20 +2,20 @@
 
 public abstract class ResourcesManager<T>
 {
-    readonly Dictionary<Path, T> resources = new();
+    readonly Dictionary<FileInfo, T> resources = new();
 
-    public T Get(Path path)
+    public T Get(FileInfo file)
     {
-        if (!resources.TryGetValue(path, out var resource))
+        if (!resources.TryGetValue(file, out var resource))
         {
-            resource = Load(path);
-            resources[path] = resource;
+            resource = Load(file);
+            resources[file] = resource;
         }
 
         return resource;
     }
 
-    public abstract T Load(Path path);
+    public abstract T Load(FileInfo file);
 
     internal void Decrement<T>(Resource<T> resource)
     {
@@ -25,7 +25,5 @@ public abstract class ResourcesManager<T>
     {
     }
 
-
-    protected static string ToAssetPath(Path path) => System.IO.Path.Combine("Assets", path);
-    protected static string LoadAssetFile(Path path) => File.ReadAllText(ToAssetPath(path));
+    protected static string LoadAssetFile(FileInfo file) => ResourcesService.LoadAssetFile(file);
 }

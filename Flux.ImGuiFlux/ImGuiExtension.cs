@@ -5,11 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using Flux.Abstraction;
 
-namespace Flux.ImGuiFlux
+namespace Flux.ImGuiFlux;
+
+public static class ImGuiExtension
 {
-    public static class ImGuiExtension
-    {
-        public static IGameEngine AddImGuiRendering(this IGameEngine engine) =>
-            engine.AddRenderSystem<ImGuiRenderSystem>();
-    }
+    public static IGameEngine AddImGuiRendering(this IGameEngine engine) =>
+        engine.AddRenderSystem<ImGuiRenderSystem>();
 }

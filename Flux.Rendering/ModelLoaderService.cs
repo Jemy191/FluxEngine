@@ -14,9 +14,9 @@ public class ModelLoaderService : IDisposable
         assimp = Assimp.GetApi();
     }
 
-    public unsafe Mesh[] LoadMeshes(Path path, bool loadColor = false)
+    public unsafe Mesh[] LoadMeshes(FileInfo file, bool loadColor = false)
     {
-        var scene = assimp.ImportFile(path, (uint)PostProcessSteps.Triangulate);
+        var scene = assimp.ImportFile(file.FullName, (uint)PostProcessSteps.Triangulate);
 
         if (scene == null || scene->MFlags == Assimp.SceneFlagsIncomplete || scene->MRootNode == null)
         {

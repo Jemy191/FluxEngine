@@ -13,12 +13,12 @@ public class TexturesManager : ResourcesManager<NewTexture>
         this.gl = gl;
     }
 
-    public unsafe override NewTexture Load(Path path)
+    public override unsafe NewTexture Load(FileInfo file)
     {
         var texture = new NewTexture(gl);
         texture.Bind();
 
-        using var image = Image.Load<Rgba32>(ToAssetPath(path));
+        using var image = Image.Load<Rgba32>(file.FullName);
 
         gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, null);
 

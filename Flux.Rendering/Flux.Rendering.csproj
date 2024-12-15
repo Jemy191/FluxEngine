@@ -16,15 +16,9 @@
         <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
         <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
-    </ItemGroup>
-
-    <ItemGroup>
         <ProjectReference Include="..\Flux.Core\Flux.Core.csproj"/>
-        <Using Include="Flux.Core.Path">
-            <Alias>Path</Alias>
-        </Using>
     </ItemGroup>
-
+    
     <ItemGroup>
         <Using Include="Silk.NET.OpenGL.GL">
             <Alias>GL</Alias>

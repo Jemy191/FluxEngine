@@ -1,8 +1,10 @@
 ﻿using System.Numerics;
+using Flux.Core;
 using Flux.Ecs;
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;
+using Flux.Rendering.Resources;
 using Flux.Tools;
 using Silk.NET.Input;
 using Silk.NET.Windowing;
@@ -25,27 +27,27 @@ class Game
 
         modelBuilder
             .Name("Suzane")
-            .Vertex("shader.vert")
-            .Fragment("suzane.frag")
-            .Mesh("Suzane.fbx")
+            .Vertex("shader.vert".ToAsset())
+            .Fragment("suzane.frag".ToAsset())
+            .Mesh("Suzane.fbx".ToAsset())
             .Position(new Vector3(0, 5, 0))
             .Create();
 
         modelBuilder
             .Name("Cube")
-            .Vertex("shader.vert")
-            .Fragment("normal.frag")
-            .Mesh("Cube.fbx")
-            .Texture("albedo", "BrickPBR/Brick_albedo.png")
-            .Texture("normal", "BrickPBR/Brick_normal.png")
+            .Vertex("shader.vert".ToAsset())
+            .Fragment("normal.frag".ToAsset())
+            .Mesh("Cube.fbx".ToAsset())
+            .Texture("albedo", "BrickPBR/Brick_albedo.png".ToAsset())
+            .Texture("normal", "BrickPBR/Brick_normal.png".ToAsset())
             .Position(new Vector3(0, 0.5f, 0))
             .Create();
 
         modelBuilder
             .Name("Terrain")
-            .Fragment("lighting.frag")
-            .Mesh("Terrain.fbx")
-            .Texture("albedo", "Terrain.png")
+            .Fragment("lighting.frag".ToAsset())
+            .Mesh("Terrain.fbx".ToAsset())
+            .Texture("albedo", "Terrain.png".ToAsset())
             .RemoveTexture("normal")
             .Position(Vector3.Zero)
             .Scale(Vector3.One * 5f)
