@@ -14,10 +14,13 @@ public class ModelEntityBuilderService
     string name = "Object";
     FileInfo vertex = null!;
     FileInfo fragment = null!;
-    FileInfo? model = null;
-    Mesh? mesh = null;
-    readonly Dictionary<string, FileInfo> textures = new Dictionary<string, FileInfo>();
-    readonly List<Uniform> uniforms = new List<Uniform>();
+    FileInfo? model;
+    Mesh? mesh;
+    readonly Dictionary<string, FileInfo> textures = [];
+    readonly List<Uniform> uniforms = [];
+    
+    readonly Dictionary<string, Texture> loadedTextures = [];
+    readonly Dictionary<string, Shader> loadedShader = [];
 
     Transform transform = new Transform();
 
@@ -115,15 +118,18 @@ public class ModelEntityBuilderService
 
     public Entity Create()
     {
-        var shader = resourcesService.LoadShader(vertex, fragment);
+        var shader = LoadShader(vertex, fragment);
 
-        var material = new Material(shader, textures.Select(texture => (texture.Key, resourcesService.LoadTexture(texture.Value))).ToArray(), uniforms.ToArray());
+        var material = new Material(shader, textures.Select(texture => (texture.Key, LoadTexture(texture.Value))).ToArray(), uniforms.ToArray());
         Model? entityModel = null;
 
         if(model is not null)
             entityModel = resourcesService.LoadModel(model, material);
         if(mesh is not null)
             entityModel = new Model([mesh.Value], material);
+        
+        if(entityModel is null)
+            throw new InvalidOperationException("Model or Mesh must be set before creating entity");
 
         var entity = world.CreateEntity();
         entity.Set(name);
@@ -131,5 +137,25 @@ public class ModelEntityBuilderService
         entity.Set(entityModel.Value);
 
         return entity;
+    }
+    Shader LoadShader(FileInfo vertex, FileInfo fragment)
+    {
+        var key = $"{vertex.FullName}-{fragment.FullName}";
+        if (loadedShader.TryGetValue(key, out var shader))
+            return shader;
+
+        shader  = resourcesService.LoadShader(vertex, fragment);
+        loadedShader.Add(key, shader);
+        return shader;
+    }
+
+    Texture LoadTexture(FileInfo file)
+    {
+        if(loadedTextures.TryGetValue(file.FullName, out var texture))
+            return texture;
+        
+        texture = resourcesService.LoadTexture(file);
+        loadedTextures[file.FullName] = texture;
+        return texture;
     }
 }

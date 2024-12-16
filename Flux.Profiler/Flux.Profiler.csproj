@@ -1,0 +1,9 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <ItemGroup>
+        <PackageReference Include="FlameGraph.Net" Version="1.0.2"/>
+        <PackageReference Include="MiniProfiler.AspNetCore" Version="4.5.4"/>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
+    </ItemGroup>
+</Project>

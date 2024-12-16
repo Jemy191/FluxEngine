@@ -1,5 +1,5 @@
 ﻿namespace Flux.Abstraction;
-public interface IInjectionService
+public interface IInjectionService: IAsyncDisposable
 {
     T Instanciate<T>();
 }

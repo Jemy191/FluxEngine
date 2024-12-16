@@ -8,8 +8,8 @@ public struct Camera
     public Angle fov;
     public float aspectRatio;
 
-    public float nearPlane = 0.1f;
-    public float farPlane = 100.0f;
+    public float nearPlane = 0.01f;
+    public float farPlane = 100_000.0f;
 
     public Camera()
     {

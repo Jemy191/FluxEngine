@@ -20,6 +20,20 @@ public readonly struct Texture : IDisposable
         SetParameters();
     }
 
+    public unsafe Texture(GL gl, Span<byte> data, uint width, uint height)
+    {
+        this.gl = gl;
+
+        handle = this.gl.GenTexture();
+        Bind();
+
+        fixed (void* d = &data[0])
+        {
+            this.gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
+            SetParameters();
+        }
+    }
+
     static unsafe void LoadImage(GL gl, Image<Rgba32> image)
     {
         gl.TexImage2D(TextureTarget.Texture2D, 0, InternalFormat.Rgba8, (uint)image.Width, (uint)image.Height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, null);
@@ -34,20 +48,6 @@ public readonly struct Texture : IDisposable
                 }
             }
         });
-    }
-
-    public unsafe Texture(GL gl, Span<byte> data, uint width, uint height)
-    {
-        this.gl = gl;
-
-        handle = this.gl.GenTexture();
-        Bind();
-
-        fixed (void* d = &data[0])
-        {
-            this.gl.TexImage2D(TextureTarget.Texture2D, 0, (int)InternalFormat.Rgba, width, height, 0, PixelFormat.Rgba, PixelType.UnsignedByte, d);
-            SetParameters();
-        }
     }
 
     void SetParameters()

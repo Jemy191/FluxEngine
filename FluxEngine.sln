@@ -29,6 +29,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flux.Tools", "Flux.Tools\Fl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Flux.ImGuiFlux", "Flux.ImGuiFlux\Flux.ImGuiFlux.csproj", "{7AB149E1-2FCD-4633-A5A1-0E8051CA6BB2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Profiler", "Flux.Profiler\Flux.Profiler.csproj", "{27780586-8629-46B7-AC6B-D26B88C6781E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{7AB149E1-2FCD-4633-A5A1-0E8051CA6BB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7AB149E1-2FCD-4633-A5A1-0E8051CA6BB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7AB149E1-2FCD-4633-A5A1-0E8051CA6BB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{27780586-8629-46B7-AC6B-D26B88C6781E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{27780586-8629-46B7-AC6B-D26B88C6781E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{27780586-8629-46B7-AC6B-D26B88C6781E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{27780586-8629-46B7-AC6B-D26B88C6781E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

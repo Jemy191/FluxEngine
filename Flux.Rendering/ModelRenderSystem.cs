@@ -4,6 +4,7 @@ using DefaultEcs.System;
 using Flux.Ecs;
 using Flux.MathAddon;
 using Silk.NET.Windowing;
+using StackExchange.Profiling;
 
 namespace Flux.Rendering;
 
@@ -11,17 +12,19 @@ public class ModelRenderSystem : AEntitySetSystem<float>
 {
     readonly EntitySet cameraSet;
 
-    Angle lightYaw = Angle.FromDegrees(180);
+    Angle lightYaw = Angle.FromDegrees(90);
     readonly Uniform<Matrix4x4> viewUniform;
     readonly Uniform<Matrix4x4> projectionUniform;
     readonly Uniform<Vector3> lightDirectionUniform;
     readonly Uniform<float> timeUniform;
     readonly IWindow window;
+    readonly MiniProfiler profiler;
 
-    public ModelRenderSystem(IEcsWorldService ecsService, IWindow window)
+    public ModelRenderSystem(IEcsWorldService ecsService, IWindow window, MiniProfiler profiler)
         : base(ecsService.World.GetEntities().With<Transform>().With<Model>().AsSet())
     {
         this.window = window;
+        this.profiler = profiler;
 
         cameraSet = ecsService.World
             .GetEntities()
@@ -48,7 +51,7 @@ public class ModelRenderSystem : AEntitySetSystem<float>
         var camera = cameraEntity.Get<Camera>();
         var cameraTransform = cameraEntity.Get<Transform>();
 
-        lightYaw += Angle.FromDegrees(20 * deltatime);
+        //lightYaw += Angle.FromDegrees(20 * deltatime);
 
         viewUniform.Value = camera.ComputeViewMatrix(cameraTransform);
         projectionUniform.Value = camera.ComputeProjectionMatrix();
@@ -59,6 +62,9 @@ public class ModelRenderSystem : AEntitySetSystem<float>
 
     protected override void Update(float deltatime, in Entity modelEntity)
     {
+        var name = modelEntity.Get<string>();
+        using var _ = profiler.Step($"ModelRenderSystem: {name}");
+        
         var modelTransform = modelEntity.Get<Transform>();
         var model = modelEntity.Get<Model>();
 
