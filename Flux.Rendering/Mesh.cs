@@ -12,12 +12,14 @@ public readonly struct Mesh : IDisposable
     readonly BufferObject<uint> ebo;
 
     readonly uint verticesCount;
+    readonly uint indicesCount;
 
     public Mesh(GL gl, float[] vertices, uint[] indices, bool useColor = false)
     {
         this.gl = gl;
 
         verticesCount = (uint)vertices.Length;
+        indicesCount = (uint)indices.Length;
         ebo = new BufferObject<uint>(this.gl, indices, BufferTargetARB.ElementArrayBuffer);
         vbo = new BufferObject<float>(this.gl, vertices, BufferTargetARB.ArrayBuffer);
         vao = new VertexArrayObject<float, uint>(this.gl, vbo, ebo);
@@ -39,8 +41,9 @@ public readonly struct Mesh : IDisposable
     }
 
     public void Bind() => vao.Bind();
-    internal void Draw() => gl.DrawArrays(PrimitiveType.Triangles, 0, verticesCount);
-
+    
+    internal unsafe void Draw() => gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, IntPtr.Zero);
+    
     public void Dispose()
     {
         vao.Dispose();
