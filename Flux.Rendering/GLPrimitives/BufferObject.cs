@@ -1,6 +1,6 @@
 ﻿using Silk.NET.OpenGL;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct BufferObject<TDataType> : IBindable, IDisposable
     where TDataType : unmanaged

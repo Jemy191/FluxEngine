@@ -1,6 +1,7 @@
 ﻿using Silk.NET.Assimp;
+using Mesh = Flux.Rendering.GLPrimitives.Mesh;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Services;
 
 public class ModelLoaderService : IDisposable
 {

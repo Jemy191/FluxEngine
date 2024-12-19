@@ -4,7 +4,7 @@ using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using Silk.NET.Windowing;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Systems;
 
 public class OpenGlRenderSystem : ISystem<float>
 {

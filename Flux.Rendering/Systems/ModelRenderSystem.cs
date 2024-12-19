@@ -3,9 +3,10 @@ using DefaultEcs;
 using DefaultEcs.System;
 using Flux.Ecs;
 using Flux.MathAddon;
+using Flux.Rendering.GLPrimitives;
 using Silk.NET.Windowing;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Systems;
 
 public class ModelRenderSystem : AEntitySetSystem<float>
 {

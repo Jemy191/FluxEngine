@@ -2,7 +2,7 @@
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Texture : IDisposable
 {

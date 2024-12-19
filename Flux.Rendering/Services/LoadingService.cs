@@ -1,7 +1,8 @@
-﻿using SixLabors.ImageSharp;
+﻿using Flux.Rendering.GLPrimitives;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Services;
 
 public class LoadingService
 {

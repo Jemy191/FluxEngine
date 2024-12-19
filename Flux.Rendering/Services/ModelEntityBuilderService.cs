@@ -2,9 +2,9 @@
 using DefaultEcs;
 using Flux.Ecs;
 using Flux.MathAddon;
-using Flux.Rendering.Resources;
+using Flux.Rendering.GLPrimitives;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Services;
 
 public class ModelEntityBuilderService
 {

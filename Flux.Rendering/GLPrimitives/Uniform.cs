@@ -1,4 +1,4 @@
-﻿namespace Flux.Rendering;
+﻿namespace Flux.Rendering.GLPrimitives;
 
 public class Uniform<T> : Uniform
 {

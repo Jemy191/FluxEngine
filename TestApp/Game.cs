@@ -2,7 +2,8 @@
 using Flux.EntityBehavior;
 using Flux.MathAddon;
 using Flux.Rendering;
-using Flux.Rendering.Resources;
+using Flux.Rendering.Extensions;
+using Flux.Rendering.Services;
 using Flux.Tools;
 using Silk.NET.Input;
 using Silk.NET.Windowing;

@@ -2,6 +2,7 @@
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
 using Flux.Rendering;
+using Flux.Rendering.Extensions;
 using Silk.NET.Windowing;
 using TestApp;
 

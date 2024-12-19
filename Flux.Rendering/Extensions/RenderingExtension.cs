@@ -1,12 +1,13 @@
 ﻿using Flux.Abstraction;
-using Flux.Rendering.Resources;
+using Flux.Rendering.Services;
+using Flux.Rendering.Systems;
 using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Core.Contexts;
 using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
 using Silk.NET.Windowing;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.Extensions;
 
 public static class RenderingExtension
 {

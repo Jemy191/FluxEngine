@@ -1,4 +1,4 @@
-namespace Flux.Rendering;
+namespace Flux.Rendering.Extensions;
 
 public static class BindableExtensions
 {

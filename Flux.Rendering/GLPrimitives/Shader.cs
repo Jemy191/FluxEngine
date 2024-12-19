@@ -1,7 +1,7 @@
 ﻿using System.Numerics;
 using Silk.NET.OpenGL;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Shader : IDisposable
 {

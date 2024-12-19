@@ -1,6 +1,7 @@
-﻿using Silk.NET.OpenGL;
+﻿using Flux.Rendering.Extensions;
+using Silk.NET.OpenGL;
 
-namespace Flux.Rendering;
+namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Mesh : IBindable, IDisposable
 {

@@ -1,6 +1,6 @@
 using Flux.Core;
 
-namespace Flux.Rendering.Resources;
+namespace Flux.Rendering.Extensions;
 
 public static class AssetExtensions
 {
