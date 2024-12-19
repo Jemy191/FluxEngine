@@ -2,21 +2,17 @@
 
 namespace Flux.Rendering;
 
-public readonly struct VertexArrayObject<TVertexType, TIndexType> : IDisposable
+public readonly struct VertexArrayObject<TVertexType> : IBindable, IDisposable
     where TVertexType : unmanaged
-    where TIndexType : unmanaged
 {
     readonly uint handle;
     readonly GL gl;
 
-    public VertexArrayObject(GL gl, BufferObject<TVertexType> vbo, BufferObject<TIndexType> ebo)
+    public VertexArrayObject(GL gl)
     {
         this.gl = gl;
 
         handle = this.gl.GenVertexArray();
-        Bind();
-        vbo.Bind();
-        ebo.Bind();
     }
 
     public unsafe void VertexAttributePointer(uint index, int count, VertexAttribPointerType type, uint vertexSize, int offSet)
@@ -28,6 +24,6 @@ public readonly struct VertexArrayObject<TVertexType, TIndexType> : IDisposable
     }
 
     public void Bind() => gl.BindVertexArray(handle);
+    public void Unbind() => gl.BindVertexArray(0);
     public void Dispose() => gl.DeleteVertexArray(handle);
-    public void UnBind() => gl.BindVertexArray(0);
 }

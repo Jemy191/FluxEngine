@@ -2,20 +2,23 @@
 
 namespace Flux.Rendering;
 
-public readonly struct BufferObject<TDataType> : IDisposable
+public readonly struct BufferObject<TDataType> : IBindable, IDisposable
     where TDataType : unmanaged
 {
     readonly uint handle;
     readonly BufferTargetARB bufferType;
     readonly GL gl;
 
-    public unsafe BufferObject(GL gl, Span<TDataType> data, BufferTargetARB bufferType)
+    public BufferObject(GL gl, BufferTargetARB bufferType)
     {
         this.gl = gl;
         this.bufferType = bufferType;
 
         handle = this.gl.GenBuffer();
-        Bind();
+    }
+    
+    public unsafe void SendData(Span<TDataType> data)
+    {
         fixed (void* d = data)
         {
             var size = (nuint)(data.Length * sizeof(TDataType));
@@ -24,7 +27,6 @@ public readonly struct BufferObject<TDataType> : IDisposable
     }
 
     public void Bind() => gl.BindBuffer(bufferType, handle);
-
+    public void Unbind() => gl.BindBuffer(bufferType, 0);
     public void Dispose() => gl.DeleteBuffer(handle);
-    public void UnBind() => gl.BindBuffer(bufferType, 0);
 }
