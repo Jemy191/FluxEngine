@@ -7,6 +7,7 @@ public readonly struct Shader : IDisposable
 {
     readonly uint handle;
     readonly GL gl;
+    readonly Dictionary<string, int> uniformLocations = [];
 
     public Shader(GL gl, string vertexSource, string fragmentSource)
     {
@@ -48,7 +49,11 @@ public readonly struct Shader : IDisposable
 
     bool TryGetUniformLocation(string name, out int location)
     {
+        if (uniformLocations.TryGetValue(name, out location))
+            return true;
+        
         location = gl.GetUniformLocation(handle, name);
+        uniformLocations[name] = location;
         return location != -1;
     }
 
