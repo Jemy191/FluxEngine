@@ -2,7 +2,6 @@
 using Flux.Abstraction;
 using Flux.Ecs;
 using Silk.NET.Windowing;
-using StackExchange.Profiling;
 
 namespace Flux.Engine;
 
@@ -13,15 +12,13 @@ public class GameEngine : IGameEngine
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
-    readonly MiniProfiler profiler;
     SequentialSystem<float> sequentialUpdateSystem = null!;
     SequentialSystem<float> sequentialRenderSystem = null!;
 
-    public GameEngine(IWindow window, IInjectionService injectionService, MiniProfiler profiler)
+    public GameEngine(IWindow window, IInjectionService injectionService)
     {
         this.window = window;
         this.injectionService = injectionService;
-        this.profiler = profiler;
 
         window.Closing += OnClose;
         window.Render += OnRender;
@@ -54,17 +51,9 @@ public class GameEngine : IGameEngine
         window.Run();
     }
 
-    void OnUpdate(double deltaTime)
-    {
-        using var _ = profiler.Step("Main update");
-        sequentialUpdateSystem.Update((float)deltaTime);
-    }
+    void OnUpdate(double deltaTime) => sequentialUpdateSystem.Update((float)deltaTime);
 
-    void OnRender(double deltaTime)
-    {
-        using var _ = profiler.Step("Main render");
-        sequentialRenderSystem.Update((float)deltaTime);
-    }
+    void OnRender(double deltaTime) => sequentialRenderSystem.Update((float)deltaTime);
 
     void OnClose()
     {
@@ -80,10 +69,7 @@ public class GameEngine : IGameEngine
 
     public void RunWith<T>()
     {
-        using (profiler.Step("Initialization"))
-        {
-            Instanciate<T>();
-        }
+        Instanciate<T>();
         Run();
     }
 }

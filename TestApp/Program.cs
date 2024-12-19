@@ -1,7 +1,6 @@
 ﻿using Flux.Engine;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
-using Flux.Profiler;
 using Flux.Rendering;
 using Silk.NET.Windowing;
 using TestApp;
@@ -17,7 +16,6 @@ builder.Services
     .AddResourceServices()
     .AddBehaviorServices()
     .AddModelEntityBuilder()
-    .AddProfiler()
     ;
 
 var engine = builder.Build();

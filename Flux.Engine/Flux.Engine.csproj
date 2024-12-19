@@ -14,6 +14,5 @@
     <ItemGroup>
         <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
-        <ProjectReference Include="..\Flux.Profiler\Flux.Profiler.csproj" />
     </ItemGroup>
 </Project>
