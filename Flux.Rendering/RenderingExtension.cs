@@ -15,7 +15,7 @@ public static class RenderingExtension
     public static IServiceCollection AddImGui(this IServiceCollection services) => services.AddSingleton<ImGuiController>();
     public static IServiceCollection AddResourceServices(this IServiceCollection services) => services
         .AddSingleton<ModelLoaderService>()
-        .AddSingleton<ResourcesService>();
+        .AddSingleton<LoadingService>();
     
     public static IServiceCollection AddModelEntityBuilder(this IServiceCollection services) => services.AddSingleton<ModelEntityBuilderService>();
 

@@ -8,8 +8,8 @@ namespace Flux.Rendering;
 
 public class ModelEntityBuilderService
 {
+    readonly LoadingService loadingService;
     readonly World world;
-    readonly ResourcesService resourcesService;
 
     string name = "Object";
     FileInfo vertex = null!;
@@ -24,10 +24,10 @@ public class ModelEntityBuilderService
 
     Transform transform = new Transform();
 
-    public ModelEntityBuilderService(IEcsWorldService ecsService, ResourcesService resourcesService)
+    public ModelEntityBuilderService(IEcsWorldService ecsService, LoadingService loadingService)
     {
+        this.loadingService = loadingService;
         world = ecsService.World;
-        this.resourcesService = resourcesService;
     }
 
     public ModelEntityBuilderService Name(string name)
@@ -124,7 +124,7 @@ public class ModelEntityBuilderService
         Model? entityModel = null;
 
         if(model is not null)
-            entityModel = resourcesService.LoadModel(model, material);
+            entityModel = loadingService.LoadModel(model, material);
         if(mesh is not null)
             entityModel = new Model([mesh.Value], material);
         
@@ -144,7 +144,7 @@ public class ModelEntityBuilderService
         if (loadedShader.TryGetValue(key, out var shader))
             return shader;
 
-        shader  = resourcesService.LoadShader(vertex, fragment);
+        shader  = loadingService.LoadShader(vertex, fragment);
         loadedShader.Add(key, shader);
         return shader;
     }
@@ -154,7 +154,7 @@ public class ModelEntityBuilderService
         if(loadedTextures.TryGetValue(file.FullName, out var texture))
             return texture;
         
-        texture = resourcesService.LoadTexture(file);
+        texture = loadingService.LoadTexture(file);
         loadedTextures[file.FullName] = texture;
         return texture;
     }
