@@ -15,7 +15,7 @@ public readonly struct Material : IDisposable
         this.uniforms = uniforms;
     }
 
-    public readonly void Use()
+    public void Use()
     {
         shader.Use();
 

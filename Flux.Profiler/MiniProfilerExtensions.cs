@@ -1,3 +1,4 @@
+using System.Security.Cryptography;
 using FlameGraphNet.Core;
 using StackExchange.Profiling;
 
@@ -5,7 +6,7 @@ namespace Flux.Profiler;
 
 public static class MiniProfilerExtensions
 {
-    public static void RenderFlameGraph(this MiniProfiler profiler, FileInfo file)
+    public static void RenderFlameGraph(this MiniProfiler profiler, FileInfo file, TimeSpan duration, float pixelPerSecond)
     {
         ArgumentNullException.ThrowIfNull(profiler);
 
@@ -21,7 +22,7 @@ public static class MiniProfilerExtensions
                 new FlameGraphOptions
                 {
                     Title = "Flame Graph",
-                    Width = 1600,
+                    Width = (int)(duration.TotalSeconds * pixelPerSecond),
                     AutoHeight = true,
                 })
             .BuildTo(root, file.FullName);
@@ -31,7 +32,7 @@ public static class MiniProfilerExtensions
     {
         if (timing.Children is null)
             return;
-
+        
         foreach (var child in timing.Children)
         {
             var childNode = new SimpleNode

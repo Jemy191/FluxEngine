@@ -13,20 +13,20 @@ public class OpenGlRenderSystem : ISystem<float>
 
     public bool IsEnabled { get; set; }
 
-    public OpenGlRenderSystem(GL Gl, IWindow window)
+    public OpenGlRenderSystem(GL gl, IWindow window)
     {
-        gl = Gl;
+        this.gl = gl;
         this.window = window;
         window.FramebufferResize += OnFramebufferResize;
 
-        Gl.ClearColor(Color.CornflowerBlue);
-        Gl.Enable(EnableCap.DepthTest);
+        gl.ClearColor(Color.CornflowerBlue);
+        gl.Enable(EnableCap.DepthTest);
 
-        Gl.Enable(EnableCap.CullFace);
-        Gl.CullFace(TriangleFace.Back);
-        Gl.FrontFace(FrontFaceDirection.CW);
+        gl.Enable(EnableCap.CullFace);
+        gl.CullFace(TriangleFace.Back);
+        gl.FrontFace(FrontFaceDirection.CW);
 
-        Gl.Enable(EnableCap.Multisample);
+        gl.Enable(EnableCap.Multisample);
 
         OnFramebufferResize(window.Size);
     }

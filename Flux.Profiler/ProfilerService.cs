@@ -6,6 +6,8 @@ namespace Flux.Profiler;
 public class ProfilerService : IDisposable
 {
     public readonly MiniProfiler Profiler = MiniProfiler.StartNew("Profiler") ?? throw new Exception("Profiler did not start");
+
+    readonly DateTime start = DateTime.Now;
     
     public void Dispose()
     {
@@ -16,6 +18,7 @@ public class ProfilerService : IDisposable
         
         file.Directory!.Create();
 
-        Profiler.RenderFlameGraph(file);
+        var duration = now - start;
+        Profiler.RenderFlameGraph(file, duration, 300);
     }
 }

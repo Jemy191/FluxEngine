@@ -41,6 +41,8 @@ public readonly struct Mesh : IBindable, IDisposable
             if (useColor)
                 vao.VertexAttributePointer(5, 3, VertexAttribPointerType.Float, vertexSize, 14);
         }
+        vbo.Unbind();
+        ebo.Unbind();
     }
 
     internal unsafe void Draw() => gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
