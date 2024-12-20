@@ -1,7 +1,6 @@
 ﻿using Flux.Engine;
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
-using Flux.Rendering;
 using Flux.Rendering.Extensions;
 using Silk.NET.Windowing;
 using TestApp;
@@ -26,7 +25,9 @@ var engine = builder.Build();
 engine.AddOpenGlRendering()
     .AddModelRendering()
     .AddImGuiRendering()
-    .AddBehaviorSystem();
+    .AddBehaviorSystem()
+    .AddResourceManagers()
+    ;
 
 // Add game logic here
 

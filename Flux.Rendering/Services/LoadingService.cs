@@ -1,4 +1,5 @@
 ﻿using Flux.Rendering.GLPrimitives;
+using Flux.Resources;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
@@ -28,10 +29,10 @@ public class LoadingService
         return texture;
     }
 
-    public Model LoadModel(FileInfo file, Material material)
+    public Model LoadModel(FileInfo file, Resource<Material> materialId, ResourcesRepository resourcesRepository)
     {
         var meshes = modelLoaderService.LoadMeshes(file);
-        return new Model(meshes, material);
+        return new Model(meshes, materialId, resourcesRepository);
     }
 
     public static string LoadAssetFile(FileInfo file) => File.ReadAllText(file.FullName);

@@ -1,17 +1,19 @@
-﻿using Silk.NET.OpenGL;
+﻿using Flux.Abstraction;
+using Flux.Resources;
+using Silk.NET.OpenGL;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Material : IDisposable
+public readonly struct Material : IResource, IDisposable
 {
     readonly Shader shader;
     readonly (string uniformName, Texture texture)[] textures;
     readonly Uniform[] uniforms;
 
-    public Material(Shader shader, (string uniformName, Texture texture)[] textures, Uniform[] uniforms)
+    public Material(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
     {
-        this.shader = shader;
-        this.textures = textures;
+        this.shader = resourcesRepository.GetResource(shader);
+        this.textures = textures.Select(t => (t.uniformName, resourcesRepository.GetResource(t.texture))).ToArray();
         this.uniforms = uniforms;
     }
 

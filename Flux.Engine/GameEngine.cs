@@ -9,6 +9,7 @@ public class GameEngine : IGameEngine
 {
     readonly List<ISystem<float>> updater = [];
     readonly List<ISystem<float>> renderer = [];
+    readonly List<IFluxResourceManager> resourceManager = [];
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
@@ -41,6 +42,12 @@ public class GameEngine : IGameEngine
     public IGameEngine AddUpdateSystem<T>() where T : ISystem<float>
     {
         updater.Add(injectionService.InstanciateSystem<float, T>());
+        return this;
+    }
+    
+    public IGameEngine AddResourceManager<T>() where T : IFluxResourceManager
+    {
+        resourceManager.Add(injectionService.Instanciate<T>());
         return this;
     }
 

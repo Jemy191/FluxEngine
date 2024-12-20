@@ -1,14 +1,17 @@
-﻿namespace Flux.Rendering.GLPrimitives;
+﻿using Flux.Abstraction;
+using Flux.Resources;
 
-public readonly struct Model : IDisposable
+namespace Flux.Rendering.GLPrimitives;
+
+public readonly struct Model : IResource , IDisposable
 {
     readonly Mesh[] meshes;
     readonly Material material;
 
-    public Model(Mesh[] meshes, Material material)
+    public Model(Mesh[] meshes, Resource<Material> materialId, ResourcesRepository resourcesRepository)
     {
         this.meshes = meshes;
-        this.material = material;
+        material = resourcesRepository.GetResource(materialId);
     }
 
     public readonly void Draw(IEnumerable<Uniform> uniforms)

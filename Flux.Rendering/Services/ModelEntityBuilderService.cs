@@ -1,8 +1,11 @@
 ﻿using System.Numerics;
 using DefaultEcs;
+using DefaultEcs.Resource;
 using Flux.Ecs;
 using Flux.MathAddon;
+using Flux.Rendering.Extensions;
 using Flux.Rendering.GLPrimitives;
+using Flux.Resources;
 
 namespace Flux.Rendering.Services;
 
@@ -18,7 +21,7 @@ public class ModelEntityBuilderService
     Mesh? mesh;
     readonly Dictionary<string, FileInfo> textures = [];
     readonly List<Uniform> uniforms = [];
-    
+
     readonly Dictionary<string, Texture> loadedTextures = [];
     readonly Dictionary<string, Shader> loadedShader = [];
 
@@ -118,44 +121,40 @@ public class ModelEntityBuilderService
 
     public Entity Create()
     {
-        var shader = LoadShader(vertex, fragment);
-
-        var material = new Material(shader, textures.Select(texture => (texture.Key, LoadTexture(texture.Value))).ToArray(), uniforms.ToArray());
-        Model? entityModel = null;
-
-        if(model is not null)
-            entityModel = loadingService.LoadModel(model, material);
-        if(mesh is not null)
-            entityModel = new Model([mesh.Value], material);
-        
-        if(entityModel is null)
-            throw new InvalidOperationException("Model or Mesh must be set before creating entity");
-
         var entity = world.CreateEntity();
+        var resourcesRepository = new ResourcesRepository();
+
+        entity.Set(Guid.NewGuid());
         entity.Set(name);
         entity.Set(transform);
+        entity.Set(resourcesRepository);
+
+        var textureIds = new List<(string uniformName, Resource<Texture> texture)>();
+        foreach (var texture in textures)
+        {
+            var textureId = Resource<Texture>.Create();
+            entity.Set(ManagedResource<WrapperTemp<Texture>>.Create(new ResourceCreationInfo<FileInfo, Texture>(textureId, texture.Value, resourcesRepository)));
+            textureIds.Add((texture.Key, textureId));
+        }
+
+        var shaderId = Resource<Shader>.Create();
+        var materialId = Resource<Material>.Create();
+
+        entity.Set(ManagedResource<WrapperTemp<Shader>>.Create(new ResourceCreationInfo<(FileInfo vertexFile, FileInfo fragmentFile), Shader>(shaderId, (vertex, fragment), resourcesRepository)));
+        entity.Set(ManagedResource<WrapperTemp<Material>>.Create(new ResourceCreationInfo<(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms), Material>(materialId, (shaderId, textureIds.ToArray(), uniforms.ToArray()), resourcesRepository)));
+
+        Model? entityModel = null;
+
+        if (model is not null)
+            entityModel = loadingService.LoadModel(model, materialId, resourcesRepository);
+        if (mesh is not null)
+            entityModel = new Model([mesh.Value], materialId, resourcesRepository);
+
+        if (entityModel is null)
+            throw new InvalidOperationException("Model or Mesh must be set before creating entity");
+
         entity.Set(entityModel.Value);
 
         return entity;
-    }
-    Shader LoadShader(FileInfo vertex, FileInfo fragment)
-    {
-        var key = $"{vertex.FullName}-{fragment.FullName}";
-        if (loadedShader.TryGetValue(key, out var shader))
-            return shader;
-
-        shader  = loadingService.LoadShader(vertex, fragment);
-        loadedShader.Add(key, shader);
-        return shader;
-    }
-
-    Texture LoadTexture(FileInfo file)
-    {
-        if(loadedTextures.TryGetValue(file.FullName, out var texture))
-            return texture;
-        
-        texture = loadingService.LoadTexture(file);
-        loadedTextures[file.FullName] = texture;
-        return texture;
     }
 }

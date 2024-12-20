@@ -1,10 +1,12 @@
-﻿using Silk.NET.OpenGL;
+﻿using Flux.Abstraction;
+using Flux.Resources;
+using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Texture : IDisposable
+public readonly struct Texture : IResource, IDisposable
 {
     readonly uint handle;
     readonly GL gl;

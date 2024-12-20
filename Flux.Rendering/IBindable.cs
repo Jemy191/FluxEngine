@@ -1,8 +1,7 @@
-namespace Flux.Rendering
+namespace Flux.Rendering;
+
+public interface IBindable
 {
-    public interface IBindable
-    {
-        void Bind();
-        void Unbind();
-    }
+    void Bind();
+    void Unbind();
 }

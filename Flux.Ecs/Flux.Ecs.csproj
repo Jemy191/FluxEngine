@@ -3,9 +3,8 @@
         <PackageReference Include="DefaultEcs" Version="0.17.2"/>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0" />
     </ItemGroup>
-
     <ItemGroup>
-        <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
+      <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj" />
     </ItemGroup>
 
     <Target Name="AddDefaultEcsAnalyzer" AfterTargets="ResolveReferences" BeforeTargets="CoreCompile">

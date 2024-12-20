@@ -17,6 +17,7 @@
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
         <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
         <ProjectReference Include="..\Flux.Core\Flux.Core.csproj"/>
+        <ProjectReference Include="..\Flux.Resources\Flux.Resources.csproj" />
     </ItemGroup>
     
     <ItemGroup>

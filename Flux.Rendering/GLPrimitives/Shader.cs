@@ -1,9 +1,11 @@
 ﻿using System.Numerics;
+using Flux.Abstraction;
+using Flux.Resources;
 using Silk.NET.OpenGL;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Shader : IDisposable
+public readonly struct Shader : IResource, IDisposable
 {
     readonly uint handle;
     readonly GL gl;

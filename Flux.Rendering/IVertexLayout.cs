@@ -1,9 +1,8 @@
 using Flux.Rendering.GLPrimitives;
 
-namespace Flux.Rendering
+namespace Flux.Rendering;
+
+public interface IVertexLayout
 {
-    public interface IVertexLayout
-    {
-        abstract static IEnumerable<VertexAttributeData> GetVertexAttributesLayout();
-    }
+    abstract static IEnumerable<VertexAttributeData> GetVertexAttributesLayout();
 }

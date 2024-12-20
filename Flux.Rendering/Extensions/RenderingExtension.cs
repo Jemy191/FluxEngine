@@ -1,4 +1,5 @@
 ﻿using Flux.Abstraction;
+using Flux.Rendering.ResourceManagers;
 using Flux.Rendering.Services;
 using Flux.Rendering.Systems;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,6 +23,11 @@ public static class RenderingExtension
 
     public static IGameEngine AddModelRendering(this IGameEngine engine) =>
         engine.AddRenderSystem<ModelRenderSystem>();
+
+    public static IGameEngine AddResourceManagers(this IGameEngine engine) =>
+        engine.AddResourceManager<TextureResourceManager>()
+            .AddResourceManager<ShaderResourceManager>()
+            .AddResourceManager<MaterialResourceManager>();
     
     /// <summary>
     /// Should be added before other rendering system.
