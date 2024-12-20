@@ -16,7 +16,8 @@ void main()
       vec3 normalizedLightDirection = normalize(lightDirection);
       float lambert = max(0.0, dot(pixelNormal, normalizedLightDirection));
 
-      FragColor = vec4(texture(albedo, fUv).rgb * lambert, 1.0 );
+      //FragColor = vec4(texture(albedo, fUv).rgb * lambert, 1.0 );
       //FragColor = vec4(lambert, lambert, lambert, 1.0 );
       //FragColor = vec4(pixelNormal, 1.0 );
+      FragColor = vec4(0.0, 0.0, 0.0, 1.0 );
 }

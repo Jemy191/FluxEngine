@@ -4,10 +4,8 @@ layout (location = 1) in vec3 vNormal;
 layout (location = 2) in vec3 vTangent;
 layout (location = 3) in vec3 vBiTangent;
 layout (location = 4) in vec2 vUv;
-layout (location = 5) in vec3 vColor;
 
 out vec3 fPos;
-out vec3 fCol;
 out vec2 fUv;
 out mat3 tbn;
 
@@ -25,6 +23,5 @@ void main()
     vec3 b = normalize( ( uModel * vec4( vBiTangent, 0.0 ) ).xyz );
     tbn = mat3( t, b, n );
 
-    fCol = vColor;
     fUv = vUv;
 }

@@ -1,4 +1,5 @@
-﻿using Silk.NET.Assimp;
+﻿using System.Numerics;
+using Silk.NET.Assimp;
 using Mesh = Flux.Rendering.GLPrimitives.Mesh;
 
 namespace Flux.Rendering.Services;
@@ -14,7 +15,7 @@ public class ModelLoaderService : IDisposable
         assimp = Assimp.GetApi();
     }
 
-    public unsafe Mesh[] LoadMeshes(FileInfo file, bool loadColor = false)
+    public unsafe Mesh[] LoadMeshes(FileInfo file)
     {
         var scene = assimp.ImportFile(file.FullName, (uint)PostProcessSteps.Triangulate);
 
@@ -24,66 +25,54 @@ public class ModelLoaderService : IDisposable
             throw new Exception(error);
         }
 
-        var meshes = ProcessNode(scene->MRootNode, scene, loadColor);
+        var meshes = ProcessNode(scene->MRootNode, scene);
 
         return meshes.ToArray();
     }
 
-    unsafe List<Mesh> ProcessNode(Node* node, Scene* scene, bool loadColor)
+    unsafe List<Mesh> ProcessNode(Node* node, Scene* scene)
     {
         var meshes = new List<Mesh>((int)node->MNumMeshes);
 
         for (var i = 0; i < node->MNumMeshes; i++)
         {
             var mesh = scene->MMeshes[node->MMeshes[i]];
-            meshes.Add(ProcessMesh(mesh, loadColor));
+            meshes.Add(ProcessMesh(mesh));
 
         }
 
         for (var i = 0; i < node->MNumChildren; i++)
         {
-            meshes.AddRange(ProcessNode(node->MChildren[i], scene, loadColor));
+            meshes.AddRange(ProcessNode(node->MChildren[i], scene));
         }
 
         return meshes;
     }
 
-    unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh, bool loadColor)
+    unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh)
     {
-        var verticeSize = mesh->MNumVertices * Mesh.VertexSize;
-        if (loadColor)
-            verticeSize += 3;
-        var vertices = new float[verticeSize];
+        var vertices = new Vertex[14];
         var indices = new uint[mesh->MNumFaces * 3]; // We assume that the mesh is triangulated
 
         for (uint i = 0; i < mesh->MNumVertices; i++)
         {
-            var t = i * Mesh.VertexSize;
-            vertices[t] = mesh->MVertices[i].X;
-            vertices[t + 1] = mesh->MVertices[i].Y;
-            vertices[t + 2] = mesh->MVertices[i].Z;
+            var t = i * 14;
 
-            vertices[t + 3] = mesh->MNormals[i].X;
-            vertices[t + 4] = mesh->MNormals[i].Y;
-            vertices[t + 5] = mesh->MNormals[i].Z;
-
-            vertices[t + 6] = mesh->MTangents[i].X;
-            vertices[t + 7] = mesh->MTangents[i].Y;
-            vertices[t + 8] = mesh->MTangents[i].Z;
-
-            vertices[t + 9] = mesh->MBitangents[i].X;
-            vertices[t + 10] = mesh->MBitangents[i].Y;
-            vertices[t + 11] = mesh->MBitangents[i].Z;
-
-            vertices[t + 12] = mesh->MTextureCoords[0][i].X;
-            vertices[t + 13] = mesh->MTextureCoords[0][i].Y;
-
-            if (loadColor)
+            var texCoords = new Vector2
             {
-                vertices[t + 4] = mesh->MColors[0][i].X;
-                vertices[t + 15] = mesh->MColors[0][i].Y;
-                vertices[t + 16] = mesh->MColors[0][i].Z;
-            }
+                X = mesh->MTextureCoords[0][i].X,
+                Y = mesh->MTextureCoords[0][i].Y
+            };
+            
+            var vertex = new Vertex
+            {
+                Position = mesh->MVertices[i],
+                Normal = mesh->MNormals[i],
+                Tangent = mesh->MTangents[i],
+                Bitangent = mesh->MBitangents[i],
+                TexCoords = texCoords
+            };
+            vertices[t] = vertex;
         }
 
         for (uint i = 0; i < mesh->MNumFaces; i++)
@@ -94,7 +83,7 @@ public class ModelLoaderService : IDisposable
                 indices[i + j] = face.MIndices[j];
         }
 
-        return new Mesh(gl, vertices, indices, loadColor);
+        return new Mesh(gl, vertices, indices);
     }
 
     public void Dispose() => assimp.Dispose();

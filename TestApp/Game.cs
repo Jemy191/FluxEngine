@@ -32,25 +32,25 @@ class Game
             .Position(new Vector3(0, 5, 0))
             .Create();
 
-        modelBuilder
-            .Name("Cube")
-            .Vertex("shader.vert".ToAsset())
-            .Fragment("normal.frag".ToAsset())
-            .Model("Cube.fbx".ToAsset())
-            .Texture("albedo", "BrickPBR/Brick_albedo.png".ToAsset())
-            .Texture("normal", "BrickPBR/Brick_normal.png".ToAsset())
-            .Position(new Vector3(0, 0.5f, 0))
-            .Create();
-
-        modelBuilder
-            .Name("Terrain")
-            .Fragment("lighting.frag".ToAsset())
-            .Model("Terrain.fbx".ToAsset())
-            .Texture("albedo", "Terrain.png".ToAsset())
-            .RemoveTexture("normal")
-            .Position(Vector3.Zero)
-            .Scale(Vector3.One * 5f)
-            .Create();
+        //modelBuilder
+        //    .Name("Cube")
+        //    .Vertex("shader.vert".ToAsset())
+        //    .Fragment("normal.frag".ToAsset())
+        //    .Model("Cube.fbx".ToAsset())
+        //    .Texture("albedo", "BrickPBR/Brick_albedo.png".ToAsset())
+        //    .Texture("normal", "BrickPBR/Brick_normal.png".ToAsset())
+        //    .Position(new Vector3(0, 0.5f, 0))
+        //    .Create();
+//
+        //modelBuilder
+        //    .Name("Terrain")
+        //    .Fragment("lighting.frag".ToAsset())
+        //    .Model("Terrain.fbx".ToAsset())
+        //    .Texture("albedo", "Terrain.png".ToAsset())
+        //    .RemoveTexture("normal")
+        //    .Position(Vector3.Zero)
+        //    .Scale(Vector3.One * 5f)
+        //    .Create();
 
         var (_, behavior) = behaviorService.CreateBehaviorEntity();
         behavior.AddBehavior<EntitiesViewer>();

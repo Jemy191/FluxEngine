@@ -15,10 +15,13 @@ public readonly struct VertexArrayObject<TVertexType> : IBindable, IDisposable
         handle = this.gl.GenVertexArray();
     }
 
-    public unsafe void VertexAttributePointer(uint index, int count, VertexAttribPointerType type, uint vertexSize, int offSet)
+    public void VertexAttributePointer(VertexAttributeData attributeData) => VertexAttributePointer(attributeData.Index, attributeData.Count, attributeData.Type, attributeData.OffSet, attributeData.ConsecutiveElementCount);
+    public unsafe void VertexAttributePointer(uint index, int count, VertexAttribPointerType type, uint offSet, uint consecutiveElementCount = 1)
     {
-        var stride = vertexSize * (uint)sizeof(TVertexType);
-        var pointer = (void*)(offSet * sizeof(TVertexType));
+        ArgumentOutOfRangeException.ThrowIfZero(consecutiveElementCount);
+
+        var stride = (uint)sizeof(TVertexType) * consecutiveElementCount;
+        var pointer = (void*)(offSet);
         gl.VertexAttribPointer(index, count, type, false, stride, pointer);
         gl.EnableVertexAttribArray(index);
     }
