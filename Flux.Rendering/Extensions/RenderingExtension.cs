@@ -15,7 +15,7 @@ public static class RenderingExtension
     public static IServiceCollection AddOpenGL<T>(this IServiceCollection services) where T : IGLContextSource => services.AddSingleton(p => p.GetRequiredService<T>().CreateOpenGL());
 
     public static IServiceCollection AddImGui(this IServiceCollection services) => services.AddSingleton<ImGuiController>();
-    public static IServiceCollection AddResourceServices(this IServiceCollection services) => services
+    public static IServiceCollection AddLoaderServices(this IServiceCollection services) => services
         .AddSingleton<ModelLoaderService>()
         .AddSingleton<LoadingService>();
     

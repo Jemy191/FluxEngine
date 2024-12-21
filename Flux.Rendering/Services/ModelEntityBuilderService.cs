@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using DefaultEcs;
-using DefaultEcs.Resource;
 using Flux.Ecs;
 using Flux.MathAddon;
 using Flux.Rendering.GLPrimitives;
@@ -11,6 +10,7 @@ namespace Flux.Rendering.Services;
 public class ModelEntityBuilderService
 {
     readonly LoadingService loadingService;
+    readonly ResourcesRepository resourcesRepository;
     readonly World world;
 
     string name = "Object";
@@ -23,9 +23,10 @@ public class ModelEntityBuilderService
 
     Transform transform = new Transform();
 
-    public ModelEntityBuilderService(IEcsWorldService ecsService, LoadingService loadingService)
+    public ModelEntityBuilderService(IEcsWorldService ecsService, LoadingService loadingService, ResourcesRepository resourcesRepository)
     {
         this.loadingService = loadingService;
+        this.resourcesRepository = resourcesRepository;
         world = ecsService.World;
     }
 
@@ -109,7 +110,7 @@ public class ModelEntityBuilderService
     }
     public ModelEntityBuilderService RemoveUniform(string name)
     {
-        var toRemove = uniforms.Single(u => u.name == name);
+        var toRemove = uniforms.Single(u => string.Equals(u.name, name, StringComparison.Ordinal));
         uniforms.Remove(toRemove);
 
         return this;
@@ -118,28 +119,24 @@ public class ModelEntityBuilderService
     public Entity Create()
     {
         var entity = world.CreateEntity();
-        var resourcesRepository = new ResourcesRepository();
 
         entity.Set(Guid.NewGuid());
         entity.Set(name);
         entity.Set(transform);
         entity.Set(resourcesRepository);
 
-        var textureIds = new List<(string uniformName, Resource<Texture> texture)>();
-        foreach (var texture in textures)
-        {
-            var textureId = Resource<Texture>.New();
-            entity.Set(ManagedResource<Resource<Texture>>.Create(new ResourceCreationInfo<FileInfo, Texture>(textureId, texture.Value, resourcesRepository)));
-            textureIds.Add((texture.Key, textureId));
-        }
+        var registeredTexture = textures
+            .Select(texture => (uniformName: texture.Key, texture: resourcesRepository.Register<Texture>(texture.Value)))
+            .ToArray();
 
-        var shaderId = Resource<Shader>.New();
-        var materialId = Resource<Material>.New();
-
-        var managedResource = ManagedResource<WrapperTemp<Shader>>.Create(new ResourceCreationInfo<(FileInfo vertexFile, FileInfo fragmentFile), Shader>(shaderId, (vertex, fragment), resourcesRepository));
-        entity.Set(managedResource);
-        entity.Set(ManagedResource<WrapperTemp<Material>>.Create(new ResourceCreationInfo<(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms), Material>(materialId, (shaderId, textureIds.ToArray(), uniforms.ToArray()), resourcesRepository)));
-
+        entity.AddResource(registeredTexture.Select(t => t.texture).ToArray());
+        
+        var shaderId = resourcesRepository.Register<Shader>((vertex, fragment));
+        entity.AddResource(shaderId);
+        
+        var materialId = resourcesRepository.Register<Material>((shaderId, registeredTexture.ToArray(), uniforms.ToArray()));
+        entity.AddResource(materialId);
+        
         Model? entityModel = null;
 
         if (model is not null)

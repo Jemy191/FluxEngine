@@ -13,7 +13,7 @@ public readonly struct Mesh : IBindable, IDisposable
 
     readonly uint indicesCount;
 
-    public unsafe Mesh(GL gl, Vertex[] vertices, uint[] indices)
+    public Mesh(GL gl, Vertex[] vertices, uint[] indices)
     {
         this.gl = gl;
 

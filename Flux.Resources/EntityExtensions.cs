@@ -6,14 +6,11 @@ namespace Flux.Resources;
 
 public static class EntityExtensions
 {
-    public static Resource<TResource> AddResource<TResource, TInfo>(this Entity entity, TInfo creationInfo) where TResource : IResource
+    public static void AddResource<TResource>(this Entity entity, params Resource<TResource>[] newResources) where TResource : IResource
     {
-        var repository = entity.World.Get<ResourcesRepository>();
+        if (entity.Has<ManagedResource<Resource<TResource>[], Resource<TResource>>>())
+            newResources = entity.Get<ManagedResource<Resource<TResource>[], Resource<TResource>>>().Info.Union(newResources).ToArray();
 
-        if(!repository.GetId<TInfo, TResource>(creationInfo, out var id))
-            id = Resource<TResource>.New();
-        
-        entity.Set(ManagedResource<Resource<TResource>>.Create(new ResourceCreationInfo<TInfo, TResource>(id.Value, creationInfo)));
-        return id.Value;
+        entity.Set(ManagedResource<Resource<TResource>>.Create(newResources));
     }
 }

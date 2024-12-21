@@ -5,7 +5,7 @@ using Flux.Ecs;
 
 namespace Flux.Resources;
 
-public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceCreationInfo<TInfo, TResource>, Resource<TResource>>, IFluxResourceManager where TResource : IResource
+public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<Resource<TResource>, Resource<TResource>>, IFluxResourceManager where TResource : IResource
 {
     readonly ResourcesRepository resourcesRepository;
     
@@ -15,13 +15,16 @@ public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<R
         Manage(ecsWorldService.World);
     }
 
-    abstract internal TResource Load(TInfo info);
+    protected abstract internal TResource Load(TInfo info, ResourcesRepository resourcesRepository);
     
-    protected override Resource<TResource> Load(ResourceCreationInfo<TInfo, TResource> info)
+    protected override sealed Resource<TResource> Load(Resource<TResource> id)
     {
-        resourcesRepository.Load(info, this);
-        return info.Id;
+        resourcesRepository.Load(id, this);
+        return id;
     }
-    protected override sealed void OnResourceLoaded(in Entity entity, ResourceCreationInfo<TInfo, TResource> info, Resource<TResource> id) { }
-    protected override void Unload(ResourceCreationInfo<TInfo, TResource> info, Resource<TResource> id) => resourcesRepository.Unload(id, info.Info);
+    
+    /// <summary>This function is useless for now.</summary>
+    protected override sealed void OnResourceLoaded(in Entity entity, Resource<TResource> id, Resource<TResource> _) { }
+    
+    protected override sealed void Unload(Resource<TResource> id, Resource<TResource> _) => resourcesRepository.Unload(id);
 }

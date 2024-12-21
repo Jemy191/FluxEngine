@@ -1,44 +1,59 @@
-using System.Diagnostics.CodeAnalysis;
 using Flux.Abstraction;
 
 namespace Flux.Resources;
 
 public class ResourcesRepository
 {
-    readonly Dictionary<Guid, IResource> resources = [];
-    readonly Dictionary<int, Guid> idByCreationInfo = [];
+    readonly Dictionary<Guid, (IResource? resource, object creationInfo)> registeredResources = [];
+    
+    // This is a temporary solution to simplify the registration of resources
+    // Todo: Remove this.
+    readonly Dictionary<object, Guid> guidByResources = [];
 
-    public T Get<T>(Resource<T> id) where T : IResource
+    public TResource Get<TResource>(Resource<TResource> id) where TResource : IResource
     {
-        if (resources.TryGetValue(id.Value, out var resource))
-            return (T)resource;
+        if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
+            throw new ResourceNotRegisteredException<TResource>(id);
 
-        throw new ResourceNotFoundException<T>(id);
+        if (registeredResource.resource is null)
+            throw new ResourceNotFoundException<TResource>(id);
+        
+        return (TResource)registeredResource.resource;
     }
 
-    /// <returns>True if a resource was already loaded with <see cref="creationInfo"/></returns>
-    internal bool GetId<TInfo, TResource>(TInfo creationInfo, [NotNullWhen(true)]out Resource<TResource>? id) where TResource : IResource
+    public Resource<TResource> Register<TResource>(object creationInfo) where TResource : IResource
     {
-        id = null;
-        var exist = idByCreationInfo.TryGetValue(creationInfo!.GetHashCode(), out var guid);
-        if(exist)
-            id = new Resource<TResource>(guid);
+        if(guidByResources.TryGetValue(creationInfo, out var guid))
+            return new Resource<TResource>(guid);
+        
+        var id = Resource<TResource>.New();
+        
+        registeredResources.Add(id.Value, (null, creationInfo));
+        guidByResources.Add(creationInfo, id.Value);
+        return id;
+    }
+    
+    internal void Load<TInfo, TResource>(Resource<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource
+    {
+        if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
+            throw new ResourceNotRegisteredException<TResource>(id);
 
-        return exist;
+        if (registeredResource.resource is not null)
+            return;
+        
+        var resource = resourceManager.Load((TInfo)registeredResource.creationInfo, this);
+        registeredResources[id.Value] = registeredResource with { resource = resource };
     }
 
-    internal void Load<TInfo, TResource>(ResourceCreationInfo<TInfo, TResource> info, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource
+    internal void Unload<TResource>(Resource<TResource> id) where TResource : IResource
     {
-        if (!resources.TryAdd(info.Id.Value, resourceManager.Load(info.Info)))
-            throw new ResourceAlreadyExistsException<TResource>(info.Id);
+        if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
+            throw new ResourceNotRegisteredException<TResource>(id);
 
-        idByCreationInfo.Add(info.Info!.GetHashCode(), info.Id.Value);
-    }
-
-    internal void Unload<TResource, TInfo>(Resource<TResource> id, TInfo infoInfo) where TResource : IResource
-    {
-        Get(id).Dispose();
-        idByCreationInfo.Remove(infoInfo!.GetHashCode());
-        resources.Remove(id.Value);
+        if (registeredResource.resource is null)
+            throw new ResourceNotFoundException<TResource>(id);
+            
+        registeredResource.resource.Dispose();
+        registeredResources[id.Value] = registeredResource with { resource = null };
     }
 }
