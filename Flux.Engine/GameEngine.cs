@@ -7,9 +7,10 @@ namespace Flux.Engine;
 
 public class GameEngine : IGameEngine
 {
-    readonly List<ISystem<float>> updater = [];
-    readonly List<ISystem<float>> renderer = [];
-    readonly List<IFluxResourceManager> resourceManager = [];
+    readonly List<Func<ISystem<float>>> updaterCreators = [];
+    readonly List<Func<ISystem<float>>> rendererCreators = [];
+    readonly List<Func<IFluxResourceManager>> resourceManagerCreators = [];
+    readonly List<IFluxResourceManager> resourceManagers = [];
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
@@ -24,7 +25,6 @@ public class GameEngine : IGameEngine
         window.Closing += OnClose;
         window.Render += OnRender;
         window.Update += OnUpdate;
-
     }
 
     public IGameEngine Instanciate<T>()
@@ -35,26 +35,27 @@ public class GameEngine : IGameEngine
 
     public IGameEngine AddRenderSystem<T>() where T : ISystem<float>
     {
-        renderer.Add(injectionService.InstanciateSystem<float, T>());
+        rendererCreators.Add(() => injectionService.InstanciateSystem<float, T>());
         return this;
     }
 
     public IGameEngine AddUpdateSystem<T>() where T : ISystem<float>
     {
-        updater.Add(injectionService.InstanciateSystem<float, T>());
+        updaterCreators.Add(() => injectionService.InstanciateSystem<float, T>());
         return this;
     }
     
     public IGameEngine AddResourceManager<T>() where T : IFluxResourceManager
     {
-        resourceManager.Add(injectionService.Instanciate<T>());
+        resourceManagerCreators.Add(() => injectionService.Instanciate<T>());
         return this;
     }
 
     public void Run()
     {
-        sequentialUpdateSystem = new SequentialSystem<float>(updater);
-        sequentialRenderSystem = new SequentialSystem<float>(renderer);
+        resourceManagers.AddRange(resourceManagerCreators.Select(rm => rm.Invoke()));
+        sequentialUpdateSystem = new SequentialSystem<float>(updaterCreators.Select(u => u.Invoke()));
+        sequentialRenderSystem = new SequentialSystem<float>(rendererCreators.Select(r => r.Invoke()));
         window.Run();
     }
 
