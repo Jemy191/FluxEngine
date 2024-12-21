@@ -39,7 +39,7 @@ public readonly struct Mesh : IBindable, IDisposable
         ebo.Unbind();
     }
 
-    internal unsafe void Draw() => gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
+    public unsafe void Draw() => gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
 
     public void Bind() => vao.Bind();
     public void Unbind() => vao.Unbind();

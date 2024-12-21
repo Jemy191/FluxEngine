@@ -32,6 +32,7 @@ public readonly struct Material : IResource, IDisposable
     }
 
     public void SetUniforms(IEnumerable<Uniform> uniforms) => shader.SetUniforms(uniforms);
+    public void SetUniform(Uniform uniform) => shader.SetUniform(uniform);
 
     public void Dispose()
     {
