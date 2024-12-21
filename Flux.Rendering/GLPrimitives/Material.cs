@@ -12,8 +12,8 @@ public readonly struct Material : IResource, IDisposable
 
     public Material(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
     {
-        this.shader = resourcesRepository.GetResource(shader);
-        this.textures = textures.Select(t => (t.uniformName, resourcesRepository.GetResource(t.texture))).ToArray();
+        this.shader = resourcesRepository.Get(shader);
+        this.textures = textures.Select(t => (t.uniformName, resourcesRepository.Get(t.texture))).ToArray();
         this.uniforms = uniforms;
     }
 

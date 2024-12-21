@@ -2,6 +2,7 @@
 using Flux.EntityBehavior;
 using Flux.ImGuiFlux;
 using Flux.Rendering.Extensions;
+using Flux.Resources;
 using Silk.NET.Windowing;
 using TestApp;
 
@@ -13,9 +14,10 @@ builder.Services
     .AddSilkInput()
     .AddOpenGL<IWindow>()
     .AddImGui()
-    .AddResourceServices()
+    .AddLoaderServices()
     .AddBehaviorServices()
     .AddModelEntityBuilder()
+    .AddResourcesManagement()
     ;
 
 var engine = builder.Build();

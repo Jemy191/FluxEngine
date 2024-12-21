@@ -1,3 +1,3 @@
 namespace Flux.Abstraction;
 
-public interface IResource;
+public interface IResource : IDisposable;
