@@ -35,6 +35,9 @@ public class OpenGlRenderSystem : ISystem<float>
 
     public void Update(float state)
     {
+        if(!IsEnabled)
+            return;
+        
         gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
     }
 

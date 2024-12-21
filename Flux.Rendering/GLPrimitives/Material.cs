@@ -20,15 +20,14 @@ public readonly struct Material : IResource, IDisposable
     public void Use()
     {
         shader.Use();
+        shader.SetUniforms(uniforms);
 
         for (var i = 0; i < textures.Length; i++)
         {
             var (uniformName, texture) = textures[i];
-            texture.Bind(TextureUnit.Texture0 + i);
             shader.SetUniform(uniformName, i);
+            texture.Bind(TextureUnit.Texture0 + i);
         }
-
-        shader.SetUniforms(uniforms);
     }
 
     public void SetUniforms(IEnumerable<Uniform> uniforms) => shader.SetUniforms(uniforms);
