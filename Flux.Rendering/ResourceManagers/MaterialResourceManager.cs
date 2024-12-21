@@ -1,8 +1,5 @@
-using DefaultEcs;
-using DefaultEcs.Resource;
 using Flux.Ecs;
 using Flux.Rendering.GLPrimitives;
-using Flux.Rendering.Services;
 using Flux.Resources;
 
 namespace Flux.Rendering.ResourceManagers;

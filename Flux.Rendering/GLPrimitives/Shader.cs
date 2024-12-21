@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Flux.Abstraction;
-using Flux.Resources;
 using Silk.NET.OpenGL;
 
 namespace Flux.Rendering.GLPrimitives;

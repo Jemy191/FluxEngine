@@ -1,5 +1,4 @@
 ﻿using Flux.Abstraction;
-using Flux.Resources;
 using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;

@@ -20,7 +20,10 @@ public class ModelRenderSystem : AEntitySetSystem<float>
     readonly IWindow window;
 
     public ModelRenderSystem(IEcsWorldService ecsService, IWindow window)
-        : base(ecsService.World.GetEntities().With<Transform>().With<Model>().AsSet())
+        : base(ecsService.World.GetEntities()
+            .With<Transform>()
+            .With<Model>()
+            .AsSet())
     {
         this.window = window;
 
@@ -28,7 +31,7 @@ public class ModelRenderSystem : AEntitySetSystem<float>
             .GetEntities()
             .With<Camera>()
             .With<Transform>()
-        .AsSet();
+            .AsSet();
 
         viewUniform = new Uniform<Matrix4x4>("uView");
         projectionUniform = new Uniform<Matrix4x4>("uProjection");

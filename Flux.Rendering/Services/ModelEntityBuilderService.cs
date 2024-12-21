@@ -3,7 +3,6 @@ using DefaultEcs;
 using DefaultEcs.Resource;
 using Flux.Ecs;
 using Flux.MathAddon;
-using Flux.Rendering.Extensions;
 using Flux.Rendering.GLPrimitives;
 using Flux.Resources;
 
@@ -21,9 +20,6 @@ public class ModelEntityBuilderService
     Mesh? mesh;
     readonly Dictionary<string, FileInfo> textures = [];
     readonly List<Uniform> uniforms = [];
-
-    readonly Dictionary<string, Texture> loadedTextures = [];
-    readonly Dictionary<string, Shader> loadedShader = [];
 
     Transform transform = new Transform();
 
@@ -140,7 +136,8 @@ public class ModelEntityBuilderService
         var shaderId = Resource<Shader>.Create();
         var materialId = Resource<Material>.Create();
 
-        entity.Set(ManagedResource<WrapperTemp<Shader>>.Create(new ResourceCreationInfo<(FileInfo vertexFile, FileInfo fragmentFile), Shader>(shaderId, (vertex, fragment), resourcesRepository)));
+        var managedResource = ManagedResource<WrapperTemp<Shader>>.Create(new ResourceCreationInfo<(FileInfo vertexFile, FileInfo fragmentFile), Shader>(shaderId, (vertex, fragment), resourcesRepository));
+        entity.Set(managedResource);
         entity.Set(ManagedResource<WrapperTemp<Material>>.Create(new ResourceCreationInfo<(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms), Material>(materialId, (shaderId, textureIds.ToArray(), uniforms.ToArray()), resourcesRepository)));
 
         Model? entityModel = null;
