@@ -11,5 +11,5 @@ public readonly record struct Resource<T> where T : IResource
     [PublicAPI]
     internal Resource(Guid value) => Value = value;
 
-    public static Resource<T> Create() => new Resource<T>(Guid.NewGuid());
+    public static Resource<T> New() => new Resource<T>(Guid.NewGuid());
 }

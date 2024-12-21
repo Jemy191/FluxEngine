@@ -128,13 +128,13 @@ public class ModelEntityBuilderService
         var textureIds = new List<(string uniformName, Resource<Texture> texture)>();
         foreach (var texture in textures)
         {
-            var textureId = Resource<Texture>.Create();
-            entity.Set(ManagedResource<WrapperTemp<Texture>>.Create(new ResourceCreationInfo<FileInfo, Texture>(textureId, texture.Value, resourcesRepository)));
+            var textureId = Resource<Texture>.New();
+            entity.Set(ManagedResource<Resource<Texture>>.Create(new ResourceCreationInfo<FileInfo, Texture>(textureId, texture.Value, resourcesRepository)));
             textureIds.Add((texture.Key, textureId));
         }
 
-        var shaderId = Resource<Shader>.Create();
-        var materialId = Resource<Material>.Create();
+        var shaderId = Resource<Shader>.New();
+        var materialId = Resource<Material>.New();
 
         var managedResource = ManagedResource<WrapperTemp<Shader>>.Create(new ResourceCreationInfo<(FileInfo vertexFile, FileInfo fragmentFile), Shader>(shaderId, (vertex, fragment), resourcesRepository));
         entity.Set(managedResource);

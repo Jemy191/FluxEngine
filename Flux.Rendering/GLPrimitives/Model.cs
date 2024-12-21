@@ -11,7 +11,7 @@ public readonly struct Model : IResource , IDisposable
     public Model(Mesh[] meshes, Resource<Material> materialId, ResourcesRepository resourcesRepository)
     {
         this.meshes = meshes;
-        material = resourcesRepository.GetResource(materialId);
+        material = resourcesRepository.Get(materialId);
     }
 
     public readonly void Draw(IEnumerable<Uniform> uniforms)

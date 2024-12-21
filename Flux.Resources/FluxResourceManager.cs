@@ -5,36 +5,23 @@ using Flux.Ecs;
 
 namespace Flux.Resources;
 
-public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceCreationInfo<TInfo, TResource>, WrapperTemp<TResource>>, IFluxResourceManager where TResource : IResource
+public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceCreationInfo<TInfo, TResource>, Resource<TResource>>, IFluxResourceManager where TResource : IResource
 {
-    readonly World world;
+    readonly ResourcesRepository resourcesRepository;
     
-    protected FluxResourceManager(IEcsWorldService ecsWorldService)
+    protected FluxResourceManager(IEcsWorldService ecsWorldService, ResourcesRepository resourcesRepository)
     {
-        world = ecsWorldService.World;
-        Manage(world);
+        this.resourcesRepository = resourcesRepository;
+        Manage(ecsWorldService.World);
     }
+
+    abstract internal TResource Load(TInfo info);
     
-    protected abstract TResource OnLoad(TInfo info, ResourcesRepository resourcesRepository);
-    
-    protected override WrapperTemp<TResource> Load(ResourceCreationInfo<TInfo, TResource> info) => new WrapperTemp<TResource>(OnLoad(info.Info, info.ResourcesRepository));
-    protected override void OnResourceLoaded(in Entity entity, ResourceCreationInfo<TInfo, TResource> info, WrapperTemp<TResource> resource)
+    protected override Resource<TResource> Load(ResourceCreationInfo<TInfo, TResource> info)
     {
-        resource.SetId(entity.Get<Guid>());
-        entity.Get<ResourcesRepository>().AddResource(info.Id, resource.Resource);
+        resourcesRepository.Load(info, this);
+        return info.Id;
     }
-    protected override void Unload(ResourceCreationInfo<TInfo, TResource> info, WrapperTemp<TResource> resource)
-    {
-        var repo = world.GetEntities()
-            .With<ResourcesRepository>()
-            .With((in Guid guid) => guid == resource.EntityId)
-            .AsSet()
-            .GetEntities()
-            .ToArray()
-            .Single()
-            .Get<ResourcesRepository>();
-        
-        repo.RemoveResource(info.Id);
-        base.Unload(info, resource);
-    }
+    protected override sealed void OnResourceLoaded(in Entity entity, ResourceCreationInfo<TInfo, TResource> info, Resource<TResource> id) { }
+    protected override void Unload(ResourceCreationInfo<TInfo, TResource> info, Resource<TResource> id) => resourcesRepository.Unload(id, info.Info);
 }
