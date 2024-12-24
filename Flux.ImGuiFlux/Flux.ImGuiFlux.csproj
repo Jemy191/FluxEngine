@@ -1,9 +1,6 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <ItemGroup>
-        <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.22.0" />
-    </ItemGroup>
-
-    <ItemGroup>
+        <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.16.0" />
         <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
     </ItemGroup>
