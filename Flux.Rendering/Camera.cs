@@ -1,23 +1,22 @@
 ﻿using System.Numerics;
+using System.Runtime.InteropServices;
 using Flux.MathAddon;
+using JetBrains.Annotations;
 
 namespace Flux.Rendering;
 
+[PublicAPI]
+[StructLayout(LayoutKind.Auto)]
 public struct Camera
 {
-    public Angle fov;
-    public float aspectRatio;
-
-    public float nearPlane = 0.01f;
-    public float farPlane = 100_000.0f;
-
-    public Camera()
-    {
-    }
+    public required float NearPlane {get; set;}
+    public required float FarPlane {get; set;}
+    public required Angle Fov {get; set;}
+    public required float AspectRatio {get; set;}
 
     public readonly Matrix4x4 ComputeViewMatrix(Transform transform) =>
     Matrix4x4.CreateLookAt(transform.Position, transform.Position + transform.Forward, transform.Up);
 
     public readonly Matrix4x4 ComputeProjectionMatrix() =>
-        Matrix4x4.CreatePerspectiveFieldOfView(fov.Radians, -aspectRatio, nearPlane, farPlane);
+        Matrix4x4.CreatePerspectiveFieldOfView(Fov.Radians, -AspectRatio, NearPlane, FarPlane);
 }

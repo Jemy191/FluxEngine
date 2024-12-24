@@ -39,7 +39,7 @@ class CameraController : Behavior, IUpdatable, IUIDrawable
         ToggleLookAround();
     }
 
-    void OnResize(Vector2D<int> size) => GetComponent<Camera>().aspectRatio = size.X / (float)size.Y;
+    void OnResize(Vector2D<int> size) => GetComponent<Camera>().AspectRatio = size.X / (float)size.Y;
 
     void KeyDown(IKeyboard keyboard, Key key, int arg)
     {

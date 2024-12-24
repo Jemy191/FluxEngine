@@ -13,7 +13,7 @@ public readonly struct Mesh : IBindable, IDisposable
 
     readonly uint indicesCount;
 
-    public Mesh(GL gl, Vertex[] vertices, uint[] indices)
+    public Mesh(GL gl, ReadOnlySpan<Vertex> vertices, ReadOnlySpan<uint> indices)
     {
         this.gl = gl;
 

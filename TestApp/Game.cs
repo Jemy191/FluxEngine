@@ -63,8 +63,10 @@ class Game
         var viewportSize = window.Size;
         var cam = new Camera
         {
-            aspectRatio = viewportSize.X / (float)viewportSize.Y,
-            fov = Angle.FromDegrees(60f)
+            FarPlane = 1000,
+            NearPlane = 0.1f,
+            AspectRatio = viewportSize.X / (float)viewportSize.Y,
+            Fov = Angle.FromDegrees(60f)
         };
 
         var (camera, cameraBehavior) = behaviorService.CreateBehaviorEntity();

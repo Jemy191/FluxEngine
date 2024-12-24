@@ -17,7 +17,7 @@ public readonly struct BufferObject<TDataType> : IBindable, IDisposable
         handle = this.gl.GenBuffer();
     }
     
-    public unsafe void SendData(Span<TDataType> data)
+    public unsafe void SendData(ReadOnlySpan<TDataType> data)
     {
         fixed (void* d = data)
         {
