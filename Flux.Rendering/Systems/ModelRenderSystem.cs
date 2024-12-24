@@ -43,10 +43,7 @@ public class ModelRenderSystem : AEntitySetSystem<float>
     protected override void PreUpdate(float deltatime)
     {
         if (cameraSet.Count == 0)
-        {
-            Console.WriteLine("No camera in the scene.");
-            return;
-        }
+            throw new  Exception("No camera in the scene.");
 
         var cameraEntity = cameraSet.GetEntities()[0];
         var camera = cameraEntity.Get<Camera>();
