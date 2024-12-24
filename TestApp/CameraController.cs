@@ -58,11 +58,11 @@ class CameraController : Behavior, IUpdatable, IUIDrawable
         }
     }
 
-    public void Update(float deltatime)
+    public void Update(float deltaTime)
     {
         ref var transform = ref GetComponent<Transform>();
-        transform.Position += Move(transform, deltatime);
-        transform.Rotation = Look(transform, deltatime);
+        transform.Position += Move(transform, deltaTime);
+        transform.Rotation = Look(transform, deltaTime);
     }
 
     public void DrawUI(float deltatime)
