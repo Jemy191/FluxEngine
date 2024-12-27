@@ -16,13 +16,18 @@ public readonly struct VertexArrayObject<TVertexType> : IBindable, IDisposable
     }
 
     public void VertexAttributePointer(VertexAttributeData attributeData) => VertexAttributePointer(attributeData.Index, attributeData.Count, attributeData.Type, attributeData.OffSet, attributeData.ConsecutiveElementCount);
-    public unsafe void VertexAttributePointer(uint index, int count, VertexAttribPointerType type, uint offSet, uint consecutiveElementCount = 1)
+    public unsafe void VertexAttributePointer(uint index, int count, VertexAttributePointerType type, uint offSet, uint consecutiveElementCount = 1)
     {
         ArgumentOutOfRangeException.ThrowIfZero(consecutiveElementCount);
 
         var stride = (uint)sizeof(TVertexType) * consecutiveElementCount;
-        var pointer = (void*)(offSet);
-        gl.VertexAttribPointer(index, count, type, false, stride, pointer);
+        var pointer = (void*)offSet;
+
+        var gl1 = gl;
+        type.Match(
+            f => gl1.VertexAttribPointer(index, count, f.Type, false, stride, pointer),
+            i => gl1.VertexAttribIPointer(index, count, i.Type, stride, pointer));
+        
         gl.EnableVertexAttribArray(index);
     }
 

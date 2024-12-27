@@ -17,7 +17,7 @@ public class ModelEntityBuilderService
     FileInfo vertex = null!;
     FileInfo fragment = null!;
     FileInfo? model;
-    Mesh? mesh;
+    Mesh<Vertex>? mesh;
     readonly Dictionary<string, FileInfo> textures = [];
     readonly List<Uniform> uniforms = [];
 
@@ -52,7 +52,7 @@ public class ModelEntityBuilderService
         model = file;
         return this;
     }
-    public ModelEntityBuilderService Mesh(Mesh mesh)
+    public ModelEntityBuilderService Mesh(Mesh<Vertex> mesh)
     {
         model = null;
         this.mesh = mesh;

@@ -74,6 +74,7 @@ public readonly struct Shader : IResource, IDisposable
         switch (uniform)
         {
             case int intUni: gl.Uniform1(location, intUni); break;
+            case uint uintUni: gl.Uniform1(location, uintUni); break;
             case float floatUni: gl.Uniform1(location, floatUni); break;
             case Vector2 vector2Uni: gl.Uniform2(location, vector2Uni.X, vector2Uni.Y); break;
             case Vector3 vector3Uni: gl.Uniform3(location, vector3Uni.X, vector3Uni.Y, vector3Uni.Z); break;
@@ -86,6 +87,7 @@ public readonly struct Shader : IResource, IDisposable
         switch (uniform)
         {
             case Uniform<int> intUni: SetUniform(uniform.name, intUni.Value); break;
+            case Uniform<uint> uintUni: SetUniform(uniform.name, uintUni.Value); break;
             case Uniform<float> floatUni: SetUniform(uniform.name, floatUni.Value); break;
             case Uniform<Vector2> vector2Uni: SetUniform(uniform.name, vector2Uni.Value); break;
             case Uniform<Vector3> vector3Uni: SetUniform(uniform.name, vector3Uni.Value); break;

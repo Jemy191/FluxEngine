@@ -1,6 +1,6 @@
 ﻿using System.Numerics;
 using Silk.NET.Assimp;
-using Mesh = Flux.Rendering.GLPrimitives.Mesh;
+using Mesh = Flux.Rendering.GLPrimitives.Mesh<Flux.Rendering.Vertex>;
 
 namespace Flux.Rendering.Services;
 

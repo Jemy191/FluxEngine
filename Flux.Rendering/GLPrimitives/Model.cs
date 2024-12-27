@@ -5,10 +5,10 @@ namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Model : IResource , IDisposable
 {
-    readonly Mesh[] meshes;
+    readonly Mesh<Vertex>[] meshes;
     readonly Material material;
 
-    public Model(Mesh[] meshes, Resource<Material> materialId, ResourcesRepository resourcesRepository)
+    public Model(Mesh<Vertex>[] meshes, Resource<Material> materialId, ResourcesRepository resourcesRepository)
     {
         this.meshes = meshes;
         material = resourcesRepository.Get(materialId);

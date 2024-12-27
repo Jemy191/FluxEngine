@@ -1,19 +1,21 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
 using Flux.Rendering.GLPrimitives;
+using JetBrains.Annotations;
 using Silk.NET.OpenGL;
 
 namespace Flux.Rendering;
 
 [StructLayout(LayoutKind.Sequential, Pack = 1)]
+[UsedImplicitly(ImplicitUseTargetFlags.WithMembers)]
 public unsafe readonly struct Vertex : IVertexLayout
 {
     static readonly uint vec3Size = (uint)sizeof(Vector3);
-    public Vector3 Position { get; init; }
-    public Vector3 Normal { get; init; }
-    public Vector3 Tangent { get; init; }
-    public Vector3 Bitangent { get; init; }
-    public Vector2 TexCoords { get; init; }
+    public required Vector3 Position { get; init; }
+    public required Vector3 Normal { get; init; }
+    public required Vector3 Tangent { get; init; }
+    public required Vector3 Bitangent { get; init; }
+    public required Vector2 TexCoords { get; init; }
 
     public static IEnumerable<VertexAttributeData> GetVertexAttributesLayout() =>
     [
