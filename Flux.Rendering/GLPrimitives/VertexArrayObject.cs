@@ -1,6 +1,4 @@
-﻿using Silk.NET.OpenGL;
-
-namespace Flux.Rendering.GLPrimitives;
+﻿namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct VertexArrayObject<TVertexType> : IBindable, IDisposable
     where TVertexType : unmanaged
