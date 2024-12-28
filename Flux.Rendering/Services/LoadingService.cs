@@ -1,4 +1,5 @@
 ﻿using Flux.Rendering.GLPrimitives;
+using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Resources;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -21,11 +22,11 @@ public class LoadingService
         var shader = new Shader(gl, LoadAssetFile(vertexFile), LoadAssetFile(fragmentFile));
         return shader;
     }
-    public Texture LoadTexture(FileInfo file)
+    public Texture LoadTexture(FileInfo file, TextureSetting textureSetting)
     {
         using var image = Image.Load<Rgba32>(file.FullName);
 
-        var texture = new Texture(gl, image);
+        var texture = new Texture(gl, image, textureSetting);
         return texture;
     }
 

@@ -3,16 +3,18 @@ using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 
-namespace Flux.Rendering.GLPrimitives;
+namespace Flux.Rendering.GLPrimitives.Textures;
 
-public readonly struct Texture : IResource, IDisposable
+public readonly struct Texture : IResource
 {
     readonly uint handle;
     readonly GL gl;
+    readonly TextureSetting setting;
 
-    public Texture(GL gl, Image<Rgba32> image)
+    public Texture(GL gl, Image<Rgba32> image, TextureSetting setting)
     {
         this.gl = gl;
+        this.setting = setting;
 
         handle = this.gl.GenTexture();
         Bind();
@@ -21,9 +23,10 @@ public readonly struct Texture : IResource, IDisposable
         SetParameters();
     }
 
-    public unsafe Texture(GL gl, Span<byte> data, uint width, uint height)
+    public unsafe Texture(GL gl, Span<byte> data, uint width, uint height, TextureSetting setting)
     {
         this.gl = gl;
+        this.setting = setting;
 
         handle = this.gl.GenTexture();
         Bind();
@@ -53,14 +56,20 @@ public readonly struct Texture : IResource, IDisposable
 
     void SetParameters()
     {
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)GLEnum.Repeat);
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)GLEnum.Repeat);
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)GLEnum.LinearMipmapLinear);
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)GLEnum.Linear);
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureBaseLevel, 0);
-        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, 8);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)setting.WrapModeS);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)setting.WrapModeT);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)setting.TextureMinFilter);
+        gl.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)setting.TextureMagFilter);
 
-        gl.GenerateMipmap(TextureTarget.Texture2D);
+        var gl1 = gl;
+        setting.Mipmap.MatchMipmap(m =>
+        {
+            gl1.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureBaseLevel, m.TextureBaseLevel);
+            gl1.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMaxLevel, m.TextureMaxLevel);
+
+            gl1.GenerateMipmap(TextureTarget.Texture2D);
+        }, () => { });
+
     }
 
     public void Bind(TextureUnit textureSlot = TextureUnit.Texture0)

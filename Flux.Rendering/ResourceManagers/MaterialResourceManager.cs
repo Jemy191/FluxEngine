@@ -1,5 +1,6 @@
 using Flux.Ecs;
 using Flux.Rendering.GLPrimitives;
+using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Resources;
 using JetBrains.Annotations;
 

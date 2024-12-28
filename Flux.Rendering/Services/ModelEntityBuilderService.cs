@@ -3,6 +3,7 @@ using DefaultEcs;
 using Flux.Ecs;
 using Flux.MathAddon;
 using Flux.Rendering.GLPrimitives;
+using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Resources;
 
 namespace Flux.Rendering.Services;

@@ -1,6 +1,7 @@
 ﻿using Flux.Abstraction;
 using Flux.Resources;
 using Silk.NET.OpenGL;
+using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;
 
 namespace Flux.Rendering.GLPrimitives;
 
