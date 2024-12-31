@@ -16,6 +16,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
+        <ProjectReference Include="..\Flux.ImGuiFlux\Flux.ImGuiFlux.csproj" />
         <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
         <ProjectReference Include="..\Flux.Core\Flux.Core.csproj"/>
         <ProjectReference Include="..\Flux.Resources\Flux.Resources.csproj" />

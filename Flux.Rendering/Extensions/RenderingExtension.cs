@@ -1,4 +1,5 @@
 ﻿using Flux.Abstraction;
+using Flux.ImGuiFlux;
 using Flux.Rendering.ResourceManagers;
 using Flux.Rendering.Services;
 using Flux.Rendering.Systems;
@@ -14,7 +15,9 @@ public static class RenderingExtension
 {
     public static IServiceCollection AddOpenGL<T>(this IServiceCollection services) where T : IGLContextSource => services.AddSingleton(p => p.GetRequiredService<T>().CreateOpenGL());
 
-    public static IServiceCollection AddImGui(this IServiceCollection services) => services.AddSingleton<ImGuiController>();
+    public static IServiceCollection AddImGui(this IServiceCollection services) => services
+        .AddSingleton<ImGuiController>()
+        .AddSingleton<ImguiService>();
     public static IServiceCollection AddLoaderServices(this IServiceCollection services) => services
         .AddSingleton<ModelLoaderService>()
         .AddSingleton<LoadingService>();
