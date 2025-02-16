@@ -17,10 +17,13 @@ public class GameEngine : IGameEngine
     SequentialSystem<float> sequentialUpdateSystem = null!;
     SequentialSystem<float> sequentialRenderSystem = null!;
 
-    public GameEngine(IWindow window, IInjectionService injectionService)
+    public IServiceProvider ServiceProvider { get; }
+
+    public GameEngine(IWindow window, IInjectionService injectionService, IServiceProvider serviceProvider)
     {
         this.window = window;
         this.injectionService = injectionService;
+        this.ServiceProvider = serviceProvider;
 
         window.Closing += OnClose;
         window.Render += OnRender;
@@ -38,10 +41,32 @@ public class GameEngine : IGameEngine
         rendererCreators.Add(() => injectionService.InstanciateSystem<float, T>());
         return this;
     }
+    public IGameEngine AddRenderSystem<T>(T system) where T : ISystem<float>
+    {
+        rendererCreators.Add(() => system);
+        return this;
+    }
+
+    public IGameEngine AddRenderSystem<T>(Func<IServiceProvider, T> factory) where T : ISystem<float>
+    {
+        rendererCreators.Add(() => factory.Invoke(ServiceProvider));
+        return this;
+    }
 
     public IGameEngine AddUpdateSystem<T>() where T : ISystem<float>
     {
         updaterCreators.Add(() => injectionService.InstanciateSystem<float, T>());
+        return this;
+    }
+    public IGameEngine AddUpdateSystem<T>(T system) where T : ISystem<float>
+    {
+        updaterCreators.Add(() => system);
+        return this;
+    }
+
+    public IGameEngine AddUpdateSystem<T>(Func<IServiceProvider, T> factory) where T : ISystem<float>
+    {
+        updaterCreators.Add(() => factory.Invoke(ServiceProvider));
         return this;
     }
     

@@ -2,8 +2,6 @@
 using Flux.Abstraction;
 using Flux.Ecs;
 using ImGuiNET;
-using Silk.NET.Input;
-using Silk.NET.OpenGL.Extensions.ImGui;
 
 namespace Flux.ImGuiFlux;
 
@@ -21,7 +19,7 @@ public class ImGuiRenderSystem : AComponentSystem<float, IUIRenderComponent>
     {
         imGui.Update(deltatime);
 
-        ImGui.DockSpaceOverViewport(ImGui.GetMainViewport(), ImGuiDockNodeFlags.PassthruCentralNode | ImGuiDockNodeFlags.AutoHideTabBar);
+        //ImGui.DockSpaceOverViewport(ImGui.GetMainViewport(), ImGuiDockNodeFlags.PassthruCentralNode | ImGuiDockNodeFlags.AutoHideTabBar);
 
         if (imGui.ShowDemoSystem)
             ImGui.ShowDemoWindow();

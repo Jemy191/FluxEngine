@@ -1,2 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
+  <ItemGroup>
+    <PackageReference Include="Silk.NET.Maths" Version="2.16.0" />
+  </ItemGroup>
 </Project>
