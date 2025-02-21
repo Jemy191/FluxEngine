@@ -70,6 +70,7 @@ public readonly struct Shader : IResource, IDisposable
     {
         if (!TryGetUniformLocation(name, out var location))
             return;
+        
 
         switch (uniform)
         {
@@ -78,7 +79,9 @@ public readonly struct Shader : IResource, IDisposable
             case float floatUni: gl.Uniform1(location, floatUni); break;
             case Vector2 vector2Uni: gl.Uniform2(location, vector2Uni.X, vector2Uni.Y); break;
             case Vector3 vector3Uni: gl.Uniform3(location, vector3Uni.X, vector3Uni.Y, vector3Uni.Z); break;
+            case Vector4 vector4Uni: gl.Uniform4(location, vector4Uni.X, vector4Uni.Y, vector4Uni.Z, vector4Uni.W); break;
             case Matrix4x4 matrix4X4Uni: gl.UniformMatrix4(location, 1, false, (float*)&matrix4X4Uni); break;
+            default: throw new GlException($"Uniform of type {typeof(T)} is not supported");
         }
     }
 
@@ -91,6 +94,7 @@ public readonly struct Shader : IResource, IDisposable
             case Uniform<float> floatUni: SetUniform(uniform.name, floatUni.Value); break;
             case Uniform<Vector2> vector2Uni: SetUniform(uniform.name, vector2Uni.Value); break;
             case Uniform<Vector3> vector3Uni: SetUniform(uniform.name, vector3Uni.Value); break;
+            case Uniform<Vector4> vector4Uni: SetUniform(uniform.name, vector4Uni.Value); break;
             case Uniform<Matrix4x4> matrix4X4Uni: SetUniform(uniform.name, matrix4X4Uni.Value); break;
         }
     }
