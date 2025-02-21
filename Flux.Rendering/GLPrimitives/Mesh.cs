@@ -40,7 +40,7 @@ public readonly struct Mesh<T> : IBindable, IDisposable where T : unmanaged, IVe
         ebo.Unbind();
     }
 
-    public unsafe void Draw() => gl.DrawElements(PrimitiveType.Triangles, indicesCount, DrawElementsType.UnsignedInt, null);
+    public unsafe void Draw(PrimitiveType mode = PrimitiveType.Triangles) => gl.DrawElements(mode, indicesCount, DrawElementsType.UnsignedInt, null);
 
     public void Bind() => vao.Bind();
     public void Unbind() => vao.Unbind();
