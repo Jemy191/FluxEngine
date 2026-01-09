@@ -10,24 +10,13 @@ public class GameEngineBuilder
 {
     public readonly IServiceCollection Services;
 
-    /// <param name="windowSize">As a 0-1 percentage.</param>
-    public GameEngineBuilder(string name, float windowSize = .5f)
+    public GameEngineBuilder(string name)
     {
-        // The main monitor should always be available.
-        // If not, this code should be changed so we can run headless.
-        var screenResolution = Window.GetWindowPlatform(false)!.GetMainMonitor().VideoMode.Resolution!.Value;
-
         var windowOptions = WindowOptions.Default;
         windowOptions.Title = name;
         windowOptions.Samples = 4;
-        windowOptions.WindowState = WindowState.Normal;
-        windowOptions.Size = (screenResolution.As<float>() * windowSize).As<int>();
-
-        // Make the window floating on Hyprland.
-        // HYPRLAND_INSTANCE_SIGNATURE should not exist on non-Hyprland instances.
-        if (Environment.GetEnvironmentVariable("HYPRLAND_INSTANCE_SIGNATURE") is not null)
-            windowOptions.WindowBorder = WindowBorder.Fixed;
-
+        windowOptions.WindowState = WindowState.Maximized;
+        
 #pragma warning disable CA2000
         var window = Window.Create(windowOptions);
 #pragma warning restore CA2000
