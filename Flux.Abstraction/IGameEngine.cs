@@ -14,7 +14,7 @@ public interface IGameEngine
     IGameEngine AddUpdateSystem(Action<float> action);
     IGameEngine AddUpdateSystem<T>(Func<IServiceProvider, T> factory) where T : ISystem<float>;
     IGameEngine AddResourceManager<T>() where T : IFluxResourceManager;
-    IGameEngine Instanciate<T>();
+    IGameEngine Instantiate<T>();
     void Run();
     void RunWith<T>();
 }

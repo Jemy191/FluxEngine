@@ -20,7 +20,7 @@ public readonly struct BehaviorComponent : IDisposable, IUIRenderComponent
     }
     public BehaviorComponent AddBehavior<T>() where T : Behavior
     {
-        var behavior = injectionServices.Instanciate<T>();
+        var behavior = injectionServices.Instantiate<T>();
         behavior.Attach(Entity);
         return AddBehavior(behavior);
     }

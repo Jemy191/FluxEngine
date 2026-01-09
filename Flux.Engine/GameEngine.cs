@@ -30,15 +30,15 @@ public class GameEngine : IGameEngine
         window.Update += OnUpdate;
     }
 
-    public IGameEngine Instanciate<T>()
+    public IGameEngine Instantiate<T>()
     {
-        injectionService.Instanciate<T>();
+        injectionService.Instantiate<T>();
         return this;
     }
 
     public IGameEngine AddRenderSystem<T>() where T : ISystem<float>
     {
-        rendererCreators.Add(() => injectionService.InstanciateSystem<float, T>());
+        rendererCreators.Add(() => injectionService.InstantiateSystem<float, T>());
         return this;
     }
     public IGameEngine AddRenderSystem<T>(T system) where T : ISystem<float>
@@ -60,7 +60,7 @@ public class GameEngine : IGameEngine
 
     public IGameEngine AddUpdateSystem<T>() where T : ISystem<float>
     {
-        updaterCreators.Add(() => injectionService.InstanciateSystem<float, T>());
+        updaterCreators.Add(() => injectionService.InstantiateSystem<float, T>());
         return this;
     }
     public IGameEngine AddUpdateSystem<T>(T system) where T : ISystem<float>
@@ -82,7 +82,7 @@ public class GameEngine : IGameEngine
     
     public IGameEngine AddResourceManager<T>() where T : IFluxResourceManager
     {
-        resourceManagerCreators.Add(() => injectionService.Instanciate<T>());
+        resourceManagerCreators.Add(() => injectionService.Instantiate<T>());
         return this;
     }
 
@@ -112,7 +112,7 @@ public class GameEngine : IGameEngine
 
     public void RunWith<T>()
     {
-        Instanciate<T>();
+        Instantiate<T>();
         Run();
     }
 }
