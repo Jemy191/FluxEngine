@@ -23,7 +23,7 @@ public class GameEngine : IGameEngine
     {
         this.window = window;
         this.injectionService = injectionService;
-        this.ServiceProvider = serviceProvider;
+        ServiceProvider = serviceProvider;
 
         window.Closing += OnClose;
         window.Render += OnRender;
@@ -46,6 +46,11 @@ public class GameEngine : IGameEngine
         rendererCreators.Add(() => system);
         return this;
     }
+    public IGameEngine AddRenderSystem(Action<float> action)
+    {
+        rendererCreators.Add(() => new ActionSystem<float>(action));
+        return this;
+    }
 
     public IGameEngine AddRenderSystem<T>(Func<IServiceProvider, T> factory) where T : ISystem<float>
     {
@@ -61,6 +66,11 @@ public class GameEngine : IGameEngine
     public IGameEngine AddUpdateSystem<T>(T system) where T : ISystem<float>
     {
         updaterCreators.Add(() => system);
+        return this;
+    }
+    public IGameEngine AddUpdateSystem(Action<float> action)
+    {
+        updaterCreators.Add(() => new ActionSystem<float>(action));
         return this;
     }
 
