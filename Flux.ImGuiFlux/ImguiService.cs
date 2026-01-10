@@ -11,14 +11,10 @@ public class ImguiService
     public bool ShowDemoSystem { get; private set; }
     public bool InteractionEnabled { get; private set; } = true;
 
-    public ImguiService(ImGuiController imGui, IInputContext input)
+    public ImguiService(ImGuiController imGui)
     {
         this.imGui = imGui;
 
-        foreach (var keyboard in input.Keyboards)
-        {
-            keyboard.KeyDown += KeyDown;
-        }
         ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable;
     }
 
@@ -29,12 +25,6 @@ public class ImguiService
             ImGui.GetIO().ConfigFlags &= ~(ImGuiConfigFlags.NoMouse | ImGuiConfigFlags.NavNoCaptureKeyboard);
         else
             ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.NoMouse | ImGuiConfigFlags.NavNoCaptureKeyboard;
-    }
-
-    void KeyDown(IKeyboard keyboard, Key key, int arg)
-    {
-        if (key == Key.F1)
-            ShowDemoSystem = !ShowDemoSystem;
     }
 
     public void Update(float deltatime) => imGui.Update(deltatime);
