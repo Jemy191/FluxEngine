@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <ProjectReference Include="..\Flux.Core\Flux.Core.csproj" />
       <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj" />
     </ItemGroup>
 
