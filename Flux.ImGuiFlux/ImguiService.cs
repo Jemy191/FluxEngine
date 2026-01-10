@@ -1,6 +1,8 @@
 using ImGuiNET;
 using Silk.NET.Input;
+using Silk.NET.OpenGL;
 using Silk.NET.OpenGL.Extensions.ImGui;
+using Silk.NET.Windowing;
 
 namespace Flux.ImGuiFlux;
 
@@ -10,12 +12,14 @@ public class ImguiService
 
     public bool ShowDemoSystem { get; private set; }
     public bool InteractionEnabled { get; private set; } = true;
+    public ImGuiDockNodeFlags DockSpaceFlags { get; set; } = ImGuiDockNodeFlags.PassthruCentralNode | ImGuiDockNodeFlags.AutoHideTabBar | ImGuiDockNodeFlags.NoDockingOverCentralNode;
 
-    public ImguiService(ImGuiController imGui)
+    public ImguiService(GL gl, IWindow window, IInputContext input)
     {
-        this.imGui = imGui;
-
-        ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable;
+        imGui = new ImGuiController(gl, window, input, () =>
+        {
+            ImGui.GetIO().ConfigFlags |= ImGuiConfigFlags.DockingEnable;
+        });
     }
 
     public void ToggleInteraction(bool enable)

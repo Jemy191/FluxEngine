@@ -19,7 +19,8 @@ public class ImGuiRenderSystem : AComponentSystem<float, IUIRenderComponent>
     {
         imGui.Update(deltatime);
 
-        //ImGui.DockSpaceOverViewport(ImGui.GetMainViewport(), ImGuiDockNodeFlags.PassthruCentralNode | ImGuiDockNodeFlags.AutoHideTabBar);
+        ImGui.DockSpaceOverViewport(ImGui.GetID("MainDockspace"), ImGui.GetMainViewport(), imGui.DockSpaceFlags);
+
 
         if (imGui.ShowDemoSystem)
             ImGui.ShowDemoWindow();
