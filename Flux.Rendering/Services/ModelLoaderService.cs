@@ -51,13 +51,11 @@ public class ModelLoaderService : IDisposable
 
     unsafe Mesh ProcessMesh(Silk.NET.Assimp.Mesh* mesh)
     {
-        var vertices = new Vertex[14];
+        var vertices = new Vertex[mesh->MNumVertices];
         var indices = new uint[mesh->MNumFaces * 3]; // We assume that the mesh is triangulated
 
         for (uint i = 0; i < mesh->MNumVertices; i++)
         {
-            var t = i * 14;
-
             var texCoords = new Vector2
             {
                 X = mesh->MTextureCoords[0][i].X,
@@ -72,7 +70,7 @@ public class ModelLoaderService : IDisposable
                 Bitangent = mesh->MBitangents[i],
                 TexCoords = texCoords
             };
-            vertices[t] = vertex;
+            vertices[i] = vertex;
         }
 
         for (uint i = 0; i < mesh->MNumFaces; i++)
@@ -80,7 +78,7 @@ public class ModelLoaderService : IDisposable
             var face = mesh->MFaces[i];
 
             for (uint j = 0; j < face.MNumIndices; j++)
-                indices[i + j] = face.MIndices[j];
+                indices[i * 3 + j] = face.MIndices[j];
         }
 
         return new Mesh(gl, vertices, indices);
