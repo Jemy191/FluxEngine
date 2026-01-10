@@ -13,6 +13,10 @@ public interface IGameEngine
     IGameEngine AddUpdateSystem<T>(T system) where T : ISystem<float>;
     IGameEngine AddUpdateSystem(Action<float> action);
     IGameEngine AddUpdateSystem<T>(Func<IServiceProvider, T> factory) where T : ISystem<float>;
+
+    T GetUpdateSystem<T>() where T : ISystem<float>;
+    T GetRenderSystem<T>() where T : ISystem<float>;
+
     IGameEngine AddResourceManager<T>() where T : IFluxResourceManager;
     IGameEngine Instantiate<T>();
     void Run();

@@ -9,6 +9,7 @@ namespace Flux.Engine;
 public class GameEngineBuilder
 {
     public readonly IServiceCollection Services;
+    readonly GameEngineService gameEngineService = new GameEngineService();
 
     public GameEngineBuilder(string name)
     {
@@ -27,7 +28,8 @@ public class GameEngineBuilder
             .AddSingleton(window)
             .AddSingleton<IView>(window)
             .AddSingleton<IInjectionService, InjectionService>(p => new InjectionService(p))
-            .AddSingleton<IEcsWorldService, EcsWorldService>();
+            .AddSingleton<IEcsWorldService, EcsWorldService>()
+            .AddSingleton(gameEngineService);
     }
 
     public IGameEngine Build()
@@ -39,6 +41,9 @@ public class GameEngineBuilder
         };
 
         var provider = Services.BuildServiceProvider(providerOptions);
-        return ActivatorUtilities.CreateInstance<GameEngine>(provider);
+        var engine = ActivatorUtilities.CreateInstance<GameEngine>(provider);
+
+        gameEngineService.GameEngine = engine;
+        return engine;
     }
 }

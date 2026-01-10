@@ -14,6 +14,10 @@ public class GameEngine : IGameEngine
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
+
+    List<ISystem<float>> updateSystems = null!;
+    List<ISystem<float>> renderSystems = null!;
+
     SequentialSystem<float> sequentialUpdateSystem = null!;
     SequentialSystem<float> sequentialRenderSystem = null!;
 
@@ -86,11 +90,16 @@ public class GameEngine : IGameEngine
         return this;
     }
 
+    public T GetUpdateSystem<T>() where T : ISystem<float> => updateSystems.OfType<T>().First();
+    public T GetRenderSystem<T>() where T : ISystem<float> => renderSystems.OfType<T>().First();
+
     public void Run()
     {
         resourceManagers.AddRange(resourceManagerCreators.Select(rm => rm.Invoke()));
-        sequentialUpdateSystem = new SequentialSystem<float>(updaterCreators.Select(u => u.Invoke()));
-        sequentialRenderSystem = new SequentialSystem<float>(rendererCreators.Select(r => r.Invoke()));
+        updateSystems = updaterCreators.ConvertAll(u => u.Invoke());
+        renderSystems = rendererCreators.ConvertAll(r => r.Invoke());
+        sequentialUpdateSystem = new SequentialSystem<float>(updateSystems);
+        sequentialRenderSystem = new SequentialSystem<float>(renderSystems);
         window.Run();
     }
 
