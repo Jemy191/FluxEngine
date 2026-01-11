@@ -36,9 +36,9 @@ public class FileChangeWatcher : IFileChangeWatcher
         watcher.Renamed += OnFsRenamed;
     }
 
-    public void StartWatchingFile(FileInfo file, Action onChanged) => callbacks[file.FullName] = onChanged;
+    public void RegisterFile(FileInfo file, Action onChanged) => callbacks[file.FullName] = onChanged;
 
-    public void StopWatchingFile(FileInfo file)
+    public void UnregisterFile(FileInfo file)
     {
         var fullPath = file.FullName;
 
