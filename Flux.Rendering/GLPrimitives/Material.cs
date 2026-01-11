@@ -8,19 +8,21 @@ namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Material : IResource
 {
-    readonly Shader shader;
+    readonly ResourceHandle<Shader> shaderHandle;
     readonly (string uniformName, ResourceHandle<Texture> texture)[] textures;
     readonly Uniform[] uniforms;
 
-    public Material(ResourceId<Shader> shader, (string uniformName, ResourceId<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
+    public Material(ResourceId<Shader> shaderId, (string uniformName, ResourceId<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
     {
-        this.shader = resourcesRepository.Get(shader);
+        shaderHandle = resourcesRepository.Get(shaderId);
         this.textures = textures.Select(t => (t.uniformName, resourcesRepository.Get(t.texture))).ToArray();
         this.uniforms = uniforms;
     }
 
     public void Use()
     {
+        var shader = shaderHandle.Resource;
+
         shader.Use();
 
         for (var i = 0; i < textures.Length; i++)
@@ -33,15 +35,15 @@ public readonly struct Material : IResource
         shader.SetUniforms(uniforms);
     }
 
-    public void SetUniforms(IEnumerable<Uniform> uniforms) => shader.SetUniforms(uniforms);
-    public void SetUniform(Uniform uniform) => shader.SetUniform(uniform);
+    public void SetUniforms(IEnumerable<Uniform> uniforms) => shaderHandle.Resource.SetUniforms(uniforms);
+    public void SetUniform(Uniform uniform) => shaderHandle.Resource.SetUniform(uniform);
 
     public void Dispose()
     {
-        shader.Dispose();
+        shaderHandle.Resource.Dispose();
         foreach (var texture in textures)
         {
-            texture.texture.Dispose();
+            texture.texture.Resource.Dispose();
         }
     }
 }

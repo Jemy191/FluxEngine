@@ -1,15 +1,23 @@
+using System.Runtime.CompilerServices;
 using Flux.Abstraction;
+using JetBrains.Annotations;
 
 namespace Flux.Resources.ResourceHandles;
 
-public class ResourceHandle<TResource> : IResourceHandle where TResource : IResource
+public class ResourceHandle<TResource> : IResourceHandleInternal where TResource : IResource
 {
+    [HandlesResourceDisposal]
     public TResource Resource { get; private set; }
-
-    public IResource ResourceInterface => Resource;
 
     public ResourceHandle(TResource resource) => Resource = resource;
 
-    public static implicit operator TResource(ResourceHandle<TResource> handle) => handle.Resource;
-    public void Dispose() => Resource.Dispose();
+    /// <summary> Replace and dispose of the old resource. </summary>
+    public void Refresh(TResource resource)
+    {
+        var oldResource = Resource;
+        Resource = resource;
+        oldResource.Dispose();
+    }
+
+    void IDisposable.Dispose() => Resource.Dispose();
 }

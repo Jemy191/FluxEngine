@@ -1,3 +1,5 @@
 namespace Flux.Resources.ResourceHandles;
 
-public interface IResourceHandle : IDisposable;
+public interface IResourceHandle;
+
+interface IResourceHandleInternal : IResourceHandle, IDisposable;

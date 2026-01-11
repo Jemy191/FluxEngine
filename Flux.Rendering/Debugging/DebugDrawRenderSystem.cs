@@ -5,7 +5,7 @@ using Flux.Ecs;
 using Flux.MathAddon;
 using Flux.Rendering.GLPrimitives;
 using Flux.Resources;
-using Microsoft.Extensions.Options;
+using Flux.Resources.ResourceHandles;
 
 namespace Flux.Rendering.Debugging;
 
@@ -13,7 +13,7 @@ public class DebugDrawRenderSystem : ISystem<float>
 {
     readonly Debug debug;
     
-    readonly Material debugLineMaterial;
+    readonly ResourceHandle<Material> debugLineMaterialHandle;
     readonly EntitySet cameraSet;
     
     
@@ -41,7 +41,7 @@ public class DebugDrawRenderSystem : ISystem<float>
         entity.AddResource(options.DebugLineShaderId);
         entity.AddResource(options.DebugLineMaterialId);
         
-        debugLineMaterial = resourcesRepository.Get(options.DebugLineMaterialId);
+        debugLineMaterialHandle = resourcesRepository.Get(options.DebugLineMaterialId);
 
         cameraSet = world
             .GetEntities()
@@ -81,6 +81,8 @@ public class DebugDrawRenderSystem : ISystem<float>
         var color = debug.Color;
 
         lineColorUniform.Value = new Vector4(color.R, color.G, color.B, color.A);
+
+        var debugLineMaterial = debugLineMaterialHandle.Resource;
 
         debugLineMaterial.Use();
         debugLineMaterial.SetUniforms(uniforms);

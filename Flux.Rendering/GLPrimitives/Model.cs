@@ -1,21 +1,24 @@
 ﻿using Flux.Abstraction;
 using Flux.Resources;
+using Flux.Resources.ResourceHandles;
 
 namespace Flux.Rendering.GLPrimitives;
 
 public readonly struct Model : IResource , IDisposable
 {
     readonly Mesh<Vertex>[] meshes;
-    readonly Material material;
+    readonly ResourceHandle<Material> materialHandle;
 
     public Model(Mesh<Vertex>[] meshes, ResourceId<Material> materialId, ResourcesRepository resourcesRepository)
     {
         this.meshes = meshes;
-        material = resourcesRepository.Get(materialId);
+        materialHandle = resourcesRepository.Get(materialId);
     }
 
     public readonly void Draw(IEnumerable<Uniform> uniforms)
     {
+        var material = materialHandle.Resource;
+
         material.Use();
         material.SetUniforms(uniforms);
 
@@ -28,7 +31,7 @@ public readonly struct Model : IResource , IDisposable
 
     public void Dispose()
     {
-        material.Dispose();
+        materialHandle.Resource.Dispose();
         foreach (var mesh in meshes)
         {
             mesh.Dispose();

@@ -5,7 +5,7 @@ namespace Flux.Resources;
 
 public class ResourcesRepository
 {
-    readonly Dictionary<Guid, (IResourceHandle? resource, object creationInfo)> registeredResources = [];
+    readonly Dictionary<Guid, (IResourceHandleInternal? resource, object creationInfo)> registeredResources = [];
     
     // This is a temporary solution to simplify the registration of resources
     // Todo: Remove this.
@@ -46,14 +46,16 @@ public class ResourcesRepository
         registeredResources[id.Value] = registeredResource with { resource = resource };
     }
 
-    internal void Unload<TResource>(ResourceId<TResource> id) where TResource : IResource
+    internal void Unload<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource
     {
         if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
             throw new ResourceNotRegisteredException<TResource>(id);
 
         if (registeredResource.resource is null)
             throw new ResourceNotFoundException<TResource>(id);
-            
+
+        resourceManager.Unload((TInfo)registeredResource.creationInfo, (ResourceHandle<TResource>)registeredResource.resource);
+
         registeredResource.resource.Dispose();
         registeredResources[id.Value] = registeredResource with { resource = null };
     }
