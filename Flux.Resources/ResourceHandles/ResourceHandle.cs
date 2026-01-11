@@ -1,4 +1,3 @@
-using System.Runtime.CompilerServices;
 using Flux.Abstraction;
 using JetBrains.Annotations;
 
@@ -6,7 +5,6 @@ namespace Flux.Resources.ResourceHandles;
 
 public class ResourceHandle<TResource> : IResourceHandleInternal where TResource : IResource
 {
-    [HandlesResourceDisposal]
     public TResource Resource { get; private set; }
 
     public ResourceHandle(TResource resource) => Resource = resource;
