@@ -35,7 +35,18 @@ public sealed class TextureResourceManager : FluxResourceManager<(FileInfo file,
 
         return handle;
 
-        void Refresh() => handle.Refresh(LoadTexture());
+        void Refresh()
+        {
+            try
+            {
+                var texture = LoadTexture();
+                handle.Refresh(texture);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Texture refresh failed: {e.Message}");
+            }
+        }
         Texture LoadTexture() => loadingService.LoadTexture(file, setting);
     }
 

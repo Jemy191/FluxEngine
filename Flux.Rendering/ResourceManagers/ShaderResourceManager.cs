@@ -36,7 +36,19 @@ public sealed class ShaderResourceManager : FluxResourceManager<(FileInfo vertex
 
         return handle;
 
-        void Refresh() => handle.Refresh(LoadShader());
+        void Refresh()
+        {
+            try
+            {
+                var shader = LoadShader();
+                handle.Refresh(shader);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine($"Shader refresh failed: {e.Message}");
+            }
+        }
+
         Shader LoadShader() => loadingService.LoadShader(vertexFile, fragmentFile);
     }
 
