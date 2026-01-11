@@ -1,10 +1,11 @@
 using Flux.Abstraction;
-using JetBrains.Annotations;
 
 namespace Flux.Resources.ResourceHandles;
 
 public class ResourceHandle<TResource> : IResourceHandleInternal where TResource : IResource
 {
+    public event Action? OnRefresh;
+
     public TResource Resource { get; private set; }
 
     public ResourceHandle(TResource resource) => Resource = resource;
@@ -14,6 +15,7 @@ public class ResourceHandle<TResource> : IResourceHandleInternal where TResource
     {
         var oldResource = Resource;
         Resource = resource;
+        OnRefresh?.Invoke();
         oldResource.Dispose();
     }
 
