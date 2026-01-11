@@ -1,17 +1,18 @@
 ﻿using Flux.Abstraction;
 using Flux.Resources;
+using Flux.Resources.ResourceHandles;
 using Silk.NET.OpenGL;
 using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Material : IResource, IDisposable
+public readonly struct Material : IResource
 {
     readonly Shader shader;
-    readonly (string uniformName, Texture texture)[] textures;
+    readonly (string uniformName, ResourceHandle<Texture> texture)[] textures;
     readonly Uniform[] uniforms;
 
-    public Material(Resource<Shader> shader, (string uniformName, Resource<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
+    public Material(ResourceId<Shader> shader, (string uniformName, ResourceId<Texture> texture)[] textures, Uniform[] uniforms, ResourcesRepository resourcesRepository)
     {
         this.shader = resourcesRepository.Get(shader);
         this.textures = textures.Select(t => (t.uniformName, resourcesRepository.Get(t.texture))).ToArray();
@@ -25,7 +26,7 @@ public readonly struct Material : IResource, IDisposable
         for (var i = 0; i < textures.Length; i++)
         {
             var (uniformName, texture) = textures[i];
-            texture.Bind(TextureUnit.Texture0 + i);
+            texture.Resource.Bind(TextureUnit.Texture0 + i);
             shader.SetUniform(uniformName, i);
         }
 

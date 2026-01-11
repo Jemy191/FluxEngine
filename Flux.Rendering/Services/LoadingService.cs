@@ -17,20 +17,14 @@ public class LoadingService
         this.modelLoaderService = modelLoaderService;
     }
 
-    public Shader LoadShader(FileInfo vertexFile, FileInfo fragmentFile)
-    {
-        var shader = new Shader(gl, LoadAssetFile(vertexFile), LoadAssetFile(fragmentFile));
-        return shader;
-    }
+    public Shader LoadShader(FileInfo vertexFile, FileInfo fragmentFile) => new Shader(gl, LoadAssetFile(vertexFile), LoadAssetFile(fragmentFile));
     public Texture LoadTexture(FileInfo file, TextureSetting textureSetting)
     {
         using var image = Image.Load<Rgba32>(file.FullName);
-
-        var texture = new Texture(gl, image, textureSetting);
-        return texture;
+        return new Texture(gl, image, textureSetting);
     }
 
-    public Model LoadModel(FileInfo file, Resource<Material> materialId, ResourcesRepository resourcesRepository)
+    public Model LoadModel(FileInfo file, ResourceId<Material> materialId, ResourcesRepository resourcesRepository)
     {
         var meshes = modelLoaderService.LoadMeshes(file);
         return new Model(meshes, materialId, resourcesRepository);

@@ -4,5 +4,5 @@ namespace Flux.Resources;
 
 public class ResourceNotFoundException<T> : Exception where T : IResource
 {
-    internal ResourceNotFoundException(Resource<T> id) : base($"Resource with id {id.Value} not found.") { }
+    internal ResourceNotFoundException(ResourceId<T> id) : base($"Resource with id {id.Value} not found.") { }
 }

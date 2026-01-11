@@ -5,7 +5,7 @@ namespace Flux.Rendering.Debugging
 {
     public class DebuggingOptions
     {
-        public required Resource<Shader> DebugLineShaderId { get; init; }
-        public required Resource<Material> DebugLineMaterialId { get; init; }
+        public required ResourceId<Shader> DebugLineShaderId { get; init; }
+        public required ResourceId<Material> DebugLineMaterialId { get; init; }
     }
 }

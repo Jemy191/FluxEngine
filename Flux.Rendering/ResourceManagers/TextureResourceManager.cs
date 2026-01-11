@@ -2,6 +2,7 @@ using Flux.Ecs;
 using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Rendering.Services;
 using Flux.Resources;
+using Flux.Resources.ResourceHandles;
 using JetBrains.Annotations;
 
 namespace Flux.Rendering.ResourceManagers;
@@ -14,6 +15,6 @@ public sealed class TextureResourceManager : FluxResourceManager<(FileInfo file,
     public TextureResourceManager(IEcsWorldService ecsWorldService, LoadingService loadingService, ResourcesRepository resourcesRepository) : base(ecsWorldService, resourcesRepository) =>
         this.loadingService = loadingService;
 
-    protected override Texture Load((FileInfo file, TextureSetting setting) info, ResourcesRepository resourcesRepository) =>
-        loadingService.LoadTexture(info.file, info.setting);
+    protected override ResourceHandle<Texture> Load((FileInfo file, TextureSetting setting) info, ResourcesRepository resourcesRepository) =>
+        loadingService.LoadTexture(info.file, info.setting).AsHandle();
 }

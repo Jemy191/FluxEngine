@@ -4,7 +4,7 @@ using Silk.NET.OpenGL;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Shader : IResource, IDisposable
+public readonly struct Shader : IResource
 {
     readonly uint handle;
     readonly GL gl;

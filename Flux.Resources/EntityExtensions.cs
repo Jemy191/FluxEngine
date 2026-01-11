@@ -6,11 +6,11 @@ namespace Flux.Resources;
 
 public static class EntityExtensions
 {
-    public static void AddResource<TResource>(this Entity entity, params Resource<TResource>[] newResources) where TResource : IResource
+    public static void AddResource<TResource>(this Entity entity, params ResourceId<TResource>[] newResources) where TResource : IResource
     {
-        if (entity.Has<ManagedResource<Resource<TResource>[], Resource<TResource>>>())
-            newResources = entity.Get<ManagedResource<Resource<TResource>[], Resource<TResource>>>().Info.Union(newResources).ToArray();
+        if (entity.Has<ManagedResource<ResourceId<TResource>[], ResourceId<TResource>>>())
+            newResources = entity.Get<ManagedResource<ResourceId<TResource>[], ResourceId<TResource>>>().Info.Union(newResources).ToArray();
 
-        entity.Set(ManagedResource<Resource<TResource>>.Create(newResources));
+        entity.Set(ManagedResource<ResourceId<TResource>>.Create(newResources));
     }
 }

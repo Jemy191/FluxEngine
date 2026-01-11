@@ -8,7 +8,7 @@ public readonly struct Model : IResource , IDisposable
     readonly Mesh<Vertex>[] meshes;
     readonly Material material;
 
-    public Model(Mesh<Vertex>[] meshes, Resource<Material> materialId, ResourcesRepository resourcesRepository)
+    public Model(Mesh<Vertex>[] meshes, ResourceId<Material> materialId, ResourcesRepository resourcesRepository)
     {
         this.meshes = meshes;
         material = resourcesRepository.Get(materialId);

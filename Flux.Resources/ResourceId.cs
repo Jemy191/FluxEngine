@@ -5,11 +5,11 @@ using JetBrains.Annotations;
 namespace Flux.Resources;
 
 [StructLayout(LayoutKind.Auto)]
-public readonly record struct Resource<T> where T : IResource
+public readonly record struct ResourceId<T> where T : IResource
 {
     internal readonly Guid Value;
     [PublicAPI]
-    internal Resource(Guid value) => Value = value;
+    internal ResourceId(Guid value) => Value = value;
 
-    public static Resource<T> New() => new Resource<T>(Guid.NewGuid());
+    public static ResourceId<T> New() => new ResourceId<T>(Guid.NewGuid());
 }
