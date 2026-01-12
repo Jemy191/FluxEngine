@@ -30,13 +30,11 @@ public static class RenderingExtension
         engine.AddResourceManager<TextureResourceManager>()
             .AddResourceManager<ShaderResourceManager>()
             .AddResourceManager<MaterialResourceManager>();
-    
-    /// <summary>
-    /// Should be added before other rendering system.
-    /// It do GlClear
-    /// </summary>
-    public static IGameEngine AddOpenGlRendering(this IGameEngine engine) =>
+
+    public static IGameEngine AddStartOfFrameOpenGlRendering(this IGameEngine engine) =>
         engine.AddRenderSystem<OpenGLRenderClearingSystem>();
+    public static IGameEngine AddEndOfFrameOpenGlRendering(this IGameEngine engine) =>
+        engine.AddRenderSystem<OpenGLRenderSwapBufferSystem>();
     
     public static IServiceCollection AddOpenGL(this IServiceCollection services) =>
         services.AddSingleton(p => p.GetRequiredService<IWindow>().CreateOpenGL());

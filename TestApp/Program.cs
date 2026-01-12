@@ -24,7 +24,7 @@ var engine = builder.Build();
 
 // Add render or update system here
 
-engine.AddOpenGlRendering()
+engine.AddStartOfFrameOpenGlRendering()
     .AddModelRendering()
     .AddImGuiRendering()
     .AddBehaviorSystem()

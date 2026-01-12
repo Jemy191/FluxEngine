@@ -15,7 +15,7 @@ public readonly struct Model : IResource
         materialHandle = resourcesRepository.Get(materialId);
     }
 
-    public readonly void Draw(IEnumerable<Uniform> uniforms)
+    public void Draw(IEnumerable<Uniform> uniforms)
     {
         var material = materialHandle.Resource;
 
