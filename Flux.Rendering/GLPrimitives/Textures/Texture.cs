@@ -1,5 +1,6 @@
 ﻿using Flux.Abstraction;
 using Flux.Rendering.ResourceManagers;
+using Silk.NET.Maths;
 using Silk.NET.OpenGL;
 using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
@@ -8,16 +9,42 @@ namespace Flux.Rendering.GLPrimitives.Textures;
 
 public readonly struct Texture : IResource<TextureCreationInfo>
 {
-    readonly uint handle;
+    public readonly uint Handle;
     readonly GL gl;
     readonly TextureSetting setting;
+
+    /// <summary> Create a texture object without data. </summary>
+    public Texture(GL gl, TextureSetting setting, InternalFormat internalFormat, Vector2D<uint> size, PixelFormat pixelFormat, PixelType pixelType)
+    {
+        this.gl = gl;
+        this.setting = setting;
+
+        Handle = this.gl.GenTexture();
+        Bind();
+
+        unsafe
+        {
+            this.gl.TexImage2D(
+                TextureTarget.Texture2D,
+                0,
+                internalFormat,
+                size.X,
+                size.Y,
+                0,
+                pixelFormat,
+                pixelType,
+                null
+            );
+        }
+        SetParameters();
+    }
 
     public Texture(GL gl, Image<Rgba32> image, TextureSetting setting)
     {
         this.gl = gl;
         this.setting = setting;
 
-        handle = this.gl.GenTexture();
+        Handle = this.gl.GenTexture();
         Bind();
         LoadImage(gl, image);
 
@@ -29,7 +56,7 @@ public readonly struct Texture : IResource<TextureCreationInfo>
         this.gl = gl;
         this.setting = setting;
 
-        handle = this.gl.GenTexture();
+        Handle = this.gl.GenTexture();
         Bind();
 
         fixed (void* d = &data[0])
@@ -76,8 +103,8 @@ public readonly struct Texture : IResource<TextureCreationInfo>
     public void Bind(TextureUnit textureSlot = TextureUnit.Texture0)
     {
         gl.ActiveTexture(textureSlot);
-        gl.BindTexture(TextureTarget.Texture2D, handle);
+        gl.BindTexture(TextureTarget.Texture2D, Handle);
     }
 
-    public void Dispose() => gl.DeleteTexture(handle);
+    public void Dispose() => gl.DeleteTexture(Handle);
 }
