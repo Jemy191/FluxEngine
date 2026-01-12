@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Flux.Rendering.ResourceManagers;
 
 [PublicAPI]
-public sealed class TextureResourceManager : FluxResourceManager<(FileInfo file, TextureSetting setting), Texture>
+public sealed class TextureResourceManager : FluxResourceManager<TextureCreationInfo, Texture>
 {
     readonly LoadingService loadingService;
     readonly IFileChangeWatcher fileChangeWatcher;
@@ -25,13 +25,11 @@ public sealed class TextureResourceManager : FluxResourceManager<(FileInfo file,
         this.fileChangeWatcher = fileChangeWatcher;
     }
 
-    protected override ResourceHandle<Texture> Load((FileInfo file, TextureSetting setting) info, ResourcesRepository resourcesRepository)
+    protected override ResourceHandle<Texture> Load(TextureCreationInfo info, ResourcesRepository resourcesRepository)
     {
-        var (file, setting) = info;
-
         var handle = LoadTexture().AsHandle();
 
-        fileChangeWatcher.RegisterFile(file, Refresh);
+        fileChangeWatcher.RegisterFile(info.File, Refresh);
 
         return handle;
 
@@ -47,11 +45,8 @@ public sealed class TextureResourceManager : FluxResourceManager<(FileInfo file,
                 Console.WriteLine($"Texture refresh failed: {e.Message}");
             }
         }
-        Texture LoadTexture() => loadingService.LoadTexture(file, setting);
+        Texture LoadTexture() => loadingService.LoadTexture(info.File, info.Setting);
     }
 
-    protected override void Unload((FileInfo file, TextureSetting setting) info, ResourceHandle<Texture> resource)
-    {
-
-    }
+    protected override void Unload(TextureCreationInfo info, ResourceHandle<Texture> resource) => fileChangeWatcher.UnregisterFile(info.File);
 }

@@ -4,7 +4,7 @@ using Flux.Resources.ResourceHandles;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Model : IResource , IDisposable
+public readonly struct Model : IResource
 {
     readonly Mesh<Vertex>[] meshes;
     readonly ResourceHandle<Material> materialHandle;

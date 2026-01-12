@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Flux.Rendering.ResourceManagers;
 
 [PublicAPI]
-public sealed class ShaderResourceManager : FluxResourceManager<(FileInfo vertexFile, FileInfo fragmentFile), Shader>
+public sealed class ShaderResourceManager : FluxResourceManager<ShaderCreationInfo, Shader>
 {
     readonly LoadingService loadingService;
     readonly IFileChangeWatcher fileChangeWatcher;
@@ -25,14 +25,12 @@ public sealed class ShaderResourceManager : FluxResourceManager<(FileInfo vertex
         this.fileChangeWatcher = fileChangeWatcher;
     }
 
-    protected override ResourceHandle<Shader> Load((FileInfo vertexFile, FileInfo fragmentFile) info, ResourcesRepository resourcesRepository)
+    protected override ResourceHandle<Shader> Load(ShaderCreationInfo info, ResourcesRepository resourcesRepository)
     {
-        var (vertexFile, fragmentFile) = info;
-
         var handle = LoadShader().AsHandle();
 
-        fileChangeWatcher.RegisterFile(vertexFile, Refresh);
-        fileChangeWatcher.RegisterFile(fragmentFile, Refresh);
+        fileChangeWatcher.RegisterFile(info.VertexFile, Refresh);
+        fileChangeWatcher.RegisterFile(info.FragmentFile, Refresh);
 
         return handle;
 
@@ -49,12 +47,12 @@ public sealed class ShaderResourceManager : FluxResourceManager<(FileInfo vertex
             }
         }
 
-        Shader LoadShader() => loadingService.LoadShader(vertexFile, fragmentFile);
+        Shader LoadShader() => loadingService.LoadShader(info.VertexFile, info.FragmentFile);
     }
 
-    protected override void Unload((FileInfo vertexFile, FileInfo fragmentFile) info, ResourceHandle<Shader> resource)
+    protected override void Unload(ShaderCreationInfo info, ResourceHandle<Shader> resource)
     {
-        fileChangeWatcher.UnregisterFile(info.vertexFile);
-        fileChangeWatcher.UnregisterFile(info.fragmentFile);
+        fileChangeWatcher.UnregisterFile(info.VertexFile);
+        fileChangeWatcher.UnregisterFile(info.FragmentFile);
     }
 }

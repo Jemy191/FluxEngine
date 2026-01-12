@@ -1,10 +1,11 @@
 ﻿using System.Numerics;
 using Flux.Abstraction;
+using Flux.Rendering.ResourceManagers;
 using Silk.NET.OpenGL;
 
 namespace Flux.Rendering.GLPrimitives;
 
-public readonly struct Shader : IResource
+public readonly struct Shader : IResource<ShaderCreationInfo>
 {
     readonly uint handle;
     readonly GL gl;

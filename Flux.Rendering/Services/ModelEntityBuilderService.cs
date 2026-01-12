@@ -4,7 +4,11 @@ using Flux.Ecs;
 using Flux.MathAddon;
 using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.GLPrimitives.Textures;
+using Flux.Rendering.ResourceManagers;
 using Flux.Resources;
+using Silk.NET.OpenGL;
+using Shader = Flux.Rendering.GLPrimitives.Shader;
+using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;
 
 namespace Flux.Rendering.Services;
 
@@ -126,16 +130,25 @@ public class ModelEntityBuilderService
         entity.Set(transform);
         entity.Set(resourcesRepository);
 
+        var textureSetting = new TextureSetting
+        {
+            WrapModeS = TextureWrapMode.ClampToBorder,
+            WrapModeT = TextureWrapMode.ClampToBorder,
+            TextureMinFilter = TextureMinFilter.Linear,
+            TextureMagFilter = TextureMagFilter.Linear,
+            Mipmap = new MipmapSetting.NoMipmap()
+        };
+
         var registeredTexture = textures
-            .Select(texture => (uniformName: texture.Key, texture: resourcesRepository.Register<Texture>(texture.Value)))
+            .Select(t => (uniformName: t.Key, texture: resourcesRepository.Register<Texture, TextureCreationInfo>(new TextureCreationInfo(t.Value, textureSetting))))
             .ToArray();
 
         entity.AddResource(registeredTexture.Select(t => t.texture).ToArray());
         
-        var shaderId = resourcesRepository.Register<Shader>((vertex, fragment));
+        var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(vertex, fragment));
         entity.AddResource(shaderId);
         
-        var materialId = resourcesRepository.Register<Material>((shaderId, registeredTexture.ToArray(), uniforms.ToArray()));
+        var materialId = resourcesRepository.Register<Material, MaterialCreationInfo>(new MaterialCreationInfo(shaderId, registeredTexture.ToArray(), uniforms.ToArray()));
         entity.AddResource(materialId);
         
         Model? entityModel = null;

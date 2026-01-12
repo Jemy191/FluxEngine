@@ -9,7 +9,7 @@ public class ResourcesRepository
     
     // This is a temporary solution to simplify the registration of resources
     // Todo: Remove this.
-    readonly Dictionary<object, Guid> guidByResources = [];
+    readonly Dictionary<object, Guid> guidByResourcesCreationInfo = [];
 
     public ResourceHandle<TResource> Get<TResource>(ResourceId<TResource> id) where TResource : IResource
     {
@@ -22,19 +22,19 @@ public class ResourcesRepository
         return (ResourceHandle<TResource>)registeredResource.resource;
     }
 
-    public ResourceId<TResource> Register<TResource>(object creationInfo) where TResource : IResource
+    public ResourceId<TResource> Register<TResource, TInfo>(TInfo creationInfo) where TResource : IResource<TInfo>
     {
-        if(guidByResources.TryGetValue(creationInfo, out var guid))
+        if(guidByResourcesCreationInfo.TryGetValue(creationInfo, out var guid))
             return new ResourceId<TResource>(guid);
         
         var id = ResourceId<TResource>.New();
         
         registeredResources.Add(id.Value, (null, creationInfo));
-        guidByResources.Add(creationInfo, id.Value);
+        guidByResourcesCreationInfo.Add(creationInfo, id.Value);
         return id;
     }
     
-    internal void Load<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource
+    internal void Load<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
     {
         if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
             throw new ResourceNotRegisteredException<TResource>(id);
@@ -46,7 +46,7 @@ public class ResourcesRepository
         registeredResources[id.Value] = registeredResource with { resource = resource };
     }
 
-    internal void Unload<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource
+    internal void Unload<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
     {
         if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
             throw new ResourceNotRegisteredException<TResource>(id);

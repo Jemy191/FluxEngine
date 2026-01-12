@@ -6,7 +6,9 @@ using Flux.Resources.ResourceHandles;
 
 namespace Flux.Resources;
 
-public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceId<TResource>, ResourceId<TResource>>, IFluxResourceManager where TResource : IResource
+/// <typeparam name="TInfo">That same type that go in the <see cref="IResource{TIngo}"/></typeparam>
+/// <typeparam name="TResource"></typeparam>
+public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceId<TResource>, ResourceId<TResource>>, IFluxResourceManager where TResource : IResource<TInfo>
 {
     readonly ResourcesRepository resourcesRepository;
     
