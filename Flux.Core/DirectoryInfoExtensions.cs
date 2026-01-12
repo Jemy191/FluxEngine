@@ -2,7 +2,13 @@ namespace Flux.Core;
 
 public static class DirectoryInfoExtensions
 {
-    public static DirectoryInfo ToDirectory(this string directoryPath) => new DirectoryInfo(directoryPath);
-    public static FileInfo ToFile(this DirectoryInfo directory, string fileName) => new FileInfo(Path.Combine(directory.FullName, fileName));
-    public static DirectoryInfo Combine(this DirectoryInfo directory, string path) => new DirectoryInfo(Path.Combine(directory.FullName, path));
+    extension(string directoryPath)
+    {
+        public DirectoryInfo ToDirectory() => new DirectoryInfo(directoryPath);
+    }
+    extension(DirectoryInfo directory)
+    {
+        public FileInfo ToFile(string fileName) => new FileInfo(Path.Join(directory.FullName, fileName));
+        public DirectoryInfo Join(string path) => new DirectoryInfo(Path.Join(directory.FullName, path));
+    }
 }
