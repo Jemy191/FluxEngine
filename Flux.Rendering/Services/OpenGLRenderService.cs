@@ -22,13 +22,13 @@ public partial class OpenGLRenderService : IDisposable
     readonly ResourceHandle<Shader> screenPassShader;
     readonly ResourceHandle<Shader> compositePassShader;
 
-    readonly FramebufferObject opaqueFbo;
-    readonly FramebufferObject transparentFbo;
+    FramebufferObject opaqueFbo;
+    FramebufferObject transparentFbo;
 
-    readonly Texture opaqueTexture;
-    readonly Texture depthTexture;
-    readonly Texture accumulationTexture;
-    readonly Texture revealageTexture;
+    Texture opaqueTexture;
+    Texture depthTexture;
+    Texture accumulationTexture;
+    Texture revealageTexture;
 
     public OpenGLRenderService(
         GL gl,
@@ -65,13 +65,18 @@ public partial class OpenGLRenderService : IDisposable
 
         screenQuadMesh = new Mesh<SimpleVertex>(gl, vertices, indices);
 
-        // Need to regen this on viewport size changeRegister
-        var textureSize = window.Size.As<uint>();
-        opaqueTexture = new Texture(gl, textureSetting, InternalFormat.Rgba16f, textureSize, PixelFormat.Rgba, PixelType.HalfFloat);
-        depthTexture = new Texture(gl, textureSetting, InternalFormat.DepthComponent, textureSize, PixelFormat.DepthComponent, PixelType.Float);
+        InitializeFrameBuffers(window.Size.As<uint>());
 
-        accumulationTexture = new Texture(gl, textureSetting, InternalFormat.Rgba16f, textureSize, PixelFormat.Rgba, PixelType.HalfFloat);
-        revealageTexture = new Texture(gl, textureSetting, InternalFormat.R8, textureSize, PixelFormat.Red, PixelType.Float);
+        OnFramebufferResize(window.Size);
+    }
+
+    void InitializeFrameBuffers(Vector2D<uint> screenSize)
+    {
+        opaqueTexture = new Texture(gl, textureSetting, InternalFormat.Rgba16f, screenSize, PixelFormat.Rgba, PixelType.HalfFloat);
+        depthTexture = new Texture(gl, textureSetting, InternalFormat.DepthComponent, screenSize, PixelFormat.DepthComponent, PixelType.Float);
+
+        accumulationTexture = new Texture(gl, textureSetting, InternalFormat.Rgba16f, screenSize, PixelFormat.Rgba, PixelType.HalfFloat);
+        revealageTexture = new Texture(gl, textureSetting, InternalFormat.R8, screenSize, PixelFormat.Red, PixelType.Float);
 
         FramebufferAttachmentSetting[] opaqueAttachements =
         [
@@ -87,8 +92,6 @@ public partial class OpenGLRenderService : IDisposable
 
         opaqueFbo = new FramebufferObject(gl, opaqueAttachements);
         transparentFbo = new FramebufferObject(gl, transparentAttachements);
-
-        OnFramebufferResize(window.Size);
     }
 
     public void StartRendering()
@@ -159,12 +162,15 @@ public partial class OpenGLRenderService : IDisposable
         screenQuadMesh.Draw();
     }
 
-    void OnFramebufferResize(Vector2D<int> size) => gl.Viewport(size);
-
-    public void Dispose()
+    void OnFramebufferResize(Vector2D<int> size)
     {
-        window.FramebufferResize -= OnFramebufferResize;
-        screenQuadMesh.Dispose();
+        gl.Viewport(size);
+        DisposeFrameBuffers();
+        InitializeFrameBuffers(size.As<uint>());
+    }
+
+    void DisposeFrameBuffers()
+    {
 
         opaqueTexture.Dispose();
         depthTexture.Dispose();
@@ -173,5 +179,13 @@ public partial class OpenGLRenderService : IDisposable
 
         opaqueFbo.Dispose();
         transparentFbo.Dispose();
+    }
+
+    public void Dispose()
+    {
+        window.FramebufferResize -= OnFramebufferResize;
+        screenQuadMesh.Dispose();
+
+        DisposeFrameBuffers();
     }
 }
