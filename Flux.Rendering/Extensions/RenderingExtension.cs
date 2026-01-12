@@ -36,7 +36,7 @@ public static class RenderingExtension
     /// It do GlClear
     /// </summary>
     public static IGameEngine AddOpenGlRendering(this IGameEngine engine) =>
-        engine.AddRenderSystem<OpenGlRenderSystem>();
+        engine.AddRenderSystem<OpenGLRenderClearingSystem>();
     
     public static IServiceCollection AddOpenGL(this IServiceCollection services) =>
         services.AddSingleton(p => p.GetRequiredService<IWindow>().CreateOpenGL());

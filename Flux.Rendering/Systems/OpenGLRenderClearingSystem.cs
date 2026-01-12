@@ -6,14 +6,14 @@ using Silk.NET.Windowing;
 
 namespace Flux.Rendering.Systems;
 
-public class OpenGlRenderSystem : ISystem<float>
+public class OpenGLRenderClearingSystem : ISystem<float>
 {
     readonly GL gl;
     readonly IWindow window;
 
     public bool IsEnabled { get; set; }
 
-    public OpenGlRenderSystem(GL gl, IWindow window)
+    public OpenGLRenderClearingSystem(GL gl, IWindow window)
     {
         this.gl = gl;
         this.window = window;
