@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace Flux.Rendering.ResourceManagers;
 
 [PublicAPI]
-public sealed class MaterialResourceManager : FluxResourceManager<MaterialCreationInfo, Material>
+public sealed class MaterialResourceManager : ResourceManager<MaterialCreationInfo, Material>
 {
     public MaterialResourceManager(IEcsWorldService ecsWorldService, ResourcesRepository resourcesRepository) : base(ecsWorldService, resourcesRepository) { }
 

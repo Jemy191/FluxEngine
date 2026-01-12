@@ -8,11 +8,11 @@ namespace Flux.Resources;
 
 /// <typeparam name="TInfo">That same type that go in the <see cref="IResource{TIngo}"/></typeparam>
 /// <typeparam name="TResource"></typeparam>
-public abstract class FluxResourceManager<TInfo, TResource> : AResourceManager<ResourceId<TResource>, ResourceId<TResource>>, IFluxResourceManager where TResource : IResource<TInfo>
+public abstract class ResourceManager<TInfo, TResource> : AResourceManager<ResourceId<TResource>, ResourceId<TResource>>, IResourceManager where TResource : IResource<TInfo>
 {
     readonly ResourcesRepository resourcesRepository;
     
-    protected FluxResourceManager(IEcsWorldService ecsWorldService, ResourcesRepository resourcesRepository)
+    protected ResourceManager(IEcsWorldService ecsWorldService, ResourcesRepository resourcesRepository)
     {
         this.resourcesRepository = resourcesRepository;
         Manage(ecsWorldService.World);

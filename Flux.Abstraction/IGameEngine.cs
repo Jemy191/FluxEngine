@@ -17,7 +17,7 @@ public interface IGameEngine
     T GetUpdateSystem<T>() where T : ISystem<float>;
     T GetRenderSystem<T>() where T : ISystem<float>;
 
-    IGameEngine AddResourceManager<T>() where T : IFluxResourceManager;
+    IGameEngine AddResourceManager<T>() where T : IResourceManager;
     IGameEngine Instantiate<T>();
     void Run();
     void RunWith<T>();

@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Flux.Rendering.ResourceManagers;
 
 [PublicAPI]
-public sealed class ShaderResourceManager : FluxResourceManager<ShaderCreationInfo, Shader>
+public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, Shader>
 {
     readonly LoadingService loadingService;
     readonly IFileChangeWatcher fileChangeWatcher;

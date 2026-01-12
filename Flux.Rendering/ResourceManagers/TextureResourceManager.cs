@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace Flux.Rendering.ResourceManagers;
 
 [PublicAPI]
-public sealed class TextureResourceManager : FluxResourceManager<TextureCreationInfo, Texture>
+public sealed class TextureResourceManager : ResourceManager<TextureCreationInfo, Texture>
 {
     readonly LoadingService loadingService;
     readonly IFileChangeWatcher fileChangeWatcher;

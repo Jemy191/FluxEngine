@@ -34,7 +34,7 @@ public class ResourcesRepository
         return id;
     }
     
-    internal void Load<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
+    internal void Load<TInfo, TResource>(ResourceId<TResource> id, ResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
     {
         if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
             throw new ResourceNotRegisteredException<TResource>(id);
@@ -46,7 +46,7 @@ public class ResourcesRepository
         registeredResources[id.Value] = registeredResource with { resource = resource };
     }
 
-    internal void Unload<TInfo, TResource>(ResourceId<TResource> id, FluxResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
+    internal void Unload<TInfo, TResource>(ResourceId<TResource> id, ResourceManager<TInfo, TResource> resourceManager) where TResource : IResource<TInfo>
     {
         if (!registeredResources.TryGetValue(id.Value, out var registeredResource))
             throw new ResourceNotRegisteredException<TResource>(id);

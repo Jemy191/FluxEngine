@@ -2,7 +2,7 @@ namespace Flux.Abstraction;
 
 /// <typeparam name="TIngo">
 /// The CreationInfo of the resource.
-/// It the same type that go in the <see cref="IFluxResourceManager"/>.
+/// It the same type that go in the <see cref="IResourceManager"/>.
 /// </typeparam>
 public interface IResource<TIngo> : IResource;
 

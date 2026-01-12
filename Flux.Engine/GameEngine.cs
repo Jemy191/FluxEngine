@@ -9,8 +9,8 @@ public class GameEngine : IGameEngine
 {
     readonly List<Func<ISystem<float>>> updaterCreators = [];
     readonly List<Func<ISystem<float>>> rendererCreators = [];
-    readonly List<Func<IFluxResourceManager>> resourceManagerCreators = [];
-    readonly List<IFluxResourceManager> resourceManagers = [];
+    readonly List<Func<IResourceManager>> resourceManagerCreators = [];
+    readonly List<IResourceManager> resourceManagers = [];
 
     readonly IWindow window;
     readonly IInjectionService injectionService;
@@ -84,7 +84,7 @@ public class GameEngine : IGameEngine
         return this;
     }
     
-    public IGameEngine AddResourceManager<T>() where T : IFluxResourceManager
+    public IGameEngine AddResourceManager<T>() where T : IResourceManager
     {
         resourceManagerCreators.Add(() => injectionService.Instantiate<T>());
         return this;
