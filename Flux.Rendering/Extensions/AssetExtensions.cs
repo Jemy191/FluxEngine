@@ -4,5 +4,9 @@ namespace Flux.Rendering.Extensions;
 
 public static class AssetExtensions
 {
-    public static FileInfo ToAsset(this string filePath) => AssetGlobalSettings.AssetsPath.ToFile(filePath);
+    extension(string filePath)
+    {
+        public FileInfo ToAsset() => AssetGlobalSettings.AssetsPath.ToFile(filePath);
+        public FileInfo ToEngineInternalAsset() => AssetGlobalSettings.EngineInternalAssetPath.ToFile(filePath);
+    }
 }
