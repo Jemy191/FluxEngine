@@ -94,7 +94,7 @@ public partial class OpenGLRenderService : IDisposable
         transparentFbo = new FramebufferObject(gl, transparentAttachements);
     }
 
-    public void StartRendering()
+    public void StartOpaquePass()
     {
         gl.Enable(EnableCap.DepthTest);
         gl.DepthFunc(DepthFunction.Less);
@@ -107,7 +107,7 @@ public partial class OpenGLRenderService : IDisposable
         gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
     }
 
-    public void StartTransparentRendering()
+    public void StartTransparencyPass()
     {
         gl.DepthMask(false);
         gl.Enable(EnableCap.Blend);
@@ -116,11 +116,12 @@ public partial class OpenGLRenderService : IDisposable
         gl.BlendEquation(BlendEquationModeEXT.FuncAdd);
 
         transparentFbo.Bind();
+
         gl.ClearBuffer(BufferKind.Color, 0, 0);
         gl.ClearBuffer(BufferKind.Color, 1, 1);
     }
 
-    public void EndRendering()
+    public void FinalPass()
     {
         CombineOpaqueWithAlphaPass();
 
@@ -171,7 +172,6 @@ public partial class OpenGLRenderService : IDisposable
 
     void DisposeFrameBuffers()
     {
-
         opaqueTexture.Dispose();
         depthTexture.Dispose();
         accumulationTexture.Dispose();
