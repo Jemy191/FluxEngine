@@ -83,7 +83,7 @@ public class GameEngine : IGameEngine
         updaterCreators.Add(() => factory.Invoke(ServiceProvider));
         return this;
     }
-    
+
     public IGameEngine AddResourceManager<T>() where T : IResourceManager
     {
         resourceManagerCreators.Add(() => injectionService.Instantiate<T>());
@@ -93,9 +93,9 @@ public class GameEngine : IGameEngine
     public T GetUpdateSystem<T>() where T : ISystem<float> => updateSystems.OfType<T>().First();
     public T GetRenderSystem<T>() where T : ISystem<float> => renderSystems.OfType<T>().First();
 
+    public void Init() => resourceManagers.AddRange(resourceManagerCreators.Select(rm => rm.Invoke()));
     public void Run()
     {
-        resourceManagers.AddRange(resourceManagerCreators.Select(rm => rm.Invoke()));
         updateSystems = updaterCreators.ConvertAll(u => u.Invoke());
         renderSystems = rendererCreators.ConvertAll(r => r.Invoke());
         sequentialUpdateSystem = new SequentialSystem<float>(updateSystems);

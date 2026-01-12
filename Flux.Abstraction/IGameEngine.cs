@@ -19,6 +19,7 @@ public interface IGameEngine
 
     IGameEngine AddResourceManager<T>() where T : IResourceManager;
     IGameEngine Instantiate<T>();
+    void Init();
     void Run();
     void RunWith<T>();
 }

@@ -13,29 +13,26 @@ namespace Flux.Rendering.Extensions;
 
 public static class RenderingExtension
 {
-    public static IServiceCollection AddOpenGL<T>(this IServiceCollection services) where T : IGLContextSource => services.AddSingleton(p => p.GetRequiredService<T>().CreateOpenGL());
+    extension(IServiceCollection services)
+    {
+        public IServiceCollection AddImGui() => services.AddSingleton<ImguiService>();
+        public IServiceCollection AddModelEntityBuilder() => services.AddSingleton<ModelEntityBuilderService>();
+        public IServiceCollection AddOpenGL<T>() where T : IGLContextSource => services.
+            AddSingleton(p => p.GetRequiredService<T>().CreateOpenGL())
+            .AddSingleton<OpenGLRenderService>();
 
-    public static IServiceCollection AddImGui(this IServiceCollection services) => services
-        .AddSingleton<ImguiService>();
-    public static IServiceCollection AddLoaderServices(this IServiceCollection services) => services
-        .AddSingleton<ModelLoaderService>()
-        .AddSingleton<LoadingService>();
-    
-    public static IServiceCollection AddModelEntityBuilder(this IServiceCollection services) => services.AddSingleton<ModelEntityBuilderService>();
+        public IServiceCollection AddLoaderServices() => services
+            .AddSingleton<ModelLoaderService>()
+            .AddSingleton<LoadingService>();
+    }
 
-    public static IGameEngine AddModelRendering(this IGameEngine engine) =>
-        engine.AddRenderSystem<ModelRenderSystem>();
+    extension(IGameEngine engine)
+    {
+        public IGameEngine AddModelRendering() => engine.AddRenderSystem<ModelRenderSystem>();
+        public IGameEngine AddResourceManagers() =>
+            engine.AddResourceManager<TextureResourceManager>()
+                .AddResourceManager<ShaderResourceManager>()
+                .AddResourceManager<MaterialResourceManager>();
+    }
 
-    public static IGameEngine AddResourceManagers(this IGameEngine engine) =>
-        engine.AddResourceManager<TextureResourceManager>()
-            .AddResourceManager<ShaderResourceManager>()
-            .AddResourceManager<MaterialResourceManager>();
-
-    public static IGameEngine AddStartOfFrameOpenGlRendering(this IGameEngine engine) =>
-        engine.AddRenderSystem<OpenGLRenderClearingSystem>();
-    public static IGameEngine AddEndOfFrameOpenGlRendering(this IGameEngine engine) =>
-        engine.AddRenderSystem<OpenGLRenderSwapBufferSystem>();
-    
-    public static IServiceCollection AddOpenGL(this IServiceCollection services) =>
-        services.AddSingleton(p => p.GetRequiredService<IWindow>().CreateOpenGL());
 }
