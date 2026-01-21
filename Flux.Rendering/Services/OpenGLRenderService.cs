@@ -100,10 +100,10 @@ public partial class OpenGLRenderService : IDisposable
         gl.DepthFunc(DepthFunction.Less);
         gl.DepthMask(true);
         gl.Disable(EnableCap.Blend);
+        gl.ClearColor(Color.CornflowerBlue);
 
         opaqueFbo.Bind();
 
-        gl.ClearColor(Color.CornflowerBlue);
         gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit));
     }
 
@@ -117,24 +117,24 @@ public partial class OpenGLRenderService : IDisposable
 
         transparentFbo.Bind();
 
-        gl.ClearBuffer(BufferKind.Color, 0, 0);
-        gl.ClearBuffer(BufferKind.Color, 1, 1);
+        gl.ClearBuffer(BufferKind.Color, 0, clearAccum);
+        gl.ClearBuffer(BufferKind.Color, 1, clearReveal);
     }
 
     public void FinalPass()
     {
         CombineOpaqueWithAlphaPass();
-
-        DrawAllPass();
+        DrawToBackBuffer();
     }
 
     void CombineOpaqueWithAlphaPass()
     {
         gl.DepthFunc(DepthFunction.Always);
         gl.Enable(EnableCap.Blend);
-        gl.BlendFunc(BlendingFactor.DstAlpha, BlendingFactor.OneMinusSrcAlpha);
+        gl.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
 
         opaqueFbo.Bind();
+
         compositePassShader.Resource.Use();
 
         accumulationTexture.Bind();
@@ -144,7 +144,7 @@ public partial class OpenGLRenderService : IDisposable
         screenQuadMesh.Draw();
     }
 
-    void DrawAllPass()
+    void DrawToBackBuffer()
     {
         gl.Disable(EnableCap.DepthTest);
         gl.DepthMask(true);
@@ -153,12 +153,13 @@ public partial class OpenGLRenderService : IDisposable
         // Bind the back buffer(0)
         gl.BindFramebuffer(FramebufferTarget.Framebuffer, 0);
 
-        gl.ClearColor(Color.Black);
+        gl.ClearColor(Vector4D<float>.Zero);
         gl.Clear((uint)(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit | ClearBufferMask.StencilBufferBit));
 
         // Final result
         screenPassShader.Resource.Use();
         opaqueTexture.Bind();
+
         screenQuadMesh.Bind();
         screenQuadMesh.Draw();
     }

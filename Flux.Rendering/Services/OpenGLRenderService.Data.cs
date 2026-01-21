@@ -12,6 +12,9 @@ public partial class OpenGLRenderService
     static readonly FileInfo onlyPositionVertexShader = Path.Join("Rendering", "OnlyPosition.vert").ToEngineInternalAsset();
     static readonly FileInfo compositeFragmentShader = Path.Join("Rendering", "WeightedBlendedTransparency", "WBTCompositePass.frag").ToEngineInternalAsset();
 
+    static readonly float[] clearAccum = [0f, 0f, 0f, 0f];
+    static readonly float[] clearReveal = [1f, 1f, 1f, 1f];
+
     static readonly SimpleVertex[] vertices =
     [
         new SimpleVertex
