@@ -1,6 +1,4 @@
-using Flux.Core;
-
-namespace Flux.Rendering;
+namespace Flux.Core;
 
 public static class AssetGlobalSettings
 {
