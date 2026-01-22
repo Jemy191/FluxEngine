@@ -1,0 +1,7 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <ItemGroup>
+      <PackageReference Include="Prowl.Slang" Version="0.1.1" />
+    </ItemGroup>
+
+</Project>

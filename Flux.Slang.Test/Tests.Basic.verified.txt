@@ -1,0 +1,47 @@
+﻿{
+  Item1:
+#version 450
+layout(column_major) uniform;
+layout(column_major) buffer;
+
+#line 2 0
+layout(location = 0)
+in vec3 position_0;
+
+
+#line 2
+void main()
+{
+
+#line 2
+    gl_Position = vec4(position_0, 1.0);
+
+#line 2
+    return;
+}
+
+,
+  Item2:
+#version 450
+layout(column_major) uniform;
+layout(column_major) buffer;
+
+#line 2 0
+layout(location = 0)
+out vec4 entryPointParam_fragmentMain_0;
+
+
+
+
+void main()
+{
+
+#line 8
+    entryPointParam_fragmentMain_0 = vec4(1.0, 0.0, 1.0, 1.0);
+
+#line 8
+    return;
+}
+
+
+}
