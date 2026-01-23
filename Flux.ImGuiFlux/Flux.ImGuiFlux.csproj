@@ -3,18 +3,5 @@
         <PackageReference Include="Silk.NET.OpenGL.Extensions.ImGui" Version="2.22.0" />
         <ProjectReference Include="..\Flux.Abstraction\Flux.Abstraction.csproj"/>
         <ProjectReference Include="..\Flux.Ecs\Flux.Ecs.csproj"/>
-        <PackageReference Update="JetBrains.Annotations" Version="2025.2.0" />
-        <PackageReference Update="Meziantou.Analyzer" Version="2.0.205">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Update="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Update="Roslynator.Analyzers" Version="4.13.1">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
     </ItemGroup>
 </Project>

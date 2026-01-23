@@ -3,13 +3,12 @@
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AsyncVoidAnalyzer" Version="0.2.0"/>
-        <PackageReference Include="JetBrains.Annotations" Version="2024.3.0"/>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.4"/>
         
-        <PackageReference Include="Meziantou.Analyzer" Version="2.0.147">
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.285">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>

@@ -10,20 +10,5 @@
         <ProjectReference Include="..\Flux.ImGuiFlux\Flux.ImGuiFlux.csproj"/>
         <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Update="JetBrains.Annotations" Version="2025.2.0" />
-      <PackageReference Update="Meziantou.Analyzer" Version="2.0.205">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Microsoft.VisualStudio.Threading.Analyzers" Version="17.14.15">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Update="Roslynator.Analyzers" Version="4.13.1">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-    </ItemGroup>
+    
 </Project>
