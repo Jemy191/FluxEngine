@@ -3,6 +3,7 @@ using Flux.ImGuiFlux;
 using Flux.Rendering.ResourceManagers;
 using Flux.Rendering.Services;
 using Flux.Rendering.Systems;
+using Flux.Slang;
 using Microsoft.Extensions.DependencyInjection;
 using Silk.NET.Core.Contexts;
 using Silk.NET.OpenGL;
@@ -21,9 +22,10 @@ public static class RenderingExtension
             AddSingleton(p => p.GetRequiredService<T>().CreateOpenGL())
             .AddSingleton<OpenGLRenderService>();
 
-        public IServiceCollection AddLoaderServices() => services
+        public IServiceCollection AddLoaderServices(string assetFolder) => services
             .AddSingleton<ModelLoaderService>()
-            .AddSingleton<LoadingService>();
+            .AddSingleton<LoadingService>()
+            .AddSingleton(new SlangCompiler([assetFolder]));
     }
 
     extension(IGameEngine engine)
