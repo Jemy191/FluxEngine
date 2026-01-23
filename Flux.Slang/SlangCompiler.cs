@@ -33,8 +33,7 @@ public class SlangCompiler
     {
         try
         {
-            var module = session.LoadModule(file.FullName, out var diagnosticInfo);
-            diagnosticInfo.ThrowIfMessage();
+            var module = session.LoadModule(file.FullName, out _);
 
             var entryPointsByStage = module
                 .EnumerateEntryPoints()
@@ -47,14 +46,10 @@ public class SlangCompiler
             var fragment = entryPointsByStage[ShaderStage.Fragment];
 
             // There should be a better way to do this.
-            var program = session.CreateCompositeComponentType([module, vertex, fragment], out diagnosticInfo);
-            diagnosticInfo.ThrowIfMessage();
+            var program = session.CreateCompositeComponentType([module, vertex, fragment], out _);
 
-            var compileVertex = program.GetEntryPointCode(0, 0, out diagnosticInfo);
-            diagnosticInfo.ThrowIfMessage();
-
-            var compileFragment = program.GetEntryPointCode(1, 0, out diagnosticInfo);
-            diagnosticInfo.ThrowIfMessage();
+            var compileVertex = program.GetEntryPointCode(0, 0, out _);
+            var compileFragment = program.GetEntryPointCode(1, 0, out _);
 
             var vertexSource = UTF8.GetString(compileVertex.Span);
             var fragmentSource = UTF8.GetString(compileFragment.Span);
