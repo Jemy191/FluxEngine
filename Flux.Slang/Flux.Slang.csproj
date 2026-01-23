@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <ItemGroup>
+      <PackageReference Include="Dunet" Version="1.12.0" />
       <PackageReference Include="Prowl.Slang" Version="0.1.1" />
     </ItemGroup>
 

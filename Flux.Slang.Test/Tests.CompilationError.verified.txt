@@ -1,0 +1,18 @@
+﻿{
+  DiagnosticInfo: {
+    Message:
+{CurrentDirectory}TestData/SimpleError.slang(5): error 20001: unexpected '}', expected ')'
+}
+^
+{CurrentDirectory}TestData/SimpleError.slang(4): error 30019: expected an expression of type 'float', got 'vector<float,3>'
+    return float4(position
+                  ^~~~~~~~
+{CurrentDirectory}TestData/SimpleError.slang(4): error 33070: expected a function, got 'typeof(float4)'
+    return float4(position
+           ^~~~~~
+(0): error 39999: import of module '{CurrentDirectory}TestData/SimpleError.slang' failed because of a compilation error
+(0): fatal error 39999: compilation ceased
+abort compilation: (0): fatal error 39999: compilation ceased
+
+  }
+}

@@ -9,7 +9,7 @@ public static class Extensions
     {
         public void ThrowIfMessage()
         {
-            if (info.GetException() is { } ex)
+            if (info.GetException() is CompilationException ex)
                 throw ex;
         }
     }

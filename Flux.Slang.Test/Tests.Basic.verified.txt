@@ -1,5 +1,5 @@
 ﻿{
-  Item1:
+  VertexSource:
 #version 450
 layout(column_major) uniform;
 layout(column_major) buffer;
@@ -21,7 +21,7 @@ void main()
 }
 
 ,
-  Item2:
+  FragmentSource:
 #version 450
 layout(column_major) uniform;
 layout(column_major) buffer;

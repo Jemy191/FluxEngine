@@ -3,9 +3,11 @@ using static System.Text.Encoding;
 
 namespace Flux.Slang;
 
+using static CompilationResult;
+
 public class SlangCompiler
 {
-    readonly SessionDescription sessionDescription;
+    readonly Session session;
     /// <param name="searchPaths">Where the compiler will search for dependencies files.</param>
     public SlangCompiler(string[] searchPaths)
     {
@@ -15,46 +17,53 @@ public class SlangCompiler
             Profile = GlobalSession.FindProfile("glsl_450")
         };
 
-        sessionDescription = new SessionDescription
+        var sessionDescription = new SessionDescription
         {
             Targets = [glslTargetDescription],
-            SearchPaths = searchPaths
+            SearchPaths = searchPaths,
         };
+        session = GlobalSession.CreateSession(sessionDescription);
     }
 
     /// <remarks>
     /// The shader should only have one of each stage.
     /// </remarks>
     /// <exception cref="CompilationException"/>
-    public (string vertex, string fragment) Compile(FileInfo file)
+    public CompilationResult Compile(FileInfo file)
     {
-        var session = GlobalSession.CreateSession(sessionDescription);
+        try
+        {
+            var module = session.LoadModule(file.FullName, out var diagnosticInfo);
+            diagnosticInfo.ThrowIfMessage();
 
-        var module = session.LoadModule(file.FullName, out var diagnosticInfo);
+            var entryPointsByStage = module
+                .EnumerateEntryPoints()
+                .ToDictionary(
+                    e => e.GetLayout().EntryPoints.Single().Stage,
+                    e => e
+                );
 
-        diagnosticInfo.ThrowIfMessage();
+            var vertex = entryPointsByStage[ShaderStage.Vertex];
+            var fragment = entryPointsByStage[ShaderStage.Fragment];
 
-        var entryPointsByStage = module.EnumerateEntryPoints()
-            .ToDictionary(
-                e => e.GetLayout().EntryPoints.Single().Stage,
-                e => e
-            );
+            // There should be a better way to do this.
+            var program = session.CreateCompositeComponentType([module, vertex, fragment], out diagnosticInfo);
+            diagnosticInfo.ThrowIfMessage();
 
-        var vertex = entryPointsByStage[ShaderStage.Vertex];
-        var fragment = entryPointsByStage[ShaderStage.Fragment];
+            var compileVertex = program.GetEntryPointCode(0, 0, out diagnosticInfo);
+            diagnosticInfo.ThrowIfMessage();
 
+            var compileFragment = program.GetEntryPointCode(1, 0, out diagnosticInfo);
+            diagnosticInfo.ThrowIfMessage();
 
-        var program = session.CreateCompositeComponentType([module, vertex, fragment], out diagnosticInfo);
-        diagnosticInfo.ThrowIfMessage();
+            var vertexSource = UTF8.GetString(compileVertex.Span);
+            var fragmentSource = UTF8.GetString(compileFragment.Span);
 
-        var compileVertex = program.GetEntryPointCode(0, 0, out diagnosticInfo);
-        diagnosticInfo.ThrowIfMessage();
-
-        var compileFragment = program.GetEntryPointCode(1, 0, out diagnosticInfo);
-
-        var vertexSource = UTF8.GetString(compileVertex.Span);
-        var fragmentSource = UTF8.GetString(compileFragment.Span);
-
-        return (vertexSource, fragmentSource);
+            return new Success(vertexSource, fragmentSource);
+        }
+        catch (CompilationException e)
+        {
+            return new Fail(e.Diagnostics);
+        }
     }
 }
