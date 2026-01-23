@@ -19,8 +19,7 @@ public class ModelEntityBuilderService
     readonly World world;
 
     string name = "Object";
-    FileInfo vertex = null!;
-    FileInfo fragment = null!;
+    FileInfo shaderFile = null!;
     FileInfo? model;
     Mesh<Vertex>? mesh;
     readonly Dictionary<string, FileInfo> textures = [];
@@ -41,14 +40,9 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Vertex(FileInfo file)
+    public ModelEntityBuilderService Shader(FileInfo file)
     {
-        vertex = file;
-        return this;
-    }
-    public ModelEntityBuilderService Fragment(FileInfo file)
-    {
-        fragment = file;
+        shaderFile = file;
         return this;
     }
     public ModelEntityBuilderService Model(FileInfo file)
@@ -145,7 +139,7 @@ public class ModelEntityBuilderService
 
         entity.AddResource(registeredTexture.Select(t => t.texture).ToArray());
         
-        var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(vertex, fragment));
+        var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(shaderFile));
         entity.AddResource(shaderId);
         
         var materialId = resourcesRepository.Register<Material, MaterialCreationInfo>(new MaterialCreationInfo(shaderId, registeredTexture.ToArray(), uniforms.ToArray()));
@@ -159,7 +153,7 @@ public class ModelEntityBuilderService
             entityModel = new Model([mesh.Value], materialId, resourcesRepository);
 
         if (entityModel is null)
-            throw new InvalidOperationException("Model or Mesh must be set before creating entity");
+            throw new InvalidOperationException("Model or Mesh must be set before creating an entity");
 
         entity.Set(entityModel.Value);
 

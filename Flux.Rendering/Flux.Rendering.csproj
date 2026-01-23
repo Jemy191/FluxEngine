@@ -4,7 +4,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Dunet" Version="1.11.3" />
+        <PackageReference Include="Dunet" Version="1.12.0" />
         <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.7" />
         <PackageReference Include="Silk.NET.Assimp" Version="2.22.0" />
         <PackageReference Include="Silk.NET.Maths" Version="2.22.0" />
@@ -34,6 +34,7 @@
         <ProjectReference Include="..\Flux.MathAddon\Flux.MathAddon.csproj"/>
         <ProjectReference Include="..\Flux.Core\Flux.Core.csproj"/>
         <ProjectReference Include="..\Flux.Resources\Flux.Resources.csproj" />
+        <ProjectReference Include="..\Flux.Slang\Flux.Slang.csproj" />
     </ItemGroup>
     
     <ItemGroup>

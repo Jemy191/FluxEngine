@@ -7,10 +7,8 @@ namespace Flux.Rendering.Services;
 
 public partial class OpenGLRenderService
 {
-    static readonly FileInfo screenVertexShader = Path.Join("Rendering", "FirstPassScreen.vert").ToEngineInternalAsset();
-    static readonly FileInfo screenFragmentShader = Path.Join("Rendering", "FirstPassScreen.frag").ToEngineInternalAsset();
-    static readonly FileInfo onlyPositionVertexShader = Path.Join("Rendering", "OnlyPosition.vert").ToEngineInternalAsset();
-    static readonly FileInfo compositeFragmentShader = Path.Join("Rendering", "WeightedBlendedTransparency", "WBTCompositePass.frag").ToEngineInternalAsset();
+    static readonly FileInfo screenShader = Path.Join("Rendering", "FirstPassScreen.slang").ToEngineInternalAsset();
+    static readonly FileInfo compositeShader = Path.Join("Rendering", "WeightedBlendedTransparency", "WBTCompositePass.slang").ToEngineInternalAsset();
 
     static readonly float[] clearAccum = [0f, 0f, 0f, 0f];
     static readonly float[] clearReveal = [1f, 1f, 1f, 1f];

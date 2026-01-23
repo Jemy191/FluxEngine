@@ -1,4 +1,5 @@
 using Flux.Ecs;
+using Flux.Rendering.Extensions;
 using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.Services;
 using Flux.Resources;
@@ -29,8 +30,7 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
     {
         var handle = LoadShader().AsHandle();
 
-        fileChangeWatcher.RegisterFile(info.VertexFile, Refresh);
-        fileChangeWatcher.RegisterFile(info.FragmentFile, Refresh);
+        fileChangeWatcher.RegisterFile(info.shaderFile, Refresh);
 
         return handle;
 
@@ -47,12 +47,11 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
             }
         }
 
-        Shader LoadShader() => loadingService.LoadShader(info.VertexFile, info.FragmentFile);
+        Shader LoadShader() => loadingService.LoadShader(info.shaderFile);
     }
 
     protected override void Unload(ShaderCreationInfo info, ResourceHandle<Shader> resource)
     {
-        fileChangeWatcher.UnregisterFile(info.VertexFile);
-        fileChangeWatcher.UnregisterFile(info.FragmentFile);
+        fileChangeWatcher.UnregisterFile(info.shaderFile);
     }
 }

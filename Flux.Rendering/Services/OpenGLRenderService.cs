@@ -53,10 +53,10 @@ public partial class OpenGLRenderService : IDisposable
         entity.Set("ScreenQuad");
         entity.Set(resourcesRepository);
 
-        // We could directly load the shader with the LoaderService but we could load multiple time shader like onlyPositionVertexShader.
+        // We could directly load the shader with the LoaderService, but we could load multiple time shader like onlyPositionVertexShader.
         // LoaderService will probably be removed at a later point anyway
-        var screenShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(screenVertexShader, screenFragmentShader));
-        var compositeShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(onlyPositionVertexShader, compositeFragmentShader));
+        var screenShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(screenShader));
+        var compositeShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(compositeShader));
         entity.AddResource(screenShaderId);
         entity.AddResource(compositeShaderId);
 
