@@ -32,6 +32,8 @@ public class SlangCompiler
     /// <exception cref="CompilationException"/>
     public CompilationResult Compile(FileInfo file)
     {
+        if(!file.Exists)
+            throw new FileNotFoundException(file.FullName);
         try
         {
             var session = GlobalSession.CreateSession(sessionDescription);
@@ -48,7 +50,7 @@ public class SlangCompiler
             var fragment = entryPointsByStage[ShaderStage.Fragment];
 
             // There should be a better way to do this.
-            var program = session.CreateCompositeComponentType([module, vertex, fragment], out _);
+            var program = session.CreateCompositeComponentType([module, vertex, fragment], out _).Link(out _);
 
             var compileVertex = program.GetEntryPointCode(0, 0, out _);
             var compileFragment = program.GetEntryPointCode(1, 0, out _);
