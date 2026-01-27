@@ -25,7 +25,7 @@ public partial class OpenGLRenderService : IDisposable
     readonly ResourceHandle<Shader> compositePassShader;
 
     FramebufferObject opaqueFbo;
-    FramebufferObject transparentFbo;
+    FramebufferObject translucentFbo;
 
     Texture opaqueTexture;
     Texture depthTexture;
@@ -85,7 +85,7 @@ public partial class OpenGLRenderService : IDisposable
             new FramebufferAttachmentSetting(FramebufferAttachment.ColorAttachment0, opaqueTexture),
             new FramebufferAttachmentSetting(FramebufferAttachment.DepthAttachment, depthTexture)
         ];
-        FramebufferAttachmentSetting[] transparentAttachements =
+        FramebufferAttachmentSetting[] translucentAttachements =
         [
             new FramebufferAttachmentSetting(FramebufferAttachment.ColorAttachment0, accumulationTexture),
             new FramebufferAttachmentSetting(FramebufferAttachment.ColorAttachment1, revealageTexture),
@@ -93,7 +93,7 @@ public partial class OpenGLRenderService : IDisposable
         ];
 
         opaqueFbo = new FramebufferObject(gl, opaqueAttachements);
-        transparentFbo = new FramebufferObject(gl, transparentAttachements);
+        translucentFbo = new FramebufferObject(gl, translucentAttachements);
     }
 
     public void StartOpaquePass()
@@ -117,7 +117,7 @@ public partial class OpenGLRenderService : IDisposable
         gl.BlendFunc(1, BlendingFactor.Zero, BlendingFactor.OneMinusSrcColor);
         gl.BlendEquation(BlendEquationModeEXT.FuncAdd);
 
-        transparentFbo.Bind();
+        translucentFbo.Bind();
 
         gl.ClearBuffer(BufferKind.Color, 0, clearAccum);
         gl.ClearBuffer(BufferKind.Color, 1, clearReveal);
@@ -181,7 +181,7 @@ public partial class OpenGLRenderService : IDisposable
         revealageTexture.Dispose();
 
         opaqueFbo.Dispose();
-        transparentFbo.Dispose();
+        translucentFbo.Dispose();
     }
 
     public void Dispose()
