@@ -17,9 +17,7 @@ public readonly struct Model : IResource
 
     public void Draw()
     {
-        var material = materialHandle.Resource;
-
-        material.Use();
+        materialHandle.Resource.Use();
 
         foreach (var mesh in meshes)
         {
