@@ -7,7 +7,8 @@ using static CompilationResult;
 
 public class SlangCompiler
 {
-    readonly Session session;
+    readonly SessionDescription sessionDescription;
+
     /// <param name="searchPaths">Where the compiler will search for dependencies files.</param>
     public SlangCompiler(string[] searchPaths)
     {
@@ -17,13 +18,12 @@ public class SlangCompiler
             Profile = GlobalSession.FindProfile("glsl_450"),
         };
 
-        var sessionDescription = new SessionDescription
+        sessionDescription = new SessionDescription
         {
             Targets = [glslTargetDescription],
             SearchPaths = searchPaths,
             DefaultMatrixLayoutMode = MatrixLayoutMode.ColumnMajor
         };
-        session = GlobalSession.CreateSession(sessionDescription);
     }
 
     /// <remarks>
@@ -34,6 +34,7 @@ public class SlangCompiler
     {
         try
         {
+            var session = GlobalSession.CreateSession(sessionDescription);
             var module = session.LoadModule(file.FullName, out _);
 
             var entryPointsByStage = module
