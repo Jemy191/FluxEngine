@@ -63,6 +63,7 @@ public class FileChangeWatcher : IFileChangeWatcher
             if (!File.Exists(fullPath))
                 continue;
 
+            Console.WriteLine( $"File changed: {fullPath}");
             try
             {
                 callback.Invoke();
