@@ -1,5 +1,4 @@
-﻿using System.Numerics;
-using Flux.Abstraction;
+﻿using Flux.Abstraction;
 using Flux.Rendering.ResourceManagers;
 using Silk.NET.OpenGL;
 
@@ -9,7 +8,6 @@ public readonly struct Shader : IResource<ShaderCreationInfo>
 {
     readonly uint handle;
     readonly GL gl;
-    readonly Dictionary<string, int> uniformLocations = [];
 
     public Shader(GL gl, string vertexSource, string fragmentSource)
     {
@@ -48,57 +46,6 @@ public readonly struct Shader : IResource<ShaderCreationInfo>
     }
 
     public void Use() => gl.UseProgram(handle);
-
-    bool TryGetUniformLocation(string name, out int location)
-    {
-        if (uniformLocations.TryGetValue(name, out location))
-            return true;
-        
-        location = gl.GetUniformLocation(handle, name);
-        uniformLocations[name] = location;
-        return location != -1;
-    }
-
-    internal void SetUniforms(IEnumerable<Uniform> uniforms)
-    {
-        foreach (var uniform in uniforms)
-        {
-            SetUniform(uniform);
-        }
-    }
-
-    public unsafe void SetUniform<T>(string name, T uniform)
-    {
-        if (!TryGetUniformLocation(name, out var location))
-            return;
-        
-
-        switch (uniform)
-        {
-            case int intUni: gl.Uniform1(location, intUni); break;
-            case uint uintUni: gl.Uniform1(location, uintUni); break;
-            case float floatUni: gl.Uniform1(location, floatUni); break;
-            case Vector2 vector2Uni: gl.Uniform2(location, vector2Uni.X, vector2Uni.Y); break;
-            case Vector3 vector3Uni: gl.Uniform3(location, vector3Uni.X, vector3Uni.Y, vector3Uni.Z); break;
-            case Vector4 vector4Uni: gl.Uniform4(location, vector4Uni.X, vector4Uni.Y, vector4Uni.Z, vector4Uni.W); break;
-            case Matrix4x4 matrix4X4Uni: gl.UniformMatrix4(location, 1, false, (float*)&matrix4X4Uni); break;
-            default: throw new GlException($"Uniform of type {typeof(T)} is not supported");
-        }
-    }
-
-    public void SetUniform(Uniform uniform)
-    {
-        switch (uniform)
-        {
-            case Uniform<int> intUni: SetUniform(uniform.name, intUni.Value); break;
-            case Uniform<uint> uintUni: SetUniform(uniform.name, uintUni.Value); break;
-            case Uniform<float> floatUni: SetUniform(uniform.name, floatUni.Value); break;
-            case Uniform<Vector2> vector2Uni: SetUniform(uniform.name, vector2Uni.Value); break;
-            case Uniform<Vector3> vector3Uni: SetUniform(uniform.name, vector3Uni.Value); break;
-            case Uniform<Vector4> vector4Uni: SetUniform(uniform.name, vector4Uni.Value); break;
-            case Uniform<Matrix4x4> matrix4X4Uni: SetUniform(uniform.name, matrix4X4Uni.Value); break;
-        }
-    }
 
     public void Dispose() => gl.DeleteProgram(handle);
 }

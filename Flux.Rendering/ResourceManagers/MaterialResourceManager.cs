@@ -13,5 +13,5 @@ public sealed class MaterialResourceManager : ResourceManager<MaterialCreationIn
     public MaterialResourceManager(IEcsWorldService ecsWorldService, ResourcesRepository resourcesRepository) : base(ecsWorldService, resourcesRepository) { }
 
     protected override ResourceHandle<Material> Load(MaterialCreationInfo info, ResourcesRepository resourcesRepository) =>
-        new Material(info.Shader, info.Textures, info.Uniforms, resourcesRepository).AsHandle();
+        new Material(info.Shader, info.Textures, resourcesRepository).AsHandle();
 }

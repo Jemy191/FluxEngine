@@ -1,6 +1,7 @@
 ﻿using System.Numerics;
 using System.Runtime.InteropServices;
 using Flux.MathAddon;
+using Flux.Rendering.DataStruct;
 using JetBrains.Annotations;
 
 namespace Flux.Rendering;
@@ -19,6 +20,9 @@ public struct Camera
 
     public readonly Matrix4x4 ComputeProjectionMatrix() =>
         Matrix4x4.CreatePerspectiveFieldOfView(Fov.Radians, -AspectRatio, NearPlane, FarPlane);
+
+    public readonly ViewProjection ComputeViewProjection(Transform transform) =>
+        new ViewProjection(ComputeViewMatrix(transform), ComputeProjectionMatrix());
 
     public Frustum ComputeFrustrum(Transform transform) =>
         new Frustum(ComputeViewMatrix(transform) * ComputeProjectionMatrix());

@@ -14,13 +14,14 @@ public class SlangCompiler
         var glslTargetDescription = new TargetDescription
         {
             Format = CompileTarget.Glsl,
-            Profile = GlobalSession.FindProfile("glsl_450")
+            Profile = GlobalSession.FindProfile("glsl_450"),
         };
 
         var sessionDescription = new SessionDescription
         {
             Targets = [glslTargetDescription],
             SearchPaths = searchPaths,
+            DefaultMatrixLayoutMode = MatrixLayoutMode.ColumnMajor
         };
         session = GlobalSession.CreateSession(sessionDescription);
     }

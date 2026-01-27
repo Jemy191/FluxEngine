@@ -3,6 +3,7 @@ using DefaultEcs;
 using DefaultEcs.System;
 using Flux.Ecs;
 using Flux.MathAddon;
+using Flux.Rendering.Extensions;
 using Flux.Rendering.GLPrimitives;
 using Flux.Resources;
 using Flux.Resources.ResourceHandles;
@@ -16,20 +17,16 @@ public class DebugDrawRenderSystem : ISystem<float>
     readonly ResourceHandle<Material> debugLineMaterialHandle;
     readonly EntitySet cameraSet;
     
-    
-    readonly Uniform<Matrix4x4> viewUniform;
-    readonly Uniform<Matrix4x4> projectionUniform;
-    
-    readonly Uniform<Vector4> lineColorUniform;
-    readonly Uniform<Matrix4x4> lineModelUniform;
-    readonly IEnumerable<Uniform> uniforms;
+    readonly ModelViewProjectionBuffer mvp;
+    readonly UniformBufferObject<Vector4> lineColorUbo;
 
     public bool IsEnabled { get; set; } = true;
 
     public DebugDrawRenderSystem(Debug debug,
                                  IEcsWorldService ecsService,
                                  ResourcesRepository resourcesRepository,
-                                 DebuggingOptions options)
+                                 DebuggingOptions options,
+                                 GL gl)
     {
         this.debug = debug;
         
@@ -48,21 +45,9 @@ public class DebugDrawRenderSystem : ISystem<float>
             .With<Camera>()
             .With<Transform>()
             .AsSet();
-        
-        viewUniform = new Uniform<Matrix4x4>("uView");
-        projectionUniform = new Uniform<Matrix4x4>("uProjection");
-        lineModelUniform = new Uniform<Matrix4x4>("uModel");
-        
 
-        lineColorUniform = new Uniform<Vector4>("uColor");
-
-        uniforms =
-        [
-            viewUniform,
-            projectionUniform,
-            lineModelUniform,
-            lineColorUniform,
-        ];
+        mvp = new ModelViewProjectionBuffer(gl);
+        lineColorUbo = new UniformBufferObject<Vector4>(gl, 2);
     }
 
     public void Update(float state)
@@ -74,23 +59,25 @@ public class DebugDrawRenderSystem : ISystem<float>
         var cameraTransform = cameraEntity.Get<Transform>();
         var camera = cameraEntity.Get<Camera>();
 
-        viewUniform.Value = camera.ComputeViewMatrix(cameraTransform);
-        projectionUniform.Value = camera.ComputeProjectionMatrix();
-        lineModelUniform.Value = new Transform().ModelMatrix;
-        
+        mvp.SetViewProjection(camera.ComputeViewProjection(cameraTransform));
+        mvp.SetModel(new Transform().ModelMatrix);
+
         var color = debug.Color;
 
-        lineColorUniform.Value = new Vector4(color.R, color.G, color.B, color.A);
+        lineColorUbo.SendData(new Vector4(color.R, color.G, color.B, color.A));
 
         var debugLineMaterial = debugLineMaterialHandle.Resource;
 
         debugLineMaterial.Use();
-        debugLineMaterial.SetUniforms(uniforms);
+        mvp.Bind();
+        lineColorUbo.Bind();
         
         debug.Render();
     }
 
     public void Dispose()
     {
+        mvp.Dispose();
+        lineColorUbo.Dispose();
     }
 }

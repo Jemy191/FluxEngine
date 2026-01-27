@@ -7,13 +7,11 @@ namespace Flux.Rendering.ResourceManagers;
 public readonly struct MaterialCreationInfo
 {
     public readonly ResourceId<Shader> Shader;
-    public readonly (string uniformName, ResourceId<Texture> texture)[] Textures;
-    public readonly Uniform[] Uniforms;
+    public readonly (uint binding, ResourceId<Texture> texture)[] Textures;
 
-    public MaterialCreationInfo(ResourceId<Shader> shader, (string uniformName, ResourceId<Texture> texture)[] textures, Uniform[] uniforms)
+    public MaterialCreationInfo(ResourceId<Shader> shader, (uint binding, ResourceId<Texture> texture)[] textures)
     {
         Shader = shader;
         Textures = textures;
-        Uniforms = uniforms;
     }
 }

@@ -32,6 +32,7 @@ public class GameEngine : IGameEngine
         window.Closing += OnClose;
         window.Render += OnRender;
         window.Update += OnUpdate;
+        window.Load += OnLoad;
     }
 
     public IGameEngine Instantiate<T>()
@@ -106,6 +107,11 @@ public class GameEngine : IGameEngine
     void OnUpdate(double deltaTime) => sequentialUpdateSystem.Update((float)deltaTime);
 
     void OnRender(double deltaTime) => sequentialRenderSystem.Update((float)deltaTime);
+
+    void OnLoad()
+    {
+    }
+
 
     void OnClose()
     {

@@ -35,4 +35,8 @@
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </None>
     </ItemGroup>
+    
+    <ItemGroup>
+      <Compile Remove="GLPrimitives\Uniform.cs" />
+    </ItemGroup>
 </Project>

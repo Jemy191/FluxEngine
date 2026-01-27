@@ -15,12 +15,11 @@ public readonly struct Model : IResource
         materialHandle = resourcesRepository.Get(materialId);
     }
 
-    public void Draw(IEnumerable<Uniform> uniforms)
+    public void Draw()
     {
         var material = materialHandle.Resource;
 
         material.Use();
-        material.SetUniforms(uniforms);
 
         foreach (var mesh in meshes)
         {

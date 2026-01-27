@@ -22,8 +22,7 @@ public class ModelEntityBuilderService
     FileInfo shaderFile = null!;
     FileInfo? model;
     Mesh<Vertex>? mesh;
-    readonly Dictionary<string, FileInfo> textures = [];
-    readonly List<Uniform> uniforms = [];
+    readonly Dictionary<uint, FileInfo> textures = [];
 
     Transform transform = new Transform();
 
@@ -77,9 +76,9 @@ public class ModelEntityBuilderService
         transform.Scale = scale;
         return this;
     }
-    public ModelEntityBuilderService Texture(string name, FileInfo file)
+    public ModelEntityBuilderService Texture(uint binding, FileInfo file)
     {
-        textures[name] = file;
+        textures[binding] = file;
         return this;
     }
     public ModelEntityBuilderService ClearTextures()
@@ -87,31 +86,9 @@ public class ModelEntityBuilderService
         textures.Clear();
         return this;
     }
-    public ModelEntityBuilderService RemoveTexture(string name)
+    public ModelEntityBuilderService RemoveTexture(uint binding)
     {
-        textures.Remove(name);
-        return this;
-    }
-    public ModelEntityBuilderService AddUniform(Uniform uniform)
-    {
-        uniforms.Add(uniform);
-        return this;
-    }
-    public ModelEntityBuilderService AddUniform<T>(string name, T value)
-    {
-        uniforms.Add(new Uniform<T>(name, value));
-        return this;
-    }
-    public ModelEntityBuilderService ClearUniforms()
-    {
-        uniforms.Clear();
-        return this;
-    }
-    public ModelEntityBuilderService RemoveUniform(string name)
-    {
-        var toRemove = uniforms.Single(u => string.Equals(u.name, name, StringComparison.Ordinal));
-        uniforms.Remove(toRemove);
-
+        textures.Remove(binding);
         return this;
     }
 
@@ -134,7 +111,7 @@ public class ModelEntityBuilderService
         };
 
         var registeredTexture = textures
-            .Select(t => (uniformName: t.Key, texture: resourcesRepository.Register<Texture, TextureCreationInfo>(new TextureCreationInfo(t.Value, textureSetting))))
+            .Select(t => (binding : t.Key, texture : resourcesRepository.Register<Texture, TextureCreationInfo>(new TextureCreationInfo(t.Value, textureSetting))))
             .ToArray();
 
         entity.AddResource(registeredTexture.Select(t => t.texture).ToArray());
@@ -142,7 +119,7 @@ public class ModelEntityBuilderService
         var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(shaderFile));
         entity.AddResource(shaderId);
         
-        var materialId = resourcesRepository.Register<Material, MaterialCreationInfo>(new MaterialCreationInfo(shaderId, registeredTexture.ToArray(), uniforms.ToArray()));
+        var materialId = resourcesRepository.Register<Material, MaterialCreationInfo>(new MaterialCreationInfo(shaderId, registeredTexture));
         entity.AddResource(materialId);
         
         Model? entityModel = null;
