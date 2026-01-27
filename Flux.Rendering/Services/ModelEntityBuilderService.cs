@@ -6,7 +6,9 @@ using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Rendering.ResourceManagers;
 using Flux.Resources;
+using Prowl.Slang;
 using Silk.NET.OpenGL;
+using EntryPoint = Flux.Slang.EntryPoint;
 using Shader = Flux.Rendering.GLPrimitives.Shader;
 using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;
 
@@ -20,6 +22,7 @@ public class ModelEntityBuilderService
 
     string name = "Object";
     FileInfo shaderFile = null!;
+    EntryPoint[] shaderEntryPoints = null!;
     FileInfo? model;
     Mesh<Vertex>? mesh;
     readonly Dictionary<uint, FileInfo> textures = [];
@@ -39,8 +42,9 @@ public class ModelEntityBuilderService
         return this;
     }
 
-    public ModelEntityBuilderService Shader(FileInfo file)
+    public ModelEntityBuilderService Shader(FileInfo file, EntryPoint[] entryPoints)
     {
+        shaderEntryPoints = entryPoints;
         shaderFile = file;
         return this;
     }
@@ -116,7 +120,7 @@ public class ModelEntityBuilderService
 
         entity.AddResource(registeredTexture.Select(t => t.texture).ToArray());
         
-        var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(shaderFile));
+        var shaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(shaderFile, shaderEntryPoints));
         entity.AddResource(shaderId);
         
         var materialId = resourcesRepository.Register<Material, MaterialCreationInfo>(new MaterialCreationInfo(shaderId, registeredTexture));

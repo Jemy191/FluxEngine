@@ -1,7 +1,5 @@
+using Flux.Slang;
+
 namespace Flux.Rendering.ResourceManagers;
 
-public readonly struct ShaderCreationInfo
-{
-    public readonly FileInfo shaderFile;
-    public ShaderCreationInfo(FileInfo shaderFile) => this.shaderFile = shaderFile;
-}
+public readonly record struct ShaderCreationInfo(FileInfo ShaderFile, EntryPoint[] EntryPoints);

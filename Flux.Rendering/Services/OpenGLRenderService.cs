@@ -7,6 +7,8 @@ using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.ResourceManagers;
 using Flux.Resources;
 using Flux.Resources.ResourceHandles;
+using Prowl.Slang;
+using EntryPoint = Flux.Slang.EntryPoint;
 using Shader = Flux.Rendering.GLPrimitives.Shader;
 using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;
 
@@ -55,8 +57,8 @@ public partial class OpenGLRenderService : IDisposable
 
         // We could directly load the shader with the LoaderService, but we could load multiple time shader like onlyPositionVertexShader.
         // LoaderService will probably be removed at a later point anyway
-        var screenShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(screenShader));
-        var compositeShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(compositeShader));
+        var screenShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(screenShader, EntryPoint.CommonVertexFrag));
+        var compositeShaderId = resourcesRepository.Register<Shader, ShaderCreationInfo>(new ShaderCreationInfo(compositeShader, EntryPoint.CommonVertexFrag));
         entity.AddResource(screenShaderId);
         entity.AddResource(compositeShaderId);
 

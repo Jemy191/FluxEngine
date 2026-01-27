@@ -30,7 +30,7 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
     {
         var handle = LoadShader().AsHandle();
 
-        fileChangeWatcher.RegisterFile(info.shaderFile, Refresh);
+        fileChangeWatcher.RegisterFile(info.ShaderFile, Refresh);
 
         return handle;
 
@@ -47,11 +47,11 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
             }
         }
 
-        Shader LoadShader() => loadingService.LoadShader(info.shaderFile);
+        Shader LoadShader() => loadingService.LoadShader(info.ShaderFile, info.EntryPoints);
     }
 
     protected override void Unload(ShaderCreationInfo info, ResourceHandle<Shader> resource)
     {
-        fileChangeWatcher.UnregisterFile(info.shaderFile);
+        fileChangeWatcher.UnregisterFile(info.ShaderFile);
     }
 }

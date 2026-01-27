@@ -7,12 +7,16 @@ namespace Flux.Slang.Test;
 public class Tests
 {
     readonly SlangCompiler compiler = new SlangCompiler(["TestData"]);
+    readonly EntryPoint[] entryPoints = [
+        new EntryPoint(ShaderStage.Vertex, "vertexMain"),
+        new EntryPoint(ShaderStage.Fragment, "fragmentMain")
+    ];
 
     [Test]
     public Task Basic()
     {
 
-        var result = compiler.Compile(new FileInfo("TestData/Simple.slang"));
+        var result = compiler.Compile(new FileInfo("TestData/Simple.slang"), entryPoints);
 
         return Verify(result);
     }
@@ -20,7 +24,7 @@ public class Tests
     [Test]
     public Task CompilationError()
     {
-        var result = compiler.Compile(new FileInfo("TestData/SimpleError.slang"));
+        var result = compiler.Compile(new FileInfo("TestData/SimpleError.slang"), entryPoints);
 
         return Verify(result);
     }

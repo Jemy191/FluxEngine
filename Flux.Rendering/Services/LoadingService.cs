@@ -20,10 +20,11 @@ public class LoadingService
         this.slangCompiler = slangCompiler;
     }
 
-    public Shader LoadShader(FileInfo slangFile) => slangCompiler
-        .Compile(slangFile)
+    public Shader LoadShader(FileInfo slangFile, EntryPoint[] entryPoints) => slangCompiler
+        .Compile(slangFile, entryPoints)
         .Match(
             success => new Shader(gl, success.VertexSource, success.FragmentSource),
+            entryPointNotFound => throw new Exception($"Unable to find the {entryPointNotFound.EntryPoint.Stage} stage named {entryPointNotFound.EntryPoint.Name} entrypoint in {slangFile.FullName}."),
             fail => throw fail.DiagnosticInfo.GetException() ?? throw new Exception($"Compilation of {slangFile.FullName} fail but there is no diagnostic message.")
         );
 

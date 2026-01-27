@@ -7,5 +7,6 @@ namespace Flux.Slang;
 public partial record CompilationResult
 {
     partial record Success(string VertexSource, string FragmentSource);
+    partial record EntryPointNotFound(EntryPoint EntryPoint);
     partial record Fail(DiagnosticInfo DiagnosticInfo);
 }
