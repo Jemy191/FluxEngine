@@ -1,5 +1,5 @@
 using System.Numerics;
-using Flux.Rendering.Extensions;
+using Flux.Assets;
 using Flux.Rendering.GLPrimitives.Textures;
 using Silk.NET.OpenGL;
 
@@ -7,8 +7,8 @@ namespace Flux.Rendering.Services;
 
 public partial class OpenGLRenderService
 {
-    static readonly FileInfo screenShader = Path.Join("Rendering", "FirstPassScreen.slang").ToEngineInternalAsset();
-    static readonly FileInfo compositeShader = Path.Join("Rendering", "WeightedBlendedTransparency", "WBTCompositePass.slang").ToEngineInternalAsset();
+    static readonly EngineInternalAssetInfo screenShader = Path.Join("Rendering", "FirstPassScreen.slang").ToEngineInternalAsset();
+    static readonly EngineInternalAssetInfo compositeShader = Path.Join("Rendering", "WeightedBlendedTransparency", "WBTCompositePass.slang").ToEngineInternalAsset();
 
     static readonly float[] clearAccum = [0f, 0f, 0f, 0f];
     static readonly float[] clearReveal = [1f, 1f, 1f, 1f];

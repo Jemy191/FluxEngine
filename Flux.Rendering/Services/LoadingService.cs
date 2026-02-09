@@ -1,4 +1,6 @@
-﻿using Flux.Rendering.GLPrimitives;
+﻿using Flux.Assets;
+using Flux.Rendering.Assets;
+using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Resources;
 using Flux.Slang;
@@ -11,22 +13,13 @@ public class LoadingService
 {
     readonly GL gl;
     readonly ModelLoaderService modelLoaderService;
-    readonly SlangCompiler slangCompiler;
 
     public LoadingService(GL gl, ModelLoaderService modelLoaderService, SlangCompiler slangCompiler)
     {
         this.gl = gl;
         this.modelLoaderService = modelLoaderService;
-        this.slangCompiler = slangCompiler;
     }
 
-    public Shader LoadShader(FileInfo slangFile, EntryPoint[] entryPoints) => slangCompiler
-        .Compile(slangFile, entryPoints)
-        .Match(
-            success => new Shader(gl, success.VertexSource, success.FragmentSource),
-            entryPointNotFound => throw new Exception($"Unable to find the {entryPointNotFound.EntryPoint.Stage} stage named {entryPointNotFound.EntryPoint.Name} entrypoint in {slangFile.FullName}."),
-            fail => throw fail.DiagnosticInfo.GetException() ?? throw new Exception($"Compilation of {slangFile.FullName} fail but there is no diagnostic message.")
-        );
 
     public Texture LoadTexture(FileInfo file, TextureSetting textureSetting)
     {

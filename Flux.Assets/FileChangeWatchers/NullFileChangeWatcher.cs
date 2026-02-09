@@ -1,4 +1,4 @@
-namespace Flux.Resources.FileChangeWatchers;
+namespace Flux.Assets.FileChangeWatchers;
 
 public class NullFileChangeWatcher : IFileChangeWatcher
 {

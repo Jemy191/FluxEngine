@@ -1,8 +1,8 @@
+using Flux.Assets.FileChangeWatchers;
 using Flux.Ecs;
 using Flux.Rendering.GLPrimitives.Textures;
 using Flux.Rendering.Services;
 using Flux.Resources;
-using Flux.Resources.FileChangeWatchers;
 using Flux.Resources.ResourceHandles;
 using JetBrains.Annotations;
 

@@ -1,7 +1,7 @@
 using System.Collections.Concurrent;
 using Flux.Core;
 
-namespace Flux.Resources.FileChangeWatchers;
+namespace Flux.Assets.FileChangeWatchers;
 
 public class FileChangeWatcher : IFileChangeWatcher
 {

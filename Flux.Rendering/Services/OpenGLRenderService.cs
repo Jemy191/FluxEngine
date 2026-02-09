@@ -7,7 +7,6 @@ using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.ResourceManagers;
 using Flux.Resources;
 using Flux.Resources.ResourceHandles;
-using Prowl.Slang;
 using EntryPoint = Flux.Slang.EntryPoint;
 using Shader = Flux.Rendering.GLPrimitives.Shader;
 using Texture = Flux.Rendering.GLPrimitives.Textures.Texture;

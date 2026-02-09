@@ -1,0 +1,10 @@
+﻿{
+  Mapping: {
+    df5a8e92-2e64-47db-8f21-a5415453d883: {
+      RelativePath: Dummy.txt,
+      Extension: {
+        Extension: txt
+      }
+    }
+  }
+}

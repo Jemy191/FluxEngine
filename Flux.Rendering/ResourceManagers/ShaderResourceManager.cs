@@ -1,9 +1,10 @@
+using Flux.Assets;
+using Flux.Assets.FileChangeWatchers;
 using Flux.Ecs;
-using Flux.Rendering.Extensions;
+using Flux.Rendering.Assets;
 using Flux.Rendering.GLPrimitives;
 using Flux.Rendering.Services;
 using Flux.Resources;
-using Flux.Resources.FileChangeWatchers;
 using Flux.Resources.ResourceHandles;
 using JetBrains.Annotations;
 
@@ -13,16 +14,19 @@ namespace Flux.Rendering.ResourceManagers;
 public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, Shader>
 {
     readonly LoadingService loadingService;
+    readonly AssetManager assetManager;
     readonly IFileChangeWatcher fileChangeWatcher;
 
     public ShaderResourceManager(
         IEcsWorldService ecsWorldService,
         LoadingService loadingService,
         ResourcesRepository resourcesRepository,
+        AssetManager assetManager,
         IFileChangeWatcher fileChangeWatcher)
         : base(ecsWorldService, resourcesRepository)
     {
         this.loadingService = loadingService;
+        this.assetManager = assetManager;
         this.fileChangeWatcher = fileChangeWatcher;
     }
 
@@ -30,7 +34,7 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
     {
         var handle = LoadShader().AsHandle();
 
-        fileChangeWatcher.RegisterFile(info.ShaderFile, Refresh);
+        fileChangeWatcher.RegisterFile(assetManager.ResolvePath(info.ShaderAsset), Refresh);
 
         return handle;
 
@@ -47,11 +51,15 @@ public sealed class ShaderResourceManager : ResourceManager<ShaderCreationInfo, 
             }
         }
 
-        Shader LoadShader() => loadingService.LoadShader(info.ShaderFile, info.EntryPoints);
+        Shader LoadShader()
+        {
+
+            return loadingService.LoadShader(assetManager.Load<ShaderAsset>(info.ShaderAsset), info.EntryPoints);
+        }
     }
 
     protected override void Unload(ShaderCreationInfo info, ResourceHandle<Shader> resource)
     {
-        fileChangeWatcher.UnregisterFile(info.ShaderFile);
+        fileChangeWatcher.UnregisterFile(assetManager.ResolvePath(info.ShaderAsset));
     }
 }

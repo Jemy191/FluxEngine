@@ -34,6 +34,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Slang", "Flux.Slang\Fl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Slang.Test", "Flux.Slang.Test\Flux.Slang.Test.csproj", "{F4B8EB2D-7D55-4924-9AB6-D418BC5DEB6D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Assets", "Flux.Assets\Flux.Assets.csproj", "{29C4E740-897E-49AE-B372-9C7BBE34FF7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Flux.Assets.Test", "Flux.Assets.Test\Flux.Assets.Test.csproj", "{3C4A4717-98FF-47B2-946F-55BDD7928230}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +92,14 @@ Global
 		{F4B8EB2D-7D55-4924-9AB6-D418BC5DEB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F4B8EB2D-7D55-4924-9AB6-D418BC5DEB6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F4B8EB2D-7D55-4924-9AB6-D418BC5DEB6D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{29C4E740-897E-49AE-B372-9C7BBE34FF7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{29C4E740-897E-49AE-B372-9C7BBE34FF7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{29C4E740-897E-49AE-B372-9C7BBE34FF7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{29C4E740-897E-49AE-B372-9C7BBE34FF7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3C4A4717-98FF-47B2-946F-55BDD7928230}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3C4A4717-98FF-47B2-946F-55BDD7928230}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3C4A4717-98FF-47B2-946F-55BDD7928230}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3C4A4717-98FF-47B2-946F-55BDD7928230}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
